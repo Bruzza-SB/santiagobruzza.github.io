@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Sentiment Analysis</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Clustering model and sentiment analysis using NLP techniques</h1>
+							<div class="box alt">
+								<div class="row gtr-uniform">
+									<div class="col-6"><span class="image fit"><img src="images/customer_comments_3.png" alt="" /></span></div>
+									<div class="col-6"><span class="image fit"><img src="images/sentiment_analysis.jpg" alt="" /></span></div>
+								</div>
+							</div>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>A company that provides internet and television services sends a satisfaction survey every time a customer contacts them. The survey consists of a few questions about the service received and the last question is to ask the customer if they have any comments or suggestions. Approximately 24,000 comments are generated per month and the customer intelligence team wants to automate the analysis of these comments.</p>
+							
+							<h2>2. Data Available</h2>
+							<h3>Customer comments</h3> Data Volume: ~24k comments per month </br> Data Source: Presto database
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>survey_id</th>
+											<th>client_id</th>
+											<th>comment</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>456</td>
+											<td>5452</td>
+											<td>Customer service was very helpful when I had an issue</td>
+										</tr>
+										<tr>
+											<td>785</td>
+											<td>6554</td>
+											<td>The internet speed is great, but TV channels often freeze.</td>
+										</tr>
+										<tr>
+											<td>548</td>
+											<td>7415</td>
+											<td>The service is overpriced compared to other providers.</td>
+										</tr>
+								</table>
+							</div>
+							<h3>Customer information</h3>Data Volume: ~1.6M customers </br> Data Source: Presto database
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>client_id</th>
+											<th>name</th>
+											<th>surname</th>
+											<th>last_invoiced_usd</th>
+											<th>total_invoiced_usd</th>
+											<th>month_as_customer</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>5452</td>
+											<td>John</td>
+											<td>Doe</td>
+											<td>120.5</td>
+											<td>1450</td>
+											<td>6</td>
+										</tr>
+										<tr>
+											<td>6554</td>
+											<td>Maria</td>
+											<td>Smith</td>
+											<td>95</td>
+											<td>1120.3</td>
+											<td>24</td>
+										</tr>
+										<tr>
+											<td>7415</td>
+											<td>Ken</td>
+											<td>Johnson</td>
+											<td>105.7</td>
+											<td>980.45</td>
+											<td>4</td>
+										</tr>
+								</table>
+							</div>
+							
+						
+							<div id="wrapper">
+
+							
+							<h2>3. Data Processing</h2>
+							<p>Text preprocessing is the fundamental step in any NLP project. The idea is to create the model features from the client's comments. For this, I performed the following steps:</p>
+							<ol>
+								<li><b>Tokenization: </b> Split the text into smaller units (tokens). In this case, each word is a token.</li>
+								<li><b>Lowercasing: </b> All text is converted to lowercase to ensure consistency.</li>
+								<li><b>Stopword Removal: </b> Remove words that do not add value like "the", "and", or "a".</li>
+								<li><b>Punctuation Removal: </b> Remove punctuation marks (commas, periods, etc.).</li>
+								<li><b>Lemmatization: </b> Reducing a word to its base or root form.</li>
+								<li><b>TF-IDF (Term Frequency-Inverse Document Frequency) matrix: </b> The processed text is converted to a numeric matrix. It reflects the importance of a word in a document relative to a collection of documents.</li>
+							</ol>
+							<p>In addition to the matrix, I created other features identifying words similar to certain words that were of interest for this case. For example, I created a new feature that identified whether the customer's comment had any words similar to "price" or "invoice".</p>
+							
+
+							
+							<h2>4. Solution Development</h2>
+							<ol>
+								<li><b>Clustering model:</b> The first step was to create a K-Means clustering model to group similar comments, that is, those comments that talk about the same topic. The number of clusters was determined in conjunction with the customer intelligence team since they were interested in recognizing 5 types of comments (billing and price, Services, problem resolution, service time and Customer Atention). </li>
+								<li><b>Sentiment Analysis:</b> I used a python library called "pysentiment" that has a classification model to determine if a comment is positive, neutral or negative. And so, in addition to determining the topic of the comment, I was also able to determine the sentiment of the comment. </li>
+								<li><b>Store the results:</b> Finally, I stored the results in the database by joining the comments with the customers' personal information so that the customer intelligence team can analyze the results. </li>
+							</ol>
+
+							<h3>Final dataframe</h3>Data Volume: ~24k rows per month </br> Data Source: Presto database
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>survey_id</th>
+											<th>client_id</th>
+											<th>comment</th>
+											<th>cluster</th>
+											<th>sentiment</th>
+											<th>name</th>
+											<th>last_invoiced_usd</th>
+											<th>total_invoiced_usd</th>
+											<th>month_as_customer</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>456</td>
+											<td>5452</td>
+											<td>Customer service was very helpful when I had an issue</td>
+											<td>Customer atention</td>
+											<td>Positive</td>
+											<td>John</td>
+											<td>120.5</td>
+											<td>1450</td>
+											<td>6</td>
+										</tr>
+										<tr>
+											<td>785</td>
+											<td>6554</td>
+											<td>The internet speed is great, but TV channels often freeze.</td>
+											<td>Services</td>
+											<td>Neutral</td>
+											<td>Maria</td>
+											<td>95</td>
+											<td>1120.3</td>
+											<td>24</td>
+										</tr>
+										<tr>
+											<td>548</td>
+											<td>7415</td>
+											<td>The service is overpriced compared to other providers.</td>
+											<td>Price</td>
+											<td>Negative</td>
+											<td>Ken</td>
+											<td>105.7</td>
+											<td>980.45</td>
+											<td>4</td>
+										</tr>
+								</table>
+							</div>
+
+
+							<h2>5. Tools and Technologies</h2>
+							<ul>
+								<li>Python</li>
+								<li>SQL</li>
+								<li>Scikit-Learn</li>
+								<li>NLTK library</li>
+								<li>Pysentiment</li>
+								<li>Pandas</li>
+							</ul>
+
+								
+							<h2>6. Results</h2>
+							<p>The final dataframe allowed the customer intelligence team to perform a complete analysis of the surveys sent to customers in order to make improvements to service and customer care.</p>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

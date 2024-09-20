@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Geospatial Analysis</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Geospatial analysis with GeoPandas</h1>
+							<span class="image fit"><img src="images/geospatial_areas_ventas.png" alt="map" /></span>
+							<h2>1. Problem Definition / Objective</h2>
+							<p>The sales team of a company that provides Internet and Television services started a campaign to acquire new clients that consists of sending sallers out into the street to hand out flyers promoting the company's services. Each saller was given a cell phone to be able to know the geographic locations where they were working and the objective is to measure the performance of the campaign, determining how many sales were made thanks to this campaign.</p>
+							
+							<h2>2. Data Available</h2>
+							<h3>Geographical points of sellers</h3> ~200k Geographical points (2024-05-16 to 2024-09-16) </br> ~50k points per month </br> ~100 sallers </br> data source: Presto database
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>date</th>
+											<th>device_id</th>
+											<th>latitude</th>
+											<th>longitude</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>2024-05-14</td>
+											<td>device_1</td>
+											<td>45.4215</td>
+											<td>-75.6972</td>
+										</tr>
+										<tr>
+											<td>2024-05-14</td>
+											<td>device_1</td>
+											<td>43.6532</td>
+											<td>-79.3832</td>
+										</tr>
+										<tr>
+											<td>2024-05-18</td>
+											<td>device_2</td>
+											<td>53.5461</td>
+											<td>-113.4938</td>
+										</tr>
+										<tr>
+											<td>2024-05-18</td>
+											<td>device_2</td>
+											<td>53.5461</td>
+											<td>-113.4938</td>
+										</tr>
+										<tr>
+											<td>2024-05-22</td>
+											<td>device_1</td>
+											<td>43.6532</td>
+											<td>-79.3832</td>
+										</tr>
+								</table>
+
+							<h3>Sales dataframe</h3>
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>date</th>
+											<th>sale_id</th>
+											<th>client_id</th>
+											<th>amount</th>
+											<th>latitude</th>
+											<th>longitude</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>2024-05-14</td>
+											<td>14725</td>
+											<td>96325</td>
+											<td>100</td>
+											<td>45.4215</td>
+											<td>-75.6972</td>
+										</tr>
+										<tr>
+											<td>2024-05-14</td>
+											<td>85214</td>
+											<td>65278</td>
+											<td>120</td>
+											<td>45.5522</td>
+											<td>-75.4633</td>
+										</tr>
+										<tr>
+											<td>2024-05-23</td>
+											<td>45632</td>
+											<td>75315</td>
+											<td>156</td>
+											<td>45.7411</td>
+											<td>-75.9666</td>
+										</tr>
+								</table>
+							</div>
+							
+							
+							<h2>3. Solution Development</h2>
+							<ul>
+								<li><b>Areas defined by sellers:</b> The first step was to determine the areas where each saller was each day. To do this, I added a 100-meter buffer to each geographic point defined by the salesperson and, by joining 3 or more points, I defined the areas.</li>						
+								<li><b>Intersection between areas and sales:</b> The second step was to determine which sales were within one or more areas. With the geographic points of each sale, I determined the intersection between the sales and the areas. I considered that a sale was associated with an area if the geographic point of the sale was within the area and if the sale had been made up to 15 days after the saller's visit.</li>
+								<li><b>Store the results in the database:</b> The result of the solution was two dataframes that I had to store in the database. The first dataframe contained the areas defined by each saller for each day and a column with the geometry defined by the area in polygon or multipolygon format. And the second was a list of the sales and the areas they were associated with.</li>
+								<li><b>Tableau dashboard:</b> Finally, I created a dashboard in Tableau to visualize the results. It showed the number of associated sales, the percentage of associated sales in relation to total sales, and a map with the areas and sales.</li>
+							</ul>
+							<div class="box alt">
+								<div class="row gtr-uniform">
+									<div class="col-6"><span class="image fit"><img src="images/geospatial_areas.PNG" alt="" /></span></div>
+									<div class="col-6"><span class="image fit"><img src="images/geospatial_areas_ventas.png" alt="" /></span></div>
+								</div>
+							</div>
+
+							
+							<h2>4. Tools and Technologies</h2>
+							<ul>
+								<li>Python</li>
+								<li>SQL</li>
+								<li>Geopandas</li>
+								<li>Pandas</li>
+								<li>Numpy</li>
+								<li>Tableau</li>
+							</ul>
+							
+							<h2>5. Results</h2>
+							<p>The final result was a dashboard for the sales team to continuously track the campaign, determining how many sales were made thanks to the new user acquisition campaign.</p>
+							
+							<h2>6. Impact / Value</h2>
+							<p>Knowing the number of sales that are due to the new user acquisition campaign, the sales team can quantify the profits produced by the campaign and if the performance of the campaign is good, the investment can be increased. And in the case that the cost of the campaign is greater than the sales produced, make the decision to end the campaign and invest the money in another action.</p>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

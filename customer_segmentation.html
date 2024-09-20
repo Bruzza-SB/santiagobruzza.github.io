@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Optimization project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Customer Segmentation Model</h1>
+							<div class="box alt">
+								<div class="row gtr-uniform">
+									<div class="col-6"><span class="image fit"><img src="images/customer_segmentation_2.png" alt="" /></span></div>
+									<div class="col-6"><span class="image fit"><img src="images/customer_churn_2.jpeg" alt="" /></span></div>
+								</div>
+							</div>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>A company that provides internet and television services has a churn prediction model to determine the probability that a customer will cancel the service. The objective of the segmentation model I developed is to determine the reason why customers are highly likely to cancel the service.</p>
+							
+							<h2>2. Data Available</h2>
+							<h3>Customer information</h3>Data Volume: ~1.6M customers </br> Data Source: Presto database
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>client_id</th>
+											<th>last_invoiced_usd</th>
+											<th>total_invoiced_usd</th>
+											<th>month_as_customer</th>
+											<th>payment_method</th>
+											<th>calls_to_customer_service</th>
+											<th>amount_of_discounts</th>
+											<th>churn_probability</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>5452</td>
+											<td>120.5</td>
+											<td>1450</td>
+											<td>6</td>
+											<td>cash</td>
+											<td>3</td>
+											<td>1</td>
+											<td>low</td>
+										</tr>
+										<tr>
+											<td>6554</td>
+											<td>95</td>
+											<td>1120.3</td>
+											<td>24</td>
+											<td>credit card</td>
+											<td>0</td>
+											<td>3</td>
+											<td>medium</td>
+										</tr>
+										<tr>
+											<td>7415</td>
+											<td>105.7</td>
+											<td>980.45</td>
+											<td>4</td>
+											<td>debit card</td>
+											<td>12</td>
+											<td>0</td>
+											<td>high</td>
+										</tr>
+								</table>
+							</div>
+							<div id="wrapper">
+
+							
+							<h2>3. Data Processing and Exploration</h2>
+							<ol>
+								<li><b>Filter the dataframe:</b> The first step was to filter the customer dataframe to keep only those customers with a high probability of canceling the service. </li>
+								<li><b>Fill Missing values</b></li>
+								<li><b>Transform all variables into numeric variables: </b>Categorical variables such as the payment method required one-hot encoding to create new numeric variables that represent the payment method.</li>
+								<li><b>Quantile Encoding:</b> Divide continuous variables into quantiles (in my case, quintiles) and assign encoded values to represent these quantile ranges. This helps capture non-linear relationships.</li>
+								<li><b>Feature selection:</b> In this case I used the same variables as the churn model. These were selected after correlation analysis and variance analysis.</li>
+							</ol>
+							
+
+							
+							<h2>4. Solution Development</h2>
+							<p><b>Segmentation Model:</b> I developed a K-Means clustering model to determine the reason why the customer has a high probability of cancelling the service. The number of clusters was 3 since the cause could be technical, due to a malfunction of the service, commercial due to problems in the payment of the service or technical and commercial for a combination of both.</p>
+
+
+							<h3>Final dataframe</h3>
+							<div class="table-wrapper"></div>
+								<table>
+									<thead>
+										<tr>
+											<th>client_id</th>
+											<th>churn_probability</th>
+											<th>churn_reason</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>5452</td>
+											<td>high</td>
+											<td>technical</td>
+										</tr>
+										<tr>
+											<td>6554</td>
+											<td>high</td>
+											<td>commercial</td>
+										</tr>
+										<tr>
+											<td>7415</td>
+											<td>high</td>
+											<td>technical and commercial</td>
+
+										</tr>
+								</table>
+							</div>
+
+							<h2>5. Tools and Technologies</h2>
+							<ul>
+								<li>Python</li>
+								<li>SQL</li>
+								<li>Scikit-Learn</li>
+								<li>Pandas</li>
+							</ul>
+
+								
+							<h2>6. Results</h2>
+							<p>The final result allowed us to determine the cause of the high probability that customers have of canceling the service and with this information, preventive measures could be taken to prevent the customer from canceling the service.</p>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
