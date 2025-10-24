@@ -98,7 +98,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #111111;
+		background: #2f3e46;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -197,10 +197,10 @@ input, select, textarea {
 		}
 
 			h1.major:after {
-				background-image: -moz-linear-gradient(to right, #256eff, #8390fa);
-				background-image: -webkit-linear-gradient(to right, #256eff, #8390fa);
-				background-image: -ms-linear-gradient(to right, #256eff, #8390fa);
-				background-image: linear-gradient(to right, #256eff, #8390fa);
+				background-image: -moz-linear-gradient(to right, #52796f, #354f52);
+				background-image: -webkit-linear-gradient(to right, #52796f, #354f52);
+				background-image: -ms-linear-gradient(to right, #52796f, #354f52);
+				background-image: linear-gradient(to right, #52796f, #354f52);
 				-moz-transition: max-width 0.2s ease;
 				-webkit-transition: max-width 0.2s ease;
 				-ms-transition: max-width 0.2s ease;
@@ -2444,7 +2444,7 @@ input, select, textarea {
 		input[type="radio"]:checked + label:before {
 			background: #ffffff;
 			border-color: #ffffff;
-			color: #8390fa;
+			color: #354f52;
 			content: '\f00c';
 		}
 
@@ -2536,27 +2536,27 @@ input, select, textarea {
 			}
 
 				.wrapper.style1 .icon.major:before {
-					color: #256eff;
+					color: #52796f;
 				}
 
 				.wrapper.style1-alt .icon.major:before {
-					color: #256eff;
+					color: #52796f;
 				}
 
 				.wrapper.style2 .icon.major:before {
-					color: #256eff;
+					color: #52796f;
 				}
 
 				.wrapper.style2-alt .icon.major:before {
-					color: #256eff;
+					color: #52796f;
 				}
 
 				.wrapper.style3 .icon.major:before {
-					color: #8390fa;
+					color: #354f52;
 				}
 
 				.wrapper.style3-alt .icon.major:before {
-					color: #8390fa;
+					color: #354f52;
 				}
 
 /* Image */
@@ -3022,7 +3022,7 @@ input, select, textarea {
 				-webkit-transition: opacity 1s ease;
 				-ms-transition: opacity 1s ease;
 				transition: opacity 1s ease;
-				background: #256eff;
+				background: #52796f;
 				content: '';
 				display: block;
 				height: 100%;
@@ -3236,31 +3236,31 @@ input, select, textarea {
 			}
 
 		.wrapper.alt {
-			background-color: #111111;
+			background-color: #2f3e46;
 		}
 
 		.wrapper.style1 {
-			background-color: #111111;
+			background-color: #2f3e46;
 		}
 
 		.wrapper.style1-alt {
-			background-color: #111111;
+			background-color: #2f3e46;
 		}
 
 		.wrapper.style2 {
-			background-color: #256eff;
+			background-color: #52796f;
 		}
 
 		.wrapper.style2-alt {
-			background-color: #256eff;
+			background-color: #52796f;
 		}
 
 		.wrapper.style3 {
-			background-color: #8390fa;
+			background-color: #354f52;
 		}
 
 		.wrapper.style3-alt {
-			background-color: #8390fa;
+			background-color: #354f52;
 		}
 
 		.wrapper.fullscreen {
@@ -3370,7 +3370,7 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		background-image: linear-gradient(to right, #256eff, #8390fa);
+		background-image: linear-gradient(to right, #52796f, #354f52);
 		cursor: default;
 		padding: 1.75em 2em;
 	}
@@ -3524,7 +3524,7 @@ input, select, textarea {
 
 	#sidebar {
 		padding: 2.5em 2.5em 0.5em 2.5em ;
-		background: #111111;
+		background: #2f3e46;
 		cursor: default;
 		height: 100vh;
 		left: 0;
@@ -3761,14 +3761,14 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:before {
-				background: #256eff;
+				background: #52796f;
 			}
 
 			#sidebar nav a:after {
-				background-image: -moz-linear-gradient(to right, #256eff, #8390fa);
-				background-image: -webkit-linear-gradient(to right, #256eff, #8390fa);
-				background-image: -ms-linear-gradient(to right, #256eff, #8390fa);
-				background-image: linear-gradient(to right, #256eff, #8390fa);
+				background-image: -moz-linear-gradient(to right, #52796f, #354f52);
+				background-image: -webkit-linear-gradient(to right, #52796f, #354f52);
+				background-image: -ms-linear-gradient(to right, #52796f, #354f52);
+				background-image: linear-gradient(to right, #52796f, #354f52);
 				-moz-transition: max-width 0.2s ease;
 				-webkit-transition: max-width 0.2s ease;
 				-ms-transition: max-width 0.2s ease;
@@ -3857,7 +3857,7 @@ input, select, textarea {
 
 						#sidebar nav a:after {
 							background-image: none;
-							background-color: #8390fa;
+							background-color: #354f52;
 						}
 
 		}
