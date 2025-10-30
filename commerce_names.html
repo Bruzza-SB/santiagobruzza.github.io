@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Commerce Names Unifier</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Add favicon -->
+		<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Commerce Name Unifier</h1>
+							<span class="image fit"><img src="images/commerce_name_unifier.png" alt="" /></span>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>
+								A fintech company receives thousands of transactions per day, each containing multiple data points — including the merchant name where the transaction took place. The problem is that the same merchant can appear under different names (for example, Amazon US and Amazon MX, both referring to Amazon but with different merchant names).
+ 								Having an algorithm capable of unifying all possible variations of a merchant name would allow the creation of a unique merchant catalog, enabling analyses that reflect the true market share of each merchant, as well as features such as credit cards restricted to specific businesses, among other applications.
+							</p>
+							
+							<h2>2. Data Available</h2>
+							<p>The available dataset includes over 1.4 million merchant names derived from transactions made through the fintech platform over the past four years.</p>
+
+							
+							<h2>3. Solution Development</h2>
+							<p>
+								The first step involved preprocessing the merchant names using regular expressions to clean entries containing special characters, randomly generated alphanumeric combinations, and to convert all names to uppercase.
+ 								Then, I used an embedding model from HuggingFace to transform merchant names into numerical vectors, which served as input for a DBSCAN machine learning clustering model that groups together similar merchant names.
+ 								Finally, I implemented an algorithm that generates all possible n-grams within each cluster and selects the most frequent and longest n-gram as the unified name representing all merchant names belonging to that cluster.
+							</p>
+						
+
+							<h2>4. Tools and Technologies</h2>
+							<ul>
+								<li>SQL</li>
+								<li>Regular Expressions</li>
+								<li>Python</li>
+								<li>Embeddings</li>
+								<li>HuggingFace</li>
+								<li>Clustering Model (DBSCAN)</li>
+								<li>Text Analysis</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
