@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Predict Payment Date</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Add favicon -->
+		<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Predict Payment Date</h1>
+							<span class="image fit"><img src="images/payment_date_flow.png" alt="" /></span>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>
+								The following project was developed in a fintech company that provides credit cards to businesses. Companies make expenses throughout the month using these cards and later receive a billing statement with the total amount owed.
+ 								The goal is to build a machine learning model that predicts the payment date of clients’ statements in order to take preventive actions for those customers the model predicts will pay late or not pay at all.
+							</p>
+							
+							<h2>2. Data Available</h2>
+							<p>
+								The dataset includes all account statements from the last two years, containing the amount owed, the amount paid, the payment date, and various company characteristics such as size, country, income, etc.
+							</p>
+
+							
+							<h2>3. Solution Development</h2>
+							<ul>
+								<li>EDA: Identify patterns and extract insights</li>
+								<li>Data preprocessing: Handle missing values, correct data types</li>
+								<li>Feature Engineering: Create lag variables, perform operations between variables, and transform all features into numerical values</li>
+								<li>Model Selection: Train and evaluate different machine learning models to predict the number of days it will take each client to pay their statement, selecting the one with the lowest MAE</li>
+								<li>Parameter Optimization: Use Python’s Optuna library to perform Bayesian hyperparameter optimization</li>
+								<li>Testing: Validate the model’s predictions</li>
+								<li>Model Deployment</li>
+							</ul>
+						
+
+							<h2>4. Tools and Technologies</h2>
+							<ul>
+								<li>SQL</li>
+								<li>Regular Expressions</li>
+								<li>Python</li>
+								<li>Embeddings</li>
+								<li>HuggingFace</li>
+								<li>Clustering Model (DBSCAN)</li>
+								<li>Text Analysis</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
