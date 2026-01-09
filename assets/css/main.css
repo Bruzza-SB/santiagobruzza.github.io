@@ -175,7 +175,7 @@ input, select, textarea {
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #cad2c5;
+		color: #00e47c;
 		font-weight: bold;
 		line-height: 1.5;
 		margin: 0 0 0.5em 0;
@@ -3309,11 +3309,11 @@ input, select, textarea {
 		}
 
 		.wrapper.style2 {
-			background-color: #52796f;
+			background-color: #182025;
 		}
 
 		.wrapper.style2-alt {
-			background-color: #52796f;
+			background-color: #182025;
 		}
 
 		.wrapper.style3 {
