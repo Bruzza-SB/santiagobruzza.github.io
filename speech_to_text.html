@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Speech-to-Text</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Add favicon -->
+		<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Speech-to-Text Analytics for Call Centers</h1>
+							<span class="image fit"><img src="images/speech_to_text_white_1700_700.png" alt="" /></span>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>
+								This project focuses on extracting actionable insights from large volumes of call center conversations between customer service agents and clients.
+								By combining speech recognition and natural language processing techniques, the solution transforms raw audio data into structured information to analyze customer interactions and evaluate agent performance.
+							</p>
+
+							<ul>
+								<li>Convert unstructured call audio into text data</li>
+								<li>Identify common call topics and patterns</li>
+								<li>Measure agent performance and level of attention during customer interactions</li>
+							</ul>
+							
+							<h2>2. Data Available</h2>
+							<ul>
+								<li>Audio recordings of inbound and outbound calls between call center agents and customers</li>
+							</ul>
+
+							
+							<h2>3. Solution Development</h2>
+							<p>
+								An automated pipeline was developed to process call recordings end-to-end. 
+								Audio files are sent to the Google Cloud Speech-to-Text API for transcription. 
+								The resulting text is then encoded into numerical representations using Transformer-based text embeddings. 
+								These embeddings feed a clustering model that groups semantically similar calls, enabling topic discovery, call categorization, and agent behavior analysis.
+							</p>
+						
+
+							<h2>4. Tools and Technologies</h2>
+							<ul>
+								<li>Python</li>
+								<li>Google Cloud Speech-to-Text API</li>
+								<li>Transformer Models for Text Embeddings</li>
+								<li>Unsupervised Clustering Algorithms</li>
+							</ul>
+
+							<h2>5. Business Impact</h2>
+							<ul>
+								<li>Python</li>
+								<li>Improved visibility into customer needs and recurring issues</li>
+								<li>Scalable analysis of thousands of calls without manual review</li>
+								<li>Data-driven insights to monitor and improve agent performance</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
