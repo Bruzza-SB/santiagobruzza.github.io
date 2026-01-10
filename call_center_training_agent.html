@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Santiago Bruzza - Call Center Training Chatbot with RAG</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Add favicon -->
+		<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Santiago Bruzza</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Call Center Training Chatbot with RAG</h1>
+							<span class="image fit"><img src="images/call_center_training_agent_1700.png" alt="" /></span>
+							
+							<h2>1. Problem Definition / Objective</h2>
+							<p>
+								The objective of this project was to build a chatbot capable of learning from more than 30 PowerPoint presentations currently used to train call center agents. 
+								These presentations contain critical operational knowledge distributed across text, tables, and images. 
+								The goal was to extract all available information from the .pptx files and use it to construct a Retrieval-Augmented Generation (RAG) system, enabling agents to query training content conversationally through a chatbot powered by Vertex AI.
+							</p>
+							
+							<h2>2. Data Available</h2>
+							<ul>
+								<li>Over 30 PowerPoint presentations (.pptx) used for call center training.</li>
+							</ul>
+
+							
+							<h2>3. Solution Architecture</h2>
+							<p>
+								The solution begins by programmatically extracting all content from the PowerPoint files using the Python python-pptx library. 
+								This includes textual content, tables, and embedded images.
+								All extracted information is stored in a structured JSON file.
+							</p>
+							<p>
+								Images are encoded in Base64 format during extraction. These images are then converted back into byte format and processed using the Gemini API, allowing a Large Multimodal Model (LMM) to interpret and generate descriptive text for each image. The generated image descriptions are added back into the JSON, enriching the textual knowledge base.
+								Finally, within the Vertex AI environment, a corpus is created from the processed data. This corpus serves as the knowledge source for the chatbot’s RAG architecture, enabling accurate, context-aware responses to user queries based on the original training material.
+							</p>
+
+							<h2>4. Tools and Technologies</h2>
+							<ul>
+								<li>Python</li>
+								<li>Vertex AI</li>
+								<li>Gemini API</li>
+								<li>PowerPoint data processing (.pptx files)</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Santiago Bruzza. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
