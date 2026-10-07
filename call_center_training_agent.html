@@ -1,93 +1,48 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Call Center Training Chatbot with RAG</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Call Center Training Chatbot with RAG · Santiago Bruzza</title>
+	<meta name="description" content="A RAG chatbot on Vertex AI built from 30+ call center training decks, with images described by Gemini, so agents can ask training questions in natural language." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Call Center Training Chatbot with RAG · Santiago Bruzza" />
+	<meta property="og:description" content="A RAG chatbot on Vertex AI built from 30+ call center training decks, with images described by Gemini, so agents can ask training questions in natural language." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/call_center_training_agent.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/call_center_training_agent.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="call-center-rag">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Sr Data Scientist · 2026</p>
+			<h1>Call Center Training Chatbot with RAG</h1>
+			<p class="lede">The knowledge needed to train call center agents was spread across 30+ PowerPoint decks full of text, tables and images. I turned it into one conversational, searchable source.</p>
+			<ul class="tags"><li class="tag">RAG</li><li class="tag">Vertex AI</li><li class="tag">Gemini API</li><li class="tag">Multimodal</li><li class="tag">python-pptx</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">30+</div><div class="l">training decks ingested</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">3</div><div class="l">content types: text, tables, images</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Gemini</div><div class="l">describes every image</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">1</div><div class="l">searchable chatbot replaces scattered decks</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Problem</h2><div class="prose"><p>Training content lived in <strong>30+ presentations</strong>. Finding an answer meant opening decks one by one, and a lot of the knowledge was inside images and tables that plain text search cannot read.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Approach</h2><ol class="flow"><li><b>Extract</b><span>python-pptx pulls text, tables and images from every deck into structured JSON.</span></li><li><b>Describe images</b><span>Images are Base64-encoded and described by a multimodal model through the Gemini API.</span></li><li><b>Merge</b><span>The descriptions are written back into the JSON next to their slide.</span></li><li><b>Index</b><span>The corpus is created in Vertex AI as the chatbot's knowledge source.</span></li><li><b>Chat</b><span>Agents ask questions and get answers grounded in the training material (RAG).</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Impact</h2><div class="prose"><ul><li>A centralized, searchable resource replacing 30+ scattered training documents</li><li>Knowledge hidden in images and tables becomes searchable</li><li>Agents get conversational access to training content</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Visuals</h2><div style="max-width:620px"><figure class="media light" style="margin:0"><img src="images/call_center_training_agent.png" alt="Pipeline from presentations to the training chatbot." loading="lazy" /><figcaption>Pipeline from presentations to the training chatbot.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">python-pptx</li><li class="tag">Gemini API</li><li class="tag">Vertex AI</li><li class="tag">RAG</li><li class="tag">JSON</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Call Center Training Chatbot with RAG</h1>
-							<span class="image fit"><img src="images/call_center_training_agent_1700.png" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>
-								The objective of this project was to build a chatbot capable of learning from more than 30 PowerPoint presentations currently used to train call center agents. 
-								These presentations contain critical operational knowledge distributed across text, tables, and images. 
-								The goal was to extract all available information from the .pptx files and use it to construct a Retrieval-Augmented Generation (RAG) system, enabling agents to query training content conversationally through a chatbot powered by Vertex AI.
-							</p>
-							
-							<h2>2. Data Available</h2>
-							<ul>
-								<li>Over 30 PowerPoint presentations (.pptx) used for call center training.</li>
-							</ul>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Solution Architecture</h2>
-							<p>
-								The solution begins by programmatically extracting all content from the PowerPoint files using the Python python-pptx library. 
-								This includes textual content, tables, and embedded images.
-								All extracted information is stored in a structured JSON file.
-							</p>
-							<p>
-								Images are encoded in Base64 format during extraction. These images are then converted back into byte format and processed using the Gemini API, allowing a Large Multimodal Model (LMM) to interpret and generate descriptive text for each image. The generated image descriptions are added back into the JSON, enriching the textual knowledge base.
-								Finally, within the Vertex AI environment, a corpus is created from the processed data. This corpus serves as the knowledge source for the chatbot’s RAG architecture, enabling accurate, context-aware responses to user queries based on the original training material.
-							</p>
+	<footer id="footer"></footer>
 
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>Vertex AI</li>
-								<li>Gemini API</li>
-								<li>PowerPoint data processing (.pptx files)</li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

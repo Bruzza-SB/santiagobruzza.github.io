@@ -1,86 +1,48 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Code Reviewer Agent</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Code Reviewer Agent · Santiago Bruzza</title>
+	<meta name="description" content="An LLM agent that reviews SQL and Python code, detects errors and returns a corrected, optimized version. Deployed company-wide via VPN." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Code Reviewer Agent · Santiago Bruzza" />
+	<meta property="og:description" content="An LLM agent that reviews SQL and Python code, detects errors and returns a corrected, optimized version. Deployed company-wide via VPN." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/code_reviewer.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/code_reviewer.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="code-reviewer">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Sr Data Scientist · 2026</p>
+			<h1>Code Reviewer Agent</h1>
+			<p class="lede">Upload a file or paste code and get a review: what is wrong, why, and a corrected and optimized version.</p>
+			<ul class="tags"><li class="tag">LLM agent</li><li class="tag">Code review</li><li class="tag">OpenAI API</li><li class="tag">Streamlit</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">SQL · Python</div><div class="l">and other code files</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Review + fix</div><div class="l">comments and a corrected version</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Optimized</div><div class="l">suggested improvements</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Company-wide</div><div class="l">available via VPN</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Demo</h2><figure class="media" style="margin:0"><video src="videos/code_reviewer_agent_clip.mp4" controls muted playsinline loop preload="metadata"></video><figcaption>The Code Reviewer Agent in action.</figcaption></figure></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Approach</h2><ol class="flow"><li><b>Input</b><span>Upload a .sql, .py or other file, or paste code.</span></li><li><b>Review</b><span>A Streamlit app sends the code to an LLM through the OpenAI API.</span></li><li><b>Detect</b><span>Errors and weak spots are explained.</span></li><li><b>Return</b><span>Review comments plus a corrected, optimized version.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Deployment</h2><div class="prose"><p>Deployed on a virtual machine and used across the company through the VPN.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Visuals</h2><div class="media-row"><figure class="media" style="margin:0"><img src="images/code_reviewer_chat_500_500.png" alt="The review chat." loading="lazy" /><figcaption>The review chat.</figcaption></figure><figure class="media light" style="margin:0"><img src="images/code_reviewer_agent_1700_700.png" alt="Input code → LLM → optimized code." loading="lazy" /><figcaption>Input code → LLM → optimized code.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">OpenAI API</li><li class="tag">LLMs</li><li class="tag">Streamlit</li><li class="tag">Virtual machine + VPN</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Code Reviewer Agent</h1>
-							<div class="video fit">
-								<video autoplay loop muted playsinline>
-									<source src="videos/code_reviewer_agent_clip.mp4" type="video/mp4">
-									Your browser does not support the video tag.
-								</video>
-							</div>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>The goal is to develop a Code Reviewer Agent that reviews, detects errors, corrects, and optimizes the code provided by the user. The input can be either by uploading a file containing the code (e.g., .sql, .py, etc.) or by copying and pasting the code directly into the app.</p>
-							
-							
-							<h2>2. Solution Development</h2>
-							<span class="image fit"><img src="images/code_reviewer_agent_1700_700.png" alt="" /></span>
-							<p>The solution architecture consists of a Streamlit app that connects to the LLM through the OpenAI API. The input is the user’s code, and the output is a series of comments about the code along with a corrected and optimized version of it.</p>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							<h2>3. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>OpenAI API</li>
-								<li>Streamlit</li>
-								<li>LMM</li>
-							</ul>
+	<footer id="footer"></footer>
 
-								
-							<h2>4. Deployment</h2>
-							<p>The application runs on a virtual machine and is available company-wide via VPN.</p>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

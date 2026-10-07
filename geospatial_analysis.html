@@ -1,181 +1,63 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Geospatial Analysis</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Geospatial Campaign Attribution · Santiago Bruzza</title>
+	<meta name="description" content="Measuring a door-to-door acquisition campaign: daily seller coverage areas from 100k+ GPS points, spatially joined with ~30k geolocated sales, delivered as a Tableau dashboard." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Geospatial Campaign Attribution · Santiago Bruzza" />
+	<meta property="og:description" content="Measuring a door-to-door acquisition campaign: daily seller coverage areas from 100k+ GPS points, spatially joined with ~30k geolocated sales, delivered as a Tableau dashboard." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/geospatial_analysis.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/geospatial_analysis.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="geospatial">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Data Scientist · 2024</p>
+			<h1>Geospatial Campaign Attribution</h1>
+			<p class="lede">About 100 sellers walked the streets handing out flyers, each carrying a GPS-tracked phone. The sales team needed to know how many sales the campaign really generated, to decide whether to scale it or stop it.</p>
+			<ul class="tags"><li class="tag">GeoPandas</li><li class="tag">Spatial join</li><li class="tag">Buffers</li><li class="tag">Tableau</li><li class="tag">Python</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c4)"><div class="v">~100</div><div class="l">sellers tracked</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">100k+</div><div class="l">GPS points (May–Sep 2024)</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">~30k</div><div class="l">geolocated sales</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">15 days</div><div class="l">attribution window</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Method</h2><div class="two-col"><ol class="flow flow-v"><li><b>Buffer</b><span>A 100 m buffer around every seller GPS point.</span></li><li><b>Daily areas</b><span>Areas built by joining 3+ points per seller per day.</span></li><li><b>Spatial join</b><span>Intersect geolocated sales with the areas.</span></li><li><b>Attribute</b><span>A sale counts if it is inside an area and within 15 days after the visit.</span></li></ol><figure class="card chart-card" style="margin:0"><figcaption><span class="chart-title">How a sale gets attributed</span><span class="badge-illustrative">Illustrative · schematic</span></figcaption>
+<svg viewBox="0 0 520 260" role="img" aria-label="Schematic: seller GPS points with 100 meter buffers merged into a daily area; sales inside the area within 15 days are attributed">
+	<rect x="0" y="0" width="520" height="260" rx="10" fill="var(--surface-2)"/>
+	<g stroke="var(--grid)" stroke-width="6"><path d="M0 80 H520 M0 190 H520 M120 0 V260 M330 0 V260"/></g>
+	<g fill="var(--c1)" fill-opacity=".18" stroke="var(--c1)" stroke-width="1.5">
+		<circle cx="150" cy="120" r="42"/><circle cx="190" cy="105" r="42"/><circle cx="230" cy="125" r="42"/><circle cx="265" cy="150" r="42"/>
+	</g>
+	<g fill="var(--c1)"><circle cx="150" cy="120" r="5"/><circle cx="190" cy="105" r="5"/><circle cx="230" cy="125" r="5"/><circle cx="265" cy="150" r="5"/></g>
+	<g fill="var(--c3)"><rect x="176" y="132" width="11" height="11" rx="2"/><rect x="242" y="98" width="11" height="11" rx="2"/><rect x="214" y="150" width="11" height="11" rx="2"/></g>
+	<g fill="var(--c5)"><rect x="380" y="70" width="11" height="11" rx="2"/><rect x="420" y="190" width="11" height="11" rx="2"/><rect x="70" y="210" width="11" height="11" rx="2"/></g>
+	<g font-size="11" fill="var(--text-2)" font-family="Montserrat, sans-serif">
+		<text x="300" y="40">Seller's daily area</text><text x="300" y="54">(100 m buffers, 3+ points)</text>
+	</g>
+</svg>
+<div class="chart-legend"><span><i style="background:var(--c1)"></i>Seller GPS point + 100 m buffer</span><span><i style="background:var(--c3)"></i>Sale inside the area within 15 days → attributed</span><span><i style="background:var(--c5)"></i>Sale outside → not attributed</span></div>
+</figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Output</h2><div class="prose"><ul><li>Table of daily areas per seller with polygon / multipolygon geometry</li><li>Table linking each sale to its associated areas</li><li>A Tableau dashboard: attributed sales, share of total sales, and a map of areas and sales</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Maps</h2><div class="media-row"><figure class="media" style="margin:0"><img src="images/geospatial_areas.PNG" alt="Seller areas built from 100 m buffers." loading="lazy" /><figcaption>Seller areas built from 100 m buffers.</figcaption></figure><figure class="media" style="margin:0"><img src="images/geospatial_areas_ventas.png" alt="Areas (blue) and geolocated sales (red)." loading="lazy" /><figcaption>Areas (blue) and geolocated sales (red).</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Impact</h2><div class="prose"><p>Continuous campaign tracking. The sales team can quantify the campaign's return and decide whether to <strong>scale the investment</strong> or <strong>stop and reallocate the budget</strong>.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">Presto</li><li class="tag">GeoPandas</li><li class="tag">Pandas</li><li class="tag">NumPy</li><li class="tag">Tableau</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Geospatial analysis with GeoPandas</h1>
-							<span class="image fit"><img src="images/geospatial_areas_ventas.png" alt="map" /></span>
-							<h2>1. Problem Definition / Objective</h2>
-							<p>The sales team of a company that provides Internet and Television services started a campaign to acquire new clients that consists of sending sallers out into the street to hand out flyers promoting the company's services. Each saller was given a cell phone to be able to know the geographic locations where they were working and the objective is to measure the performance of the campaign, determining how many sales were made thanks to this campaign.</p>
-							
-							<h2>2. Data Available</h2>
-							<h3>Geographical points of sellers</h3> ~200k Geographical points (2024-05-16 to 2024-09-16) </br> ~50k points per month </br> ~100 sallers </br> data source: Presto database
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>date</th>
-											<th>device_id</th>
-											<th>latitude</th>
-											<th>longitude</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>2024-05-14</td>
-											<td>device_1</td>
-											<td>45.4215</td>
-											<td>-75.6972</td>
-										</tr>
-										<tr>
-											<td>2024-05-14</td>
-											<td>device_1</td>
-											<td>43.6532</td>
-											<td>-79.3832</td>
-										</tr>
-										<tr>
-											<td>2024-05-18</td>
-											<td>device_2</td>
-											<td>53.5461</td>
-											<td>-113.4938</td>
-										</tr>
-										<tr>
-											<td>2024-05-18</td>
-											<td>device_2</td>
-											<td>53.5461</td>
-											<td>-113.4938</td>
-										</tr>
-										<tr>
-											<td>2024-05-22</td>
-											<td>device_1</td>
-											<td>43.6532</td>
-											<td>-79.3832</td>
-										</tr>
-								</table>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							<h3>Sales dataframe</h3>
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>date</th>
-											<th>sale_id</th>
-											<th>client_id</th>
-											<th>amount</th>
-											<th>latitude</th>
-											<th>longitude</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>2024-05-14</td>
-											<td>14725</td>
-											<td>96325</td>
-											<td>100</td>
-											<td>45.4215</td>
-											<td>-75.6972</td>
-										</tr>
-										<tr>
-											<td>2024-05-14</td>
-											<td>85214</td>
-											<td>65278</td>
-											<td>120</td>
-											<td>45.5522</td>
-											<td>-75.4633</td>
-										</tr>
-										<tr>
-											<td>2024-05-23</td>
-											<td>45632</td>
-											<td>75315</td>
-											<td>156</td>
-											<td>45.7411</td>
-											<td>-75.9666</td>
-										</tr>
-								</table>
-							</div>
-							
-							
-							<h2>3. Solution Development</h2>
-							<ul>
-								<li><b>Areas defined by sellers:</b> The first step was to determine the areas where each saller was each day. To do this, I added a 100-meter buffer to each geographic point defined by the salesperson and, by joining 3 or more points, I defined the areas.</li>						
-								<li><b>Intersection between areas and sales:</b> The second step was to determine which sales were within one or more areas. With the geographic points of each sale, I determined the intersection between the sales and the areas. I considered that a sale was associated with an area if the geographic point of the sale was within the area and if the sale had been made up to 15 days after the saller's visit.</li>
-								<li><b>Store the results in the database:</b> The result of the solution was two dataframes that I had to store in the database. The first dataframe contained the areas defined by each saller for each day and a column with the geometry defined by the area in polygon or multipolygon format. And the second was a list of the sales and the areas they were associated with.</li>
-								<li><b>Tableau dashboard:</b> Finally, I created a dashboard in Tableau to visualize the results. It showed the number of associated sales, the percentage of associated sales in relation to total sales, and a map with the areas and sales.</li>
-							</ul>
-							<div class="box alt">
-								<div class="row gtr-uniform">
-									<div class="col-6"><span class="image fit"><img src="images/geospatial_areas.PNG" alt="" /></span></div>
-									<div class="col-6"><span class="image fit"><img src="images/geospatial_areas_ventas.png" alt="" /></span></div>
-								</div>
-							</div>
+	<footer id="footer"></footer>
 
-							
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>SQL</li>
-								<li>Geopandas</li>
-								<li>Pandas</li>
-								<li>Numpy</li>
-								<li>Tableau</li>
-							</ul>
-							
-							<h2>5. Results</h2>
-							<p>The final result was a dashboard for the sales team to continuously track the campaign, determining how many sales were made thanks to the new user acquisition campaign.</p>
-							
-							<h2>6. Impact / Value</h2>
-							<p>Knowing the number of sales that are due to the new user acquisition campaign, the sales team can quantify the profits produced by the campaign and if the performance of the campaign is good, the investment can be increased. And in the case that the cost of the campaign is greater than the sales produced, make the decision to end the campaign and invest the money in another action.</p>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

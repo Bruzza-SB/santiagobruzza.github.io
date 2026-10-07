@@ -1,214 +1,48 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Optimization project</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Supply Chain Clustering &amp;amp; Route Optimization · Santiago Bruzza</title>
+	<meta name="description" content="Distribution network optimization for a Canadian food manufacturer: K-Means store clustering, OSRM driving matrices, OR-Tools TSP routing, cost-to-serve allocation and what-if scenarios." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Supply Chain Clustering &amp;amp; Route Optimization · Santiago Bruzza" />
+	<meta property="og:description" content="Distribution network optimization for a Canadian food manufacturer: K-Means store clustering, OSRM driving matrices, OR-Tools TSP routing, cost-to-serve allocation and what-if scenarios." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/optimization_model.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/optimization_model.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="supply-chain">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Global consulting firm · Data Science Sr. Analyst · 2022–2023</p>
+			<h1>Supply Chain Clustering &amp; Route Optimization</h1>
+			<p class="lede">A Canadian food manufacturer wanted to minimize the total operating cost of its distribution network and decide which distribution center should supply which store.</p>
+			<ul class="tags"><li class="tag">OR-Tools</li><li class="tag">TSP</li><li class="tag">OSRM API</li><li class="tag">K-Means</li><li class="tag">Cost-to-serve</li><li class="tag">What-if scenarios</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c4)"><div class="v">3,500</div><div class="l">stores mapped</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">8</div><div class="l">distribution centers</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">TSP</div><div class="l">routes with OR-Tools</div></div><div class="kpi" style="--kc:var(--c4)"><div class="v">Savings</div><div class="l">of thousands of dollars vs baseline</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Data</h2><div class="prose"><ul><li>8 DCs and 3,500 stores with latitude and longitude</li><li>Costs per DC from the P&amp;L: gasoline, truck depreciation, driver salary, loading</li><li>Monthly demand per store</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Approach</h2><ol class="flow"><li><b>Cluster</b><span>K-Means on store coordinates; the number of clusters is set by truck limits (km and driving time).</span></li><li><b>Distances</b><span>Store↔store and store↔DC driving distance and time from the OSRM API.</span></li><li><b>Route</b><span>Traveling Salesman Problem solved with Google OR-Tools.</span></li><li><b>Cost-to-serve</b><span>Fuel, truck amortization, load/unload time and driver salary per unit × demand → trip and total cost.</span></li><li><b>Optimize</b><span>A cost-minimization model (built by a specialized optimization team) assigns DCs to stores.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Visuals</h2><div class="two-col"><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Stores clustered by location</span><span class="badge-illustrative">Illustrative · not real data</span></figcaption><div class="chart" data-chart='{"type": "scatter", "gen": "clusters", "centers": [[2, 2], [5, 7], [8, 3], [3, 8], [8, 8]], "n": 45, "spread": 0.8, "seed": 21, "r": 3, "groups": ["Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5"], "alt": "Illustrative clusters of store locations"}'></div><p class="chart-note">Each dot is a store; colors are K-Means clusters sized to what one truck can cover.</p></figure><div style="display:grid;gap:14px"><figure class="media" style="margin:0"><img src="images/truck_fleet.jpg" alt="Truck fleet." loading="lazy" /><figcaption>Truck fleet.</figcaption></figure></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>What-if scenarios</h2><div class="two-col"><ol class="layers"><li style="--lc:var(--c4)"><span class="n">01</span><div><b>Baseline</b><span>Current network cost.</span></div></li><li style="--lc:var(--c4)"><span class="n">02</span><div><b>New DCs</b><span>Open distribution centers in new locations.</span></div></li><li style="--lc:var(--c4)"><span class="n">03</span><div><b>Closures</b><span>Close existing distribution centers.</span></div></li></ol><div class="callout">The new supply plan had a <b>lower total cost than the baseline</b>, saving the company thousands of dollars. Stakeholders were very enthusiastic about the solution and the what-if analysis.</div></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">scikit-learn</li><li class="tag">Pandas</li><li class="tag">NumPy</li><li class="tag">OR-Tools</li><li class="tag">OSRM API</li><li class="tag">K-Means</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Clustering and optimization model</h1>
-							<span class="image fit"><img src="images/truck_fleet.jpg" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>The objective is to optimize the supply chain of a food manufacturing company in Canada by minimizing the total cost of the operation. And to determine which distribution centers will supply which stores.</p>
-							
-							<h2>2. Data Available</h2>
-							<h3>Distribution Centers in Canada</h3> 8 Distribution Centers
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>DC</th>
-											<th>latitude</th>
-											<th>longitude</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>dc_1</td>
-											<td>45.4215</td>
-											<td>-75.6972</td>
-										</tr>
-										<tr>
-											<td>dc_2</td>
-											<td>43.6532</td>
-											<td>-79.3832</td>
-										</tr>
-										<tr>
-											<td>dc_3</td>
-											<td>53.5461</td>
-											<td>-113.4938</td>
-										</tr>
-								</table>
-							</div>
-							<h3>Stores in Canada</h3> 3500 stores
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>store</th>
-											<th>latitude</th>
-											<th>longitude</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>store_1</td>
-											<td>49.2827</td>
-											<td>-123.1207</td>
-										</tr>
-										<tr>
-											<td>store_2</td>
-											<td>51.0447</td>
-											<td>-114.0719</td>
-										</tr>
-										<tr>
-											<td>store_3</td>
-											<td>45.5017</td>
-											<td>-73.5673</td>
-										</tr>
-								</table>
-							</div>
-							<h3>Costs per Distribution Center</h3>
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>dc</th>
-											<th>gasoline_cost</th>
-											<th>truck_depreciation</th>
-											<th>driver_salary</th>
-											<th>loading_cost</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>dc_1</td>
-											<td>500</td>
-											<td>200</td>
-											<td>1000</td>
-											<td>150</td>
-										</tr>
-										<tr>
-											<td>dc_2</td>
-											<td>600</td>
-											<td>250</td>
-											<td>1050</td>
-											<td>160</td>
-										</tr>
-										<tr>
-											<td>dc_3</td>
-											<td>550</td>
-											<td>220</td>
-											<td>1100</td>
-											<td>140</td>
-										</tr>
-								</table>
-							</div>
-							<h3>Demand by Store</h3>
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>store</th>
-											<th>demand per month</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>store_1</td>
-											<td>400</td>
-										</tr>
-										<tr>
-											<td>store_2</td>
-											<td>700</td>
-										</tr>
-										<tr>
-											<td>store_3</td>
-											<td>450</td>
-										</tr>
-								</table>
-							</div>
-							<div id="wrapper">
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Data Processing and Exploration</h2>
-							<p>Analyze the profit and loss statement (P&L) to extract the costs by distribution center. Bring all costs to the same unit of measurement. And plot the stores and distribution centers on a map to better understanding of the problem.</p>
-							<img src="images/canada_map.jpg" alt="" style="height: 220px; width: 220px;"/>
-							
+	<footer id="footer"></footer>
 
-							
-							<h2>4. Solution Development</h2>
-							<ol>
-								<li><b>Clustering model:</b> K-Means model to group stores according to the distance between them. Using their latitude and longitude. The number of clusters was defined according to restrictions imposed by the trucks such as the number of kilometers traveled and the driving time. </li>
-								<li><b>Traveling Salesman Problem (TSP):</b> To determine the order in which the truck will visit each of the stores within the defined clusters, a TSP model was applied using Google's OR-Tools library. To do this, it was necessary to calculate the distance and driving time of the stores between each other and also to the distribution center, building a distance matrix that was the input of the TSP modelwith the OSRM API. </li>
-								<li><b>Cost Allocation:</b> From the P&L and taking into account the costs of fuel, amortization of the truck, time to load and unload the truck and the driver's salary, each store was assigned a cost per transported unit that multiplied by the store's demand results in the total cost of the trip and a total cost for the entire operation. </li>
-								<li><b>Optimization model in RiverLogic:</b> The optimization model developed at RiverLogic was responsible for minimizing the total cost of the operation by determining which distribution centers should supply which stores. "What if" scenarios were also developed with new distribution centers in new locations and closing existing distribution centers. The optimization model was developed by a team specialized in optimization and RiverLogic.</li>
-							</ol>
-							<p>The objective was to define a new supply plan whose total cost was lower than the existing one, which we used as a baseline.</p>
-
-							<h2>5. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>Scikit-Learn</li>
-								<li>Pandas</li>
-								<li>Numpy</li>
-								<li>Google's OR-Tools library</li>
-								<li>OSRM API</li>
-							</ul>
-
-								
-							<h2>6. Results and Evaluation</h2>
-							<p>The project's evaluation metric was the total cost of the operation, which ended up saving the company thousands of dollars.
-								Stakeholders were very enthusiastic about the proposed solution and the analysis of the "What if" scenarios.</p>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

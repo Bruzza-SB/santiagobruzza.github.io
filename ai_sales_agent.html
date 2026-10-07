@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>AI Sales &amp;amp; Lead-Qualification Agent · Santiago Bruzza</title>
+	<meta name="description" content="A public, production web agent (Next.js, TypeScript, Claude Sonnet/Haiku) that runs discovery with prospects, stores structured notes and books meetings, with security hardening and LLM cost governance." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="AI Sales &amp;amp; Lead-Qualification Agent · Santiago Bruzza" />
+	<meta property="og:description" content="A public, production web agent (Next.js, TypeScript, Claude Sonnet/Haiku) that runs discovery with prospects, stores structured notes and books meetings, with security hardening and LLM cost governance." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/ai_sales_agent.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/ai_sales_agent.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="ai-sales-agent">
+	<header id="topbar" class="topbar"></header>
+
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Independent consulting · 2026</p>
+			<h1>AI Sales &amp; Lead-Qualification Agent</h1>
+			<p class="lede">A public chatbot for my consulting practice that runs first-contact discovery with prospects, records structured notes and books the meeting in the chat. Anything exposed to the public internet needs to be safe from abuse and have predictable costs, so both were designed in from day one.</p>
+			<ul class="tags"><li class="tag">Claude API</li><li class="tag">Next.js</li><li class="tag">TypeScript</li><li class="tag">PostgreSQL</li><li class="tag">Drizzle ORM</li><li class="tag">AI security</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">2-tier</div><div class="l">model routing: Sonnet + Haiku</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">6</div><div class="l">security controls before or around the LLM</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">5</div><div class="l">cost controls</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Kill switch</div><div class="l">on daily / monthly spend caps</div></div></div>
+		</section>
+
+<section class="case-sec reveal"><h2><span class="num">01</span>Demo</h2><figure class="media" style="margin:0"><video src="videos/grounded_agent_clip.mp4" controls muted playsinline loop preload="metadata"></video><figcaption>The sales agent running first-contact discovery with a prospect.</figcaption></figure></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Conversation flow</h2><ol class="flow"><li><b>Intake</b><span>A zero-token form captures the basics before any LLM call.</span></li><li><b>Discovery</b><span>The Claude agent asks about the prospect's business and needs.</span></li><li><b>Notes</b><span>Structured notes are written to Postgres through write-only tools.</span></li><li><b>Booking</b><span>The meeting is booked directly in the chat.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Defense in depth</h2><div class="two-col"><div><p class="eyebrow">Security</p><ol class="layers"><li style="--lc:var(--accent)"><span class="n">01</span><div><b>Session-only auth</b><span>No client-supplied IDs are trusted.</span></div></li><li style="--lc:var(--accent)"><span class="n">02</span><div><b>Bot protection</b><span>Cloudflare Turnstile.</span></div></li><li style="--lc:var(--accent)"><span class="n">03</span><div><b>Rate limiting</b><span>Limits request rates to stop abuse.</span></div></li><li style="--lc:var(--accent)"><span class="n">04</span><div><b>Input validation</b><span>Every request is validated.</span></div></li><li style="--lc:var(--accent)"><span class="n">05</span><div><b>Prompt-injection filter</b><span>Blocks abuse before any API call.</span></div></li><li style="--lc:var(--accent)"><span class="n">06</span><div><b>Server-validated write-only tools</b><span>Parameterized SQL only, via Drizzle ORM.</span></div></li></ol></div><div><p class="eyebrow" style="color:var(--green)">Cost governance</p><ol class="layers"><li style="--lc:var(--green)"><span class="n">01</span><div><b>Prompt caching</b><span>The stable system context is cached.</span></div></li><li style="--lc:var(--green)"><span class="n">02</span><div><b>Zero-token intake</b><span>Forms instead of LLM turns for basic data.</span></div></li><li style="--lc:var(--green)"><span class="n">03</span><div><b>Tiered model routing</b><span>Each turn is routed between Claude Haiku and Claude Sonnet.</span></div></li><li style="--lc:var(--green)"><span class="n">04</span><div><b>Per-session token budgets</b><span>Caps the cost of any single conversation.</span></div></li><li style="--lc:var(--green)"><span class="n">05</span><div><b>Daily / monthly spend caps</b><span>An automatic kill switch makes costs predictable.</span></div></li></ol></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Stack</h2><ul class="tags"><li class="tag">Next.js</li><li class="tag">TypeScript</li><li class="tag">Claude API (Sonnet, Haiku)</li><li class="tag">PostgreSQL</li><li class="tag">SQLite</li><li class="tag">Drizzle ORM</li><li class="tag">Cloudflare Turnstile</li><li class="tag">Database design</li></ul></section>
+
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
+
+	<footer id="footer"></footer>
+
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+</html>

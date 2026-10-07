@@ -1,111 +1,50 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Data Catalog AI Agent</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>AI Data Support Agent &amp;amp; Semantic Layer · Santiago Bruzza</title>
+	<meta name="description" content="An LLM-generated semantic layer over 4,000+ tables and 20,000+ columns feeding a production, security-first and cost-governed support agent for data discovery." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="AI Data Support Agent &amp;amp; Semantic Layer · Santiago Bruzza" />
+	<meta property="og:description" content="An LLM-generated semantic layer over 4,000+ tables and 20,000+ columns feeding a production, security-first and cost-governed support agent for data discovery." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/data_catalog.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/data_catalog.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="data-support-agent">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Sr Data Scientist · 2026</p>
+			<h1>AI Data Support Agent &amp; Semantic Layer</h1>
+			<p class="lede">Employees did not know which tables held which information, what each column meant or how often a table was refreshed, so every data question went through the data team. I built the complete pipeline: an AI-generated semantic layer over the warehouse metadata, and a production support agent that answers those questions in plain language.</p>
+			<ul class="tags"><li class="tag">LLM agent</li><li class="tag">Semantic layer</li><li class="tag">RAG</li><li class="tag">BigQuery</li><li class="tag">Vertex AI</li><li class="tag">OpenAI API</li><li class="tag">Next.js</li><li class="tag">TypeScript</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">4,000+</div><div class="l">tables in the semantic layer</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">20,000+</div><div class="l">columns with AI-written definitions</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">OpenAI → GCP</div><div class="l">complete pipeline migrated</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Production</div><div class="l">agent with spend caps &amp; injection filtering</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Problem</h2><div class="prose"><p>Data discovery depended on asking the data team. The goal was a <strong>centralized, AI-powered data catalog</strong> that answers questions such as <em>“Where can I find customer churn information?”</em> in natural language, and tells people what each column means and how fresh the data is.</p><ul><li>Create a centralized catalog for thousands of tables</li><li>Generate clear business descriptions for tables and columns automatically</li><li>Enable natural-language search over data assets</li><li>Reduce dependency on the data team for discovery and interpretation</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Data</h2><div class="prose"><p>Warehouse metadata: <strong>table names, column names and data types</strong> for <strong>4,000+ tables</strong> and <strong>20,000+ columns</strong>.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Approach</h2><div class="prose"><p>Two pieces, built end to end:</p></div><ol class="flow"><li><b>Warehouse metadata</b><span>Table and column names and data types from BigQuery.</span></li><li><b>AI semantic layer</b><span>LLMs write business definitions for every table and column, plus how each table relates to the rest of the database and its refresh frequency.</span></li><li><b>Knowledge source</b><span>The semantic layer becomes the agent's retrieval (RAG) source.</span></li><li><b>Support agent + UI</b><span>A production Next.js / TypeScript chatbot employees query in natural language.</span></li></ol><h3 class="stack-sub" style="font-size:1rem">How it evolved</h3><ol class="flow"><li><b>v1 · OpenAI API</b><span>First version: LLM-generated table and column descriptions used as a RAG knowledge base (published earlier as the “Data Catalog AI Agent”).</span></li><li><b>Migration to GCP</b><span>When the company adopted Google Cloud, I migrated the complete pipeline to BigQuery metadata and Vertex AI.</span></li><li><b>Production agent</b><span>Evolved into a security-first, cost-governed support agent for employee data discovery.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Security &amp; cost governance</h2><div class="two-col"><div><p class="eyebrow">Security-first</p><ol class="layers"><li style="--lc:var(--accent)"><span class="n">01</span><div><b>Server-side session auth</b><span>No identity or IDs trusted from the client.</span></div></li><li style="--lc:var(--accent)"><span class="n">02</span><div><b>Input validation &amp; prompt-injection filtering</b><span>Abusive or injected prompts are blocked.</span></div></li><li style="--lc:var(--accent)"><span class="n">03</span><div><b>Server-validated tools &amp; guardrails</b><span>The model can only call tools the server checks.</span></div></li></ol></div><div><p class="eyebrow" style="color:var(--green)">Cost-governed</p><ol class="layers"><li style="--lc:var(--green)"><span class="n">01</span><div><b>Prompt caching</b><span>Reuses the large, stable context across calls.</span></div></li><li style="--lc:var(--green)"><span class="n">02</span><div><b>Tiered model routing</b><span>Simple requests go to cheaper models.</span></div></li><li style="--lc:var(--green)"><span class="n">03</span><div><b>Token budgets &amp; spend caps</b><span>An automatic kill switch keeps LLM costs predictable.</span></div></li></ol></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Impact</h2><div class="prose"><ul><li>Faster data discovery across thousands of tables</li><li>Employees find the right tables, definitions and refresh schedules on their own</li><li>Better data access for non-technical users</li><li>Fewer interruptions to the data team, and more adoption of and trust in company data</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">06</span>Visuals</h2><figure class="media light" style="margin:0"><img src="images/data_catalog_agent_1700_500.png" alt="The first version: OpenAI-generated descriptions as the RAG source for a conversational assistant." loading="lazy" /><figcaption>The first version: OpenAI-generated descriptions as the RAG source for a conversational assistant.</figcaption></figure></section>
+<section class="case-sec reveal"><h2><span class="num">07</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">BigQuery</li><li class="tag">Google Cloud (GCP)</li><li class="tag">Vertex AI</li><li class="tag">OpenAI API</li><li class="tag">LLMs</li><li class="tag">RAG</li><li class="tag">Next.js</li><li class="tag">TypeScript</li><li class="tag">Prompt caching</li><li class="tag">Tiered routing</li><li class="tag">Guardrails</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Data Catalog AI Agent</h1>
-							<span class="image fit"><img src="images/data_catalog_agent_1700_500.png" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>
-								This project focuses on building an AI-powered data catalog that enables company employees to discover and understand data assets using natural language queries. 
-								The solution bridges the gap between business users and complex data warehouses by allowing users to ask questions such as “Where can I find customer churn information?” and receive precise answers about the relevant tables and columns.
-							</p>
-							<ul>
-								<li>Create a centralized data catalog for thousands of database tables</li>
-								<li>Automatically generate clear and professional descriptions for tables and columns</li>
-								<li>Enable natural language search over data assets using an AI assistant</li>
-								<li>Reduce dependency on data teams for data discovery and interpretation</li>
-							</ul>
-							
-							<h2>2. Data Available</h2>
-							<ul>
-								<li>Metadata containing table names, column names, and data types</li>
-								<li>More than +4k tables and +20k columns</li>
-							</ul>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Solution Architecture</h2>
-							<p>
-								The solution begins with automated metadata enrichment. 
-								Using the OpenAI API, table-level descriptions are generated by providing the model with each table’s name, its columns, and their data types. 
-								Column-level descriptions are then generated in a similar manner. 
-								These enriched descriptions form a structured knowledge base.
-							</p>
-							<p>
-								The resulting catalog is used as a Retrieval-Augmented Generation (RAG) source for a conversational AI assistant built on Google Vertex AI. 
-								When users submit natural language queries, the chatbot retrieves the most relevant table and column descriptions and generates accurate, contextual responses, guiding users directly to the data they need.
-							</p>
-						
+	<footer id="footer"></footer>
 
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>SQL</li>
-								<li>OpenAI API</li>
-								<li>Large Language Models (LLMs)</li>
-								<li>Google Vertex AI</li>
-								<li>Retrieval-Augmented Generation (RAG)</li>
-							</ul>
-
-							<h2>5. Business Impact</h2>
-							<ul>
-								<li>Faster data discovery across thousands of tables</li>
-								<li>Improved data accessibility for non-technical users</li>
-								<li>Reduced cognitive load and fewer interruptions to data teams</li>
-								<li>Increased adoption and trust in enterprise data assets</li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

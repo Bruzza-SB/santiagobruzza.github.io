@@ -1,97 +1,50 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Data Analyst Agent</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Data Analyst Agent · Santiago Bruzza</title>
+	<meta name="description" content="An OpenAI-powered agent that turns natural-language questions into validated SQL and returns a data table plus an interactive chart, deployed company-wide via VPN." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Data Analyst Agent · Santiago Bruzza" />
+	<meta property="og:description" content="An OpenAI-powered agent that turns natural-language questions into validated SQL and returns a data table plus an interactive chart, deployed company-wide via VPN." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/data_analyst_agent.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/data_analyst_agent.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="data-analyst-agent">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Sr Data Scientist · 2026</p>
+			<h1>Data Analyst Agent</h1>
+			<p class="lede">Business users should be able to run complex analyses by asking a question, without writing SQL, and get both a table and a chart back instantly.</p>
+			<ul class="tags"><li class="tag">Text-to-SQL</li><li class="tag">LLM agent</li><li class="tag">OpenAI API</li><li class="tag">Streamlit</li><li class="tag">Plotly</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">NL → SQL</div><div class="l">questions turned into SQL</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Validated</div><div class="l">every query checked against the schema</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Table + chart</div><div class="l">returned for each question</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">Company-wide</div><div class="l">available via VPN</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Demo</h2><figure class="media" style="margin:0"><video src="videos/data_analyst_agent_clip.mp4" controls muted playsinline loop preload="metadata"></video><figcaption>The Data Analyst Agent answering a natural-language question.</figcaption></figure></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Problem</h2><div class="prose"><p>Analyses depended on people who write SQL. The goal: let business users ask questions in natural language and receive <strong>tabular and visual results instantly</strong>.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Data</h2><div class="prose"><ul><li>Direct connection to company databases (transactional, CRM, financial)</li><li>Metadata such as field names, data types and relationships across tables and schemas</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Approach</h2><ol class="flow"><li><b>Question</b><span>The user asks in plain language.</span></li><li><b>Interpret</b><span>An OpenAI model reads the question with the schema metadata.</span></li><li><b>Generate SQL</b><span>The agent writes the query.</span></li><li><b>Validate</b><span>The SQL is checked against the database schema before running.</span></li><li><b>Answer</b><span>Results come back as a data table and an interactive chart in Streamlit.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Deployment</h2><div class="prose"><p>Runs on a virtual machine and is available to the whole company through the VPN.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">06</span>Visuals</h2><figure class="media light" style="margin:0"><img src="images/data_analyst_generated_v2_canva.png" alt="Architecture overview." loading="lazy" /><figcaption>Architecture overview.</figcaption></figure></section>
+<section class="case-sec reveal"><h2><span class="num">07</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">OpenAI API</li><li class="tag">Streamlit</li><li class="tag">Plotly</li><li class="tag">Matplotlib</li><li class="tag">Virtual machine + VPN</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Data Analyst Agent</h1>
-							<div class="video fit">
-								<video autoplay loop muted playsinline>
-									<source src="videos/data_analyst_agent_clip.mp4" type="video/mp4">
-									Your browser does not support the video tag.
-								</video>
-							</div>
-		
-				
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>The objective of this solution is to enable business users to perform complex data analysis through natural language queries — without writing SQL — and to receive both tabular and visual results instantly.</p>
-							
-							
-							<h2>2. Data Available</h2>
-							<p>The system connects directly to existing company databases (e.g., transactional, CRM, or financial data sources). It can access multiple tables and schemas, using metadata information to understand field names, data types, and relationships between tables.</p>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							<h2>3. Solution Deployment</h2>
-							<span class="image fit"><img src="images/data_analyst_agent_1700_700.png" alt="" /></span>
-							<p>A Data Analytics Agent powered by OpenAI acts as the core of the system.</p>
-							<ul>
-								<li>Users interact through a Streamlit interface, submitting questions in natural language.</li>
-								<li>The agent interprets the question, generates the corresponding SQL query, validates it against the schema, and executes it on the connected database.</li>
-								<li>The query results are then transformed into a data table and an interactive visualization (chart or graph), which are displayed back to the user through Streamlit.</li>
-							</ul>
+	<footer id="footer"></footer>
 
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>OpenAI API: Natural language understanding, SQL generation, and validation.</li>
-								<li>Streamlit: Web-based user interface for input, visualization, and interactivity.</li>
-								<li>SQL Databases: Primary data sources for querying and analytics.</li>
-								<li>Python: Backend logic and integration layer connecting Streamlit, OpenAI, and the databases.</li>
-								<li>Visualization Libraries: (e.g., Plotly, Matplotlib) for generating dynamic charts and dashboards.</li>
-							</ul>
-
-								
-							<h2>5. Deployment</h2>
-							<p>The application runs on a virtual machine and is available company-wide via VPN.</p>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

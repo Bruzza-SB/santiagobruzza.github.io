@@ -1,178 +1,48 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Optimization project</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Churn-Driver Segmentation · Santiago Bruzza</title>
+	<meta name="description" content="K-Means segmentation of high-churn-risk customers (~200k per month out of a 1.6M base) into technical, commercial and mixed churn causes." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Churn-Driver Segmentation · Santiago Bruzza" />
+	<meta property="og:description" content="K-Means segmentation of high-churn-risk customers (~200k per month out of a 1.6M base) into technical, commercial and mixed churn causes." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/customer_segmentation.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/customer_segmentation.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="churn-segmentation">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Data Scientist · 2023–2025</p>
+			<h1>Churn-Driver Segmentation</h1>
+			<p class="lede">A churn model already said <em>who</em> was likely to cancel. Retention teams also needed to know <em>why</em>, to pick the right action for each customer.</p>
+			<ul class="tags"><li class="tag">K-Means</li><li class="tag">Customer segmentation</li><li class="tag">Quantile encoding</li><li class="tag">Churn</li><li class="tag">scikit-learn</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c2)"><div class="v">1.6M</div><div class="l">customer base</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">~200k</div><div class="l">high-risk customers segmented per month</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">3</div><div class="l">churn-cause segments</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">Monthly</div><div class="l">model run</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>From customer base to causes</h2><div class="two-col"><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Who gets segmented</span><span class="tag">Real figures</span></figcaption><div class="chart" data-chart='{"type": "bars", "data": [{"l": "Customer base", "v": 1600000, "d": "1.6M"}, {"l": "High churn risk / month", "v": 200000, "d": "~200k", "s": 2}], "labelWidth": 160, "alt": "1.6M customers, of which about 200k high-risk customers are segmented each month"}'></div><p class="chart-note">Bar lengths are proportional to the real counts: about 1 in 8 customers is segmented each month.</p></figure><div class="layers" style="align-content:start"><ol class="layers"><li style="--lc:var(--c2)"><span class="n">01</span><div><b>Technical cause</b><span>Service malfunction.</span></div></li><li style="--lc:var(--c2)"><span class="n">02</span><div><b>Commercial cause</b><span>Payment problems.</span></div></li><li style="--lc:var(--c2)"><span class="n">03</span><div><b>Technical + commercial</b><span>Both at once.</span></div></li></ol></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Data</h2><div class="table-wrap"><table class="data-table"><thead><tr><th>Feature</th><th>Treatment</th></tr></thead><tbody><tr><td>Last and total invoiced (USD)</td><td>Quantile encoding (quintiles)</td></tr><tr><td>Months as a customer</td><td>Quantile encoding (quintiles)</td></tr><tr><td>Payment method</td><td>One-hot encoding</td></tr><tr><td>Calls to customer service</td><td>Quantile encoding (quintiles)</td></tr><tr><td>Number of discounts</td><td>Quantile encoding (quintiles)</td></tr><tr><td>Churn probability</td><td>Filter: only high-risk customers</td></tr></tbody></table></div><p class="chart-note">Source: ~1.6M customers in a Presto database. Missing values were filled, and features were selected with the churn model's correlation and variance analysis. Quintiles capture non-linear relationships.</p></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Visuals</h2><div class="two-col"><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Three churn causes</span><span class="badge-illustrative">Illustrative · not real data</span></figcaption><div class="chart" data-chart='{"type": "scatter", "gen": "clusters", "centers": [[2, 6], [7, 2], [7, 7]], "n": 70, "spread": 1.1, "seed": 3, "groups": ["Technical", "Commercial", "Technical + commercial"], "legend": ["Technical", "Commercial", "Technical + commercial"], "alt": "Illustrative three-cluster scatter"}'></div><p class="chart-note">Shows how K-Means separates customers into three groups. Cluster sizes are not real.</p></figure><figure class="media" style="margin:0"><img src="images/customer_segmentation.png" alt="Segmentation." loading="lazy" /><figcaption>Segmentation.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Impact</h2><div class="prose"><p>Retention teams know the <strong>likely cause</strong> behind each high-risk customer and can take a matching preventive action: fix the service, or solve the payment problem.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">Presto</li><li class="tag">scikit-learn</li><li class="tag">K-Means</li><li class="tag">Pandas</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Customer Segmentation Model</h1>
-							<div class="box alt">
-								<div class="row gtr-uniform">
-									<div class="col-6"><span class="image fit"><img src="images/customer_segmentation_2.png" alt="" /></span></div>
-									<div class="col-6"><span class="image fit"><img src="images/customer_churn_2.jpeg" alt="" /></span></div>
-								</div>
-							</div>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>A company that provides internet and television services has a churn prediction model to determine the probability that a customer will cancel the service. The objective of the segmentation model I developed is to determine the reason why customers are highly likely to cancel the service.</p>
-							
-							<h2>2. Data Available</h2>
-							<h3>Customer information</h3>Data Volume: ~1.6M customers </br> Data Source: Presto database
-							<div class="table-wrapper">
-								<table>
-									<thead>
-										<tr>
-											<th>client_id</th>
-											<th>last_invoiced_usd</th>
-											<th>total_invoiced_usd</th>
-											<th>month_as_customer</th>
-											<th>payment_method</th>
-											<th>calls_to_customer_service</th>
-											<th>amount_of_discounts</th>
-											<th>churn_probability</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>5452</td>
-											<td>120.5</td>
-											<td>1450</td>
-											<td>6</td>
-											<td>cash</td>
-											<td>3</td>
-											<td>1</td>
-											<td>low</td>
-										</tr>
-										<tr>
-											<td>6554</td>
-											<td>95</td>
-											<td>1120.3</td>
-											<td>24</td>
-											<td>credit card</td>
-											<td>0</td>
-											<td>3</td>
-											<td>medium</td>
-										</tr>
-										<tr>
-											<td>7415</td>
-											<td>105.7</td>
-											<td>980.45</td>
-											<td>4</td>
-											<td>debit card</td>
-											<td>12</td>
-											<td>0</td>
-											<td>high</td>
-										</tr>
-								</table>
-							</div>
-							<div id="wrapper">
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Data Processing and Exploration</h2>
-							<ol>
-								<li><b>Filter the dataframe:</b> The first step was to filter the customer dataframe to keep only those customers with a high probability of canceling the service. </li>
-								<li><b>Fill Missing values</b></li>
-								<li><b>Transform all variables into numeric variables: </b>Categorical variables such as the payment method required one-hot encoding to create new numeric variables that represent the payment method.</li>
-								<li><b>Quantile Encoding:</b> Divide continuous variables into quantiles (in my case, quintiles) and assign encoded values to represent these quantile ranges. This helps capture non-linear relationships.</li>
-								<li><b>Feature selection:</b> In this case I used the same variables as the churn model. These were selected after correlation analysis and variance analysis.</li>
-							</ol>
-							
+	<footer id="footer"></footer>
 
-							
-							<h2>4. Solution Development</h2>
-							<p><b>Segmentation Model:</b> I developed a K-Means clustering model to determine the reason why the customer has a high probability of cancelling the service. The number of clusters was 3 since the cause could be technical, due to a malfunction of the service, commercial due to problems in the payment of the service or technical and commercial for a combination of both.</p>
-
-
-							<h3>Final dataframe</h3>
-							<div class="table-wrapper"></div>
-								<table>
-									<thead>
-										<tr>
-											<th>client_id</th>
-											<th>churn_probability</th>
-											<th>churn_reason</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>5452</td>
-											<td>high</td>
-											<td>technical</td>
-										</tr>
-										<tr>
-											<td>6554</td>
-											<td>high</td>
-											<td>commercial</td>
-										</tr>
-										<tr>
-											<td>7415</td>
-											<td>high</td>
-											<td>technical and commercial</td>
-
-										</tr>
-								</table>
-							</div>
-
-							<h2>5. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>SQL</li>
-								<li>Scikit-Learn</li>
-								<li>Pandas</li>
-							</ul>
-
-								
-							<h2>6. Results</h2>
-							<p>The final result allowed us to determine the cause of the high probability that customers have of canceling the service and with this information, preventive measures could be taken to prevent the customer from canceling the service.</p>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

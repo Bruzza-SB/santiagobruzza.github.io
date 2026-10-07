@@ -1,90 +1,67 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Commerce Names Unifier</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Merchant Name Unifier · Santiago Bruzza</title>
+	<meta name="description" content="An NLP pipeline (regex, Hugging Face embeddings, DBSCAN, n-grams) that unifies 3M fragmented merchant names from card transactions into one merchant catalog." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Merchant Name Unifier · Santiago Bruzza" />
+	<meta property="og:description" content="An NLP pipeline (regex, Hugging Face embeddings, DBSCAN, n-grams) that unifies 3M fragmented merchant names from card transactions into one merchant catalog." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/commerce_names.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/commerce_names.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="merchant-unifier">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Fintech · Data Scientist · 2025–2026</p>
+			<h1>Merchant Name Unifier</h1>
+			<p class="lede">The same merchant appears in transactions under many names: “Amazon US”, “Amazon MX”, store numbers, random codes. Without one name per merchant, market-share analysis and merchant-level products are impossible.</p>
+			<ul class="tags"><li class="tag">NLP</li><li class="tag">Embeddings</li><li class="tag">Hugging Face</li><li class="tag">DBSCAN</li><li class="tag">Entity resolution</li><li class="tag">Regex</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c2)"><div class="v">3M</div><div class="l">merchant names processed</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">4</div><div class="l">stage pipeline</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">DBSCAN</div><div class="l">density-based clustering</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">1</div><div class="l">unified merchant catalog</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>How it works</h2><div class="card demo" id="merchant-demo"><div class="chart-head"><span class="chart-title">Try it: click a unified name</span><span class="badge-illustrative">Illustrative · example names</span></div><div class="demo-grid"><div class="demo-raw"><code data-c="0">AMAZON MX</code><code data-c="1">STARBUCKS #118</code><code data-c="2">SPOTIFY P1A2B3</code><code data-c="0">AMAZON US</code><code data-c="1">STARBUCKS COFFEE</code><code data-c="0">AMAZON.COM*2K4X9</code><code data-c="2">SPOTIFY USA</code><code data-c="1">STARBUCKS 0423</code><code data-c="2">SPOTIFY AB</code></div><div class="demo-arrow">regex → embeddings → DBSCAN → n-grams →</div><div class="demo-out"><button type="button">AMAZON<span>3 raw names</span></button><button type="button">STARBUCKS<span>3 raw names</span></button><button type="button">SPOTIFY<span>3 raw names</span></button></div></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Approach</h2><ol class="flow"><li><b>Clean</b><span>Regex removes special characters and random alphanumeric strings, and normalizes case.</span></li><li><b>Embed</b><span>A Hugging Face embedding model turns each name into a vector.</span></li><li><b>Cluster</b><span>DBSCAN groups names that mean the same merchant.</span></li><li><b>Name</b><span>All n-grams per cluster are generated, and the most frequent and longest one becomes the unified name.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Impact</h2><div class="prose"><ul><li>A unique merchant catalog</li><li>Analyses that reflect true merchant market share</li><li>Enables features such as credit cards restricted to specific merchants</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Visuals</h2><div style="max-width:560px"><figure class="media light" style="margin:0"><img style="aspect-ratio:2/1;object-fit:cover" src="images/commerce_name_500_500.png" alt="Database → preprocessing → embedding → clustering → text analytics." loading="lazy" /><figcaption>Database → preprocessing → embedding → clustering → text analytics.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">Regular expressions</li><li class="tag">Hugging Face</li><li class="tag">Embeddings</li><li class="tag">DBSCAN</li><li class="tag">Databricks</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Commerce Name Unifier</h1>
-							<span class="image fit"><img src="images/commerce_name_unifier.png" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>
-								A fintech company receives thousands of transactions per day, each containing multiple data points — including the merchant name where the transaction took place. The problem is that the same merchant can appear under different names (for example, Amazon US and Amazon MX, both referring to Amazon but with different merchant names).
- 								Having an algorithm capable of unifying all possible variations of a merchant name would allow the creation of a unique merchant catalog, enabling analyses that reflect the true market share of each merchant, as well as features such as credit cards restricted to specific businesses, among other applications.
-							</p>
-							
-							<h2>2. Data Available</h2>
-							<p>The available dataset includes over 1.4 million merchant names derived from transactions made through the fintech platform over the past four years.</p>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Solution Development</h2>
-							<p>
-								The first step involved preprocessing the merchant names using regular expressions to clean entries containing special characters, randomly generated alphanumeric combinations, and to convert all names to uppercase.
- 								Then, I used an embedding model from HuggingFace to transform merchant names into numerical vectors, which served as input for a DBSCAN machine learning clustering model that groups together similar merchant names.
- 								Finally, I implemented an algorithm that generates all possible n-grams within each cluster and selects the most frequent and longest n-gram as the unified name representing all merchant names belonging to that cluster.
-							</p>
-						
+	<footer id="footer"></footer>
 
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>SQL</li>
-								<li>Regular Expressions</li>
-								<li>Python</li>
-								<li>Embeddings</li>
-								<li>HuggingFace</li>
-								<li>Clustering Model (DBSCAN)</li>
-								<li>Text Analysis</li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script>
+	(function () {
+		var demo = document.getElementById("merchant-demo");
+		if (!demo) return;
+		var colors = ["var(--c1)", "var(--c2)", "var(--c3)"];
+		var buttons = demo.querySelectorAll(".demo-out button");
+		var raw = demo.querySelectorAll(".demo-raw code");
+		function pick(i) {
+			buttons.forEach(function (b, j) { b.setAttribute("aria-pressed", String(i === j)); b.style.setProperty("--cc", colors[j]); });
+			raw.forEach(function (c) {
+				var on = +c.getAttribute("data-c") === i;
+				c.classList.toggle("hit", on);
+				c.style.setProperty("--cc", colors[+c.getAttribute("data-c")]);
+			});
+		}
+		buttons.forEach(function (b, i) { b.addEventListener("click", function () { pick(i); }); });
+		pick(0);
+	})();
+	</script>
+</body>
 </html>

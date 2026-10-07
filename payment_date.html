@@ -1,96 +1,49 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Predict Payment Date</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Payment-Date Prediction · Santiago Bruzza</title>
+	<meta name="description" content="A supervised ML model that predicts how many days each business client takes to pay its corporate credit card statement, with an MAE of 1.86 days." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Payment-Date Prediction · Santiago Bruzza" />
+	<meta property="og:description" content="A supervised ML model that predicts how many days each business client takes to pay its corporate credit card statement, with an MAE of 1.86 days." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/payment_date.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/payment_date.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="payment-date">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Fintech · Data Scientist · 2025–2026</p>
+			<h1>Payment-Date Prediction</h1>
+			<p class="lede">Business clients spend on their corporate cards during the month and then receive a statement. Knowing in advance who will pay late, or not at all, lets the risk and collections teams act before it happens.</p>
+			<ul class="tags"><li class="tag">Regression</li><li class="tag">Feature engineering</li><li class="tag">Lag features</li><li class="tag">Optuna</li><li class="tag">Databricks</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c2)"><div class="v">1.86 d</div><div class="l">mean absolute error</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">2 years</div><div class="l">of account statements</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">Bayesian</div><div class="l">hyperparameter tuning (Optuna)</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">Deployed</div><div class="l">on Databricks</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Problem</h2><div class="prose"><p>Predict the <strong>number of days</strong> each client will take to pay its statement, so preventive actions can target clients likely to pay late or default.</p></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Data</h2><div class="prose"><ul><li>All account statements from the last two years</li><li>Amount owed, amount paid and payment date</li><li>Company characteristics: size, country, income and more</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Approach</h2><ol class="flow"><li><b>EDA</b><span>Explore distributions and payment behavior.</span></li><li><b>Preprocess</b><span>Missing values and data types.</span></li><li><b>Feature engineering</b><span>Lag variables, variable interactions, numeric encoding.</span></li><li><b>Model selection</b><span>Trained several ML models on days-to-pay and kept the lowest MAE.</span></li><li><b>Tune</b><span>Bayesian hyperparameter optimization with Optuna.</span></li><li><b>Validate &amp; deploy</b><span>Tested, validated and deployed.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Results</h2><div class="callout">The final model predicts the payment date with a <b>mean absolute error of 1.86 days</b>.</div><div class="two-col" style="margin-top:16px"><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Predicted vs actual days to pay</span><span class="badge-illustrative">Illustrative · not real data</span></figcaption><div class="chart" data-chart='{"type": "scatter", "gen": "predActual", "mae": 1.86, "n": 160, "seed": 11, "diag": true, "domain": [0, 44], "ticks": true, "xLabel": "Actual days to pay", "yLabel": "Predicted", "tip": "Actual <b>{x}</b> \u00b7 predicted <b>{y}</b> days", "alt": "Illustrative predicted versus actual scatter"}'></div><p class="chart-note">Synthetic points generated with an error of about 1.86 days, to show how that MAE looks. Real predictions are confidential. Dots on the dashed line are perfect predictions.</p></figure><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Distribution of prediction errors</span><span class="badge-illustrative">Illustrative · not real data</span></figcaption><div class="chart" data-chart='{"type": "columns", "gen": "errorHist", "mae": 1.86, "seed": 11, "xLabel": "Error (days)", "showValues": false, "alt": "Illustrative histogram of prediction errors"}'></div><p class="chart-note">Same synthetic data: most predictions fall within ±2 days (highlighted).</p></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Visuals</h2><div style="max-width:560px"><figure class="media light" style="margin:0"><img src="images/predict_payment_date_canva.png" alt="Workflow and tools." loading="lazy" /><figcaption>Workflow and tools.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">06</span>Stack</h2><ul class="tags"><li class="tag">Databricks</li><li class="tag">Python</li><li class="tag">SQL</li><li class="tag">Pandas</li><li class="tag">scikit-learn</li><li class="tag">Optuna</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Predict Payment Date</h1>
-							<span class="image fit"><img src="images/payment_date_flow.png" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>
-								The following project was developed in a fintech company that provides credit cards to businesses. Companies make expenses throughout the month using these cards and later receive a billing statement with the total amount owed.
- 								The goal is to build a machine learning model that predicts the payment date of clients’ statements in order to take preventive actions for those customers the model predicts will pay late or not pay at all.
-							</p>
-							
-							<h2>2. Data Available</h2>
-							<p>
-								The dataset includes all account statements from the last two years, containing the amount owed, the amount paid, the payment date, and various company characteristics such as size, country, income, etc.
-							</p>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							
-							<h2>3. Solution Development</h2>
-							<ul>
-								<li>EDA: Identify patterns and extract insights</li>
-								<li>Data preprocessing: Handle missing values, correct data types</li>
-								<li>Feature Engineering: Create lag variables, perform operations between variables, and transform all features into numerical values</li>
-								<li>Model Selection: Train and evaluate different machine learning models to predict the number of days it will take each client to pay their statement, selecting the one with the lowest MAE</li>
-								<li>Parameter Optimization: Use Python’s Optuna library to perform Bayesian hyperparameter optimization</li>
-								<li>Testing: Validate the model’s predictions</li>
-								<li>Model Deployment</li>
-							</ul>
-						
+	<footer id="footer"></footer>
 
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>Databricks</li>
-								<li>Python</li>
-								<li>SQL</li>
-								<li>Pandas</li>
-								<li>Scikit-learn</li>
-								<li>Supervised machine learning models</li>
-								<li>Optuna library</li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>

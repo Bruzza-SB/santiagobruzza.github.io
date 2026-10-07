@@ -1,103 +1,48 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Santiago Bruzza - Speech-to-Text</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Add favicon -->
-		<link rel="icon" href="images/machine-learning.png" type="image/png" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Speech-to-Text Analytics for Call Centers · Santiago Bruzza</title>
+	<meta name="description" content="An end-to-end pipeline that transcribes call center audio with GCP Speech-to-Text, embeds it with Transformers and clusters calls to discover topics and evaluate agent performance." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Speech-to-Text Analytics for Call Centers · Santiago Bruzza" />
+	<meta property="og:description" content="An end-to-end pipeline that transcribes call center audio with GCP Speech-to-Text, embeds it with Transformers and clusters calls to discover topics and evaluate agent performance." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/speech_to_text.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/speech_to_text.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+	<script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+</head>
+<body data-page="case" data-project="speech-to-text">
+	<header id="topbar" class="topbar"></header>
 
-		<!-- Header -->
-			<header id="header">
-				<a href="index.html" class="title">Santiago Bruzza</a>
-				<nav>
-					<ul>
-						<li><a href="index.html">Home</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Data Scientist · 2023–2025</p>
+			<h1>Speech-to-Text Analytics for Call Centers</h1>
+			<p class="lede">Large volumes of inbound and outbound calls held insight nobody could read at scale. This pipeline turns raw audio into structured data for topic discovery and agent performance evaluation.</p>
+			<ul class="tags"><li class="tag">Speech-to-text</li><li class="tag">Transformer embeddings</li><li class="tag">Clustering</li><li class="tag">NLP</li><li class="tag">GCP</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c2)"><div class="v">1,000s</div><div class="l">calls analyzed without manual review</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">In + out</div><div class="l">inbound and outbound conversations</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">Unsupervised</div><div class="l">topic discovery</div></div><div class="kpi" style="--kc:var(--c2)"><div class="v">GCP</div><div class="l">Speech-to-Text API</div></div></div>
+		</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="case-sec reveal"><h2><span class="num">01</span>Problem</h2><div class="prose"><p>Extract actionable insight from call center conversations between agents and customers, and evaluate <strong>agent performance and level of attention</strong>.</p><ul><li>Convert unstructured audio into text</li><li>Identify common call topics and patterns</li><li>Measure agent performance during interactions</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>Approach</h2><ol class="flow"><li><b>Audio</b><span>Inbound and outbound call recordings.</span></li><li><b>Transcribe</b><span>Google Cloud Speech-to-Text API.</span></li><li><b>Embed</b><span>Transformer-based text embeddings capture meaning.</span></li><li><b>Cluster</b><span>Unsupervised clustering groups semantically similar calls.</span></li><li><b>Insight</b><span>Topic discovery, call categorization and agent behavior analysis.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Visuals</h2><div class="two-col"><figure class="card chart-card " style="margin:0"><figcaption><span class="chart-title">Calls grouped by meaning (2D view of embeddings)</span><span class="badge-illustrative">Illustrative · not real data</span></figcaption><div class="chart" data-chart='{"type": "scatter", "gen": "clusters", "centers": [[2, 3], [6, 7], [7, 2], [3, 8]], "n": 55, "spread": 0.9, "seed": 5, "groups": ["Topic 1", "Topic 2", "Topic 3", "Topic 4"], "legend": ["Topic 1", "Topic 2", "Topic 3", "Topic 4"], "alt": "Illustrative 2D projection of call embeddings in four clusters"}'></div><p class="chart-note">Each dot is a call. Calls about similar things land close together and form topics.</p></figure><figure class="media" style="margin:0"><img src="images/speech_to_text_500_500.png" alt="Turning conversations into structured data." loading="lazy" /><figcaption>Turning conversations into structured data.</figcaption></figure></div></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Impact</h2><div class="prose"><ul><li>Visibility into customer needs and recurring issues</li><li>Thousands of calls analyzed without manual review</li><li>Data-driven monitoring and improvement of agent performance</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">GCP Speech-to-Text API</li><li class="tag">Transformer embeddings</li><li class="tag">K-Means / unsupervised clustering</li><li class="tag">NLP</li></ul></section>
 
-				<!-- Main -->
-					<section id="main" class="wrapper">
-						<div class="inner">
-							<h1 class="major">Speech-to-Text Analytics for Call Centers</h1>
-							<span class="image fit"><img src="images/speech_to_text_white_1700_700.png" alt="" /></span>
-							
-							<h2>1. Problem Definition / Objective</h2>
-							<p>
-								This project focuses on extracting actionable insights from large volumes of call center conversations between customer service agents and clients.
-								By combining speech recognition and natural language processing techniques, the solution transforms raw audio data into structured information to analyze customer interactions and evaluate agent performance.
-							</p>
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
 
-							<ul>
-								<li>Convert unstructured call audio into text data</li>
-								<li>Identify common call topics and patterns</li>
-								<li>Measure agent performance and level of attention during customer interactions</li>
-							</ul>
-							
-							<h2>2. Data Available</h2>
-							<ul>
-								<li>Audio recordings of inbound and outbound calls between call center agents and customers</li>
-							</ul>
+	<footer id="footer"></footer>
 
-							
-							<h2>3. Solution Development</h2>
-							<p>
-								An automated pipeline was developed to process call recordings end-to-end. 
-								Audio files are sent to the Google Cloud Speech-to-Text API for transcription. 
-								The resulting text is then encoded into numerical representations using Transformer-based text embeddings. 
-								These embeddings feed a clustering model that groups semantically similar calls, enabling topic discovery, call categorization, and agent behavior analysis.
-							</p>
-						
-
-							<h2>4. Tools and Technologies</h2>
-							<ul>
-								<li>Python</li>
-								<li>Google Cloud Speech-to-Text API</li>
-								<li>Transformer Models for Text Embeddings</li>
-								<li>Unsupervised Clustering Algorithms</li>
-							</ul>
-
-							<h2>5. Business Impact</h2>
-							<ul>
-								<li>Improved visibility into customer needs and recurring issues</li>
-								<li>Scalable analysis of thousands of calls without manual review</li>
-								<li>Data-driven insights to monitor and improve agent performance</li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Santiago Bruzza. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
 </html>
