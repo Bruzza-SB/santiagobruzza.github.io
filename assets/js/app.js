@@ -1,6 +1,6 @@
 /*
 	Renders the one-page resume from window.PORTFOLIO and adds the shared
-	behavior used by every page: header, theme toggle, footer, scroll reveal
+	behavior used by every page: header, footer, scroll reveal
 	and (on case-study pages) previous / next project navigation.
 */
 (function () {
@@ -35,20 +35,11 @@
 		github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>',
 		whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5.1 5.24-1.37A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.1.81.83-3.03-.2-.31a8.2 8.2 0 1 1 6.95 3.86Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.22-.08-.39-.12-.55.13-.16.24-.63.8-.78.96-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04 4.76 4.76 0 0 0 1 2.53 10.9 10.9 0 0 0 4.18 3.7c1.56.67 2.17.73 2.95.61.47-.07 1.46-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>',
 		pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-		sun: '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
-		moon: '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>',
 		right: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
 		left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
 		close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
 		play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>'
 	};
-
-	/* ---------- Theme ---------- */
-	function setTheme(t) {
-		document.documentElement.setAttribute("data-theme", t);
-		try { localStorage.setItem("theme", t); } catch (e) {}
-		if (window.Charts) window.Charts.renderAll();
-	}
 
 	/* ---------- Header & footer ---------- */
 	var SECTIONS = [["experience", "Experience"], ["projects", "Projects"], ["skills", "Skills"], ["education", "Education"], ["contact", "Contact"]];
@@ -65,13 +56,9 @@
 					SECTIONS.map(function (s) { return '<a href="' + base + "#" + s[0] + '">' + s[1] + "</a>"; }).join("") +
 				"</nav>" +
 				'<div class="topbar-actions">' +
-					'<button class="icon-btn theme-toggle" type="button" aria-label="Toggle light or dark theme">' + ICON.moon + ICON.sun + "</button>" +
 					'<a class="btn btn-primary btn-sm" href="mailto:' + D.profile.email + '">' + ICON.mail + "<span>Contact</span></a>" +
 				"</div>" +
 			"</div>";
-		$(".theme-toggle", host).addEventListener("click", function () {
-			setTheme(document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light");
-		});
 	}
 
 	function renderFooter() {
@@ -174,20 +161,17 @@
 	var lastTrigger = null;
 
 	function drawerHtml(e) {
-		var kpis = (e.kpis || []).map(function (k) {
-			return '<div class="kpi" style="--kc:' + e.color + '"><div class="v" style="font-size:1.35rem">' + esc(k.v) + '</div><div class="l">' + esc(k.l) + "</div></div>";
-		}).join("");
 		var projects = (e.projects || []).map(function (id) {
 			var p = byId(D.projects, id);
-			return '<a class="drawer-project" href="' + p.page + '"><span class="k">' + esc(p.kpi.v) + '</span><span class="t">' + esc(p.title) + '</span><span class="arrow">' + "→" + "</span></a>";
+			return '<a class="drawer-project" href="' + p.page + '"><span class="k">' + esc(p.kpi.v) + '</span><span class="t"><b>' + esc(p.title) + "</b><small>" + esc(p.kpi.l) + '</small></span><span class="arrow">' + "→" + "</span></a>";
 		}).join("");
 		var extras = (e.extras || []).map(function (x) { return '<div class="extra"><b>' + esc(x.t) + "</b><span>" + esc(x.d) + "</span></div>"; }).join("");
+		var items = (e.highlights || []).map(function (h) { return "<li><b>" + esc(h.h) + "</b> " + esc(h.d) + "</li>"; }).join("");
 		return '<p class="eyebrow">' + fmtDate(e.start) + " – " + fmtDate(e.end) + " · " + duration(e) + "</p>" +
-			'<p class="lede">' + esc(e.summary) + "</p>" +
-			(kpis ? '<div class="kpis">' + kpis + "</div>" : "") +
+			'<p class="tagline">' + esc(e.tagline) + "</p>" +
 			"<h3>What I did</h3>" +
-			'<ul class="bullets">' + e.bullets.map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" +
-			(projects ? "<h3>Case studies</h3><div class=\"drawer-projects\">" + projects + "</div>" : "") +
+			'<ul class="bullets">' + items + "</ul>" +
+			(projects ? "<h3>Projects & results</h3><div class=\"drawer-projects\">" + projects + "</div>" : "") +
 			(extras ? "<h3>Also in this role</h3>" + extras : "") +
 			"<h3>Industry</h3><p class=\"lede\" style=\"margin:0\">" + esc(e.industry) + "</p>" +
 			"<h3>Tools & skills</h3><ul class=\"tags\">" + e.skills.map(function (s) { return '<li class="tag">' + esc(s) + "</li>"; }).join("") + "</ul>";

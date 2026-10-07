@@ -15,9 +15,9 @@ Live: https://bruzza-sb.github.io/santiagobruzza.github.io/index.html
 |---|---|
 | `index.html` | The one-page resume: hero, KPIs, career timeline, experience drawer, projects, skills, education, contact |
 | `assets/data/portfolio.js` | **Single source of data** for the index: profile, KPIs, experience, projects, skills, education |
-| `assets/js/app.js` | Renders the index from the data file. Also handles the theme toggle, the drawer (`#exp/<id>` deep links), filters, skill highlighting, and prev/next links on case-study pages |
+| `assets/js/app.js` | Renders the index from the data file. Also handles the drawer (`#exp/<id>` deep links), filters, skill highlighting, and prev/next links on case-study pages |
 | `assets/js/charts.js` | Small SVG chart helpers (`bars`, `columns`, `donut`, `scatter`, `funnel`), mounted with `data-chart='{…}'` |
-| `assets/css/site.css` | All styles: design tokens (dark default, light via `data-theme`) plus index and case-study components |
+| `assets/css/site.css` | All styles: design tokens (dark mode only) plus index and case-study components |
 | `*.html` (other) | One case-study page per project. All use the same template |
 | `images/`, `videos/` | Media used by the pages |
 

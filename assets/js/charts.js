@@ -4,7 +4,7 @@
 	Usage: <div class="chart" data-chart='{"type":"bars","data":[...]}'></div>
 	Every element with [data-chart] is rendered on load and re-rendered on resize,
 	so labels stay readable at any width. Colors come from CSS variables
-	(.s1 … .s5), so charts follow the light/dark theme.
+	(.s1 … .s5).
 
 	Types: bars, columns, donut, scatter, funnel.
 	Synthetic data ("gen") is only for visuals labeled "Illustrative" in the page.

@@ -41,6 +41,14 @@ window.PORTFOLIO = {
 			place: "Buenos Aires · Hybrid",
 			industry: "Telecommunications · Call center operations",
 			color: "var(--c1)",
+			tagline: "Building generative-AI tools for internal users.",
+			highlights: [
+				{ h: "AI data support agent", d: "semantic layer over 4,000+ tables, in production" },
+				{ h: "Catalog migration", d: "OpenAI API → Google Cloud (BigQuery, Vertex AI)" },
+				{ h: "Analyst & Code Reviewer agents", d: "natural language → validated SQL; SQL/Python review" },
+				{ h: "Call center RAG chatbot", d: "30+ training decks on Vertex AI" },
+				{ h: "Internal chatbot", d: "LangChain, Ollama, LLaMA 3.2, Streamlit" }
+			],
 			summary: "Back at the telecom provider as Senior Data Scientist, building generative-AI solutions for internal users: an end-to-end AI data support agent with an AI-generated semantic layer (migrated from OpenAI to Google Cloud), LLM agents for self-service analytics and code review, and RAG chatbots for call center training and internal knowledge.",
 			bullets: [
 				"Built an end-to-end AI data support agent over 4,000+ tables: an AI-generated semantic layer (business definitions of tables and columns, relationships across the database, refresh frequency) feeding a production Next.js/TypeScript agent with prompt caching, tiered model routing, spend caps and prompt-injection filtering.",
@@ -50,15 +58,8 @@ window.PORTFOLIO = {
 				"Developed an internal AI chatbot with LangChain, Ollama, LLaMA 3.2 and Streamlit."
 			],
 			points: [{ t: "AI data support agent & semantic layer", p: "data-support-agent" }, { t: "Data catalog migration: OpenAI → GCP", p: "data-support-agent" }, { t: "Data Analyst agent", p: "data-analyst-agent" }, { t: "Code Reviewer agent", p: "code-reviewer" }, { t: "RAG chatbot for call center training", p: "call-center-rag" }, "Internal chatbot on LLaMA 3.2"],
-			kpis: [
-				{ v: "4,000+", l: "tables in the semantic layer" },
-				{ v: "20,000+", l: "columns described by AI" },
-				{ v: "30+", l: "training decks in RAG" }
-			],
 			projects: ["data-support-agent", "data-analyst-agent", "code-reviewer", "call-center-rag"],
-			extras: [
-				{ t: "Internal chatbot on an open-source LLM", d: "LangChain, Ollama, LLaMA 3.2 and Streamlit." }
-			],
+			extras: [],
 			skills: ["Claude", "OpenAI API", "Gemini", "Vertex AI", "BigQuery", "RAG", "Next.js", "TypeScript", "LangChain", "Streamlit", "Prompt caching", "AI security"]
 		},
 		{
@@ -70,6 +71,14 @@ window.PORTFOLIO = {
 			place: "Buenos Aires · Remote",
 			industry: "Consulting · Hospitality · Legal services",
 			color: "var(--c5)",
+			tagline: "My own data & AI practice for small and mid-sized businesses.",
+			highlights: [
+				{ h: "Consultancy", d: "discovery, design, build, deploy and support" },
+				{ h: "AI sales agent", d: "first-contact discovery and in-chat meeting booking" },
+				{ h: "Restaurant P&L platform", d: "replaced a manual monthly Excel close" },
+				{ h: "Notary quote calculator", d: "instant itemized quotes with PDF export" },
+				{ h: "Delivery method", d: "4 phases, starting with a quantified diagnostic" }
+			],
 			summary: "My own data science and AI consulting practice, alongside my full-time role. I help small and mid-sized businesses that hit an \"analytics ceiling\" (manual processes, no dashboards, or stuck at descriptive reporting) move to AI- and data-driven operations without building an in-house data team. I also deliver projects as a freelancer.",
 			bullets: [
 				"Founded and run an independent data science & AI consultancy: client discovery and diagnostics, solution design, full-stack build, production deployment and support.",
@@ -79,15 +88,9 @@ window.PORTFOLIO = {
 				"Designed a 4-phase delivery method (Discovery → Architecture → Build & Validate → Deploy & Iterate) that starts with a short diagnostic and quantifies the \"before\" state: time, error rates and costs."
 			],
 			points: ["Founded a data & AI consultancy", { t: "AI sales & lead-qualification agent", p: "ai-sales-agent" }, { t: "Restaurant group P&L platform", p: "restaurant-pnl" }, "Notary fee quote calculator"],
-			kpis: [
-				{ v: "6", l: "ERP schemas integrated" },
-				{ v: "1-click", l: "P&L per legal entity" },
-				{ v: "Daily", l: "automated POS sync" }
-			],
 			projects: ["ai-sales-agent", "restaurant-pnl"],
 			extras: [
-				{ t: "Notary fee & closing-cost quote calculator", d: "Instant itemized quotes (property sale, donation, abbreviated title chain), editable parameters with change history, live USD exchange rate, branded PDF export, magic-link auth and roles." },
-				{ t: "Service catalog", d: "AI chatbots & agents · Growth & customer strategy · Business intelligence · Process automation · Risk & fraud detection · Text & audio analytics · Image & video recognition · Geographic data." }
+				{ t: "Service catalog", d: "AI agents · Business intelligence · Process automation · Risk & fraud · Text & audio analytics · Image & video · Geographic data" }
 			],
 			skills: ["Claude API", "Next.js", "TypeScript", "PostgreSQL", "MySQL", "Drizzle ORM", "GitHub Actions", "Vercel", "RBAC", "Solution design"]
 		},
@@ -100,6 +103,14 @@ window.PORTFOLIO = {
 			place: "Remote",
 			industry: "Fintech · Credit risk · Collections",
 			color: "var(--c2)",
+			tagline: "Data science for Product and Operations at a corporate-card fintech.",
+			highlights: [
+				{ h: "Payment-date model", d: "predicts days to pay (MAE 1.86 days)" },
+				{ h: "Collections automation", d: "daily overdue assignment via n8n and HubSpot" },
+				{ h: "Unit-economics mart", d: "monthly P&L for 10,000 clients from 80+ sources" },
+				{ h: "Merchant catalog", d: "3M names unified with embeddings and DBSCAN" },
+				{ h: "Ad-hoc support", d: "analysis and automation for Product and Operations" }
+			],
 			summary: "Data Scientist at a fintech that issues corporate credit cards to businesses (companies spend during the month and receive a billing statement). I served the Product and Operations teams, and the Collections team used one of my automations.",
 			bullets: [
 				"Built a supervised ML model on two years of account statements that predicts how many days each business client takes to pay (MAE 1.86 days), with lag features and Bayesian hyperparameter tuning (Optuna) on Databricks, so the team can act early on likely late payers and defaulters.",
@@ -109,11 +120,6 @@ window.PORTFOLIO = {
 				"Provided data solutions, ad-hoc analysis and process automation to the Product and Operations teams."
 			],
 			points: [{ t: "Payment-date prediction (MAE 1.86 days)", p: "payment-date" }, { t: "Collections assignment automation", p: "collections-automation" }, { t: "Client-level P&L mart (10,000 clients)", p: "unit-economics-mart" }, { t: "3M merchant names unified with NLP", p: "merchant-unifier" }],
-			kpis: [
-				{ v: "1.86 d", l: "MAE, payment-date model" },
-				{ v: "10,000", l: "client P&Ls per month" },
-				{ v: "3M", l: "merchant names unified" }
-			],
 			projects: ["payment-date", "collections-automation", "unit-economics-mart", "merchant-unifier"],
 			extras: [],
 			skills: ["Databricks", "Python", "SQL", "scikit-learn", "Optuna", "n8n", "HubSpot", "Hugging Face", "DBSCAN"]
@@ -127,6 +133,14 @@ window.PORTFOLIO = {
 			place: "Buenos Aires · Hybrid",
 			industry: "Telecommunications · Call center operations",
 			color: "var(--c3)",
+			tagline: "ML and NLP on customer and operational data.",
+			highlights: [
+				{ h: "Call analytics", d: "Speech-to-Text, embeddings and clustering" },
+				{ h: "Churn segmentation", d: "K-Means on ~200k high-risk customers per month" },
+				{ h: "Geospatial attribution", d: "sales mapped to a door-to-door campaign" },
+				{ h: "Survey comments", d: "NLP topics and sentiment, ~42k per month" },
+				{ h: "Large-scale EDA", d: "PySpark over a 6M-customer database" }
+			],
 			summary: "Developed machine learning and NLP solutions on customer and operational data: churn-driver segmentation, customer-feedback topic and sentiment models, call center speech analytics, geospatial campaign attribution and large-scale exploratory analysis.",
 			bullets: [
 				"Built an end-to-end call analytics pipeline: GCP Speech-to-Text transcription, Transformer text embeddings and unsupervised clustering to discover call topics and evaluate agent performance across thousands of calls without manual review.",
@@ -136,15 +150,8 @@ window.PORTFOLIO = {
 				"Conducted exploratory data analysis with PySpark over a 6M-customer database."
 			],
 			points: [{ t: "Speech-to-text call analytics", p: "speech-to-text" }, { t: "Churn-driver segmentation (1.6M customers)", p: "churn-segmentation" }, { t: "Survey comments: topics & sentiment", p: "comments-sentiment" }, { t: "Geospatial campaign attribution", p: "geospatial" }, "EDA with PySpark (6M customers)"],
-			kpis: [
-				{ v: "1.6M", l: "customer base segmented" },
-				{ v: "~42k", l: "comments analyzed / month" },
-				{ v: "100k+", l: "GPS points mapped" }
-			],
 			projects: ["speech-to-text", "churn-segmentation", "comments-sentiment", "geospatial"],
-			extras: [
-				{ t: "Large-scale EDA with PySpark", d: "Exploratory data analysis over a 6M-customer database." }
-			],
+			extras: [],
 			skills: ["Python", "SQL", "PySpark", "scikit-learn", "K-Means", "NLTK", "GCP Speech-to-Text", "GeoPandas", "Tableau", "Presto"]
 		},
 		{
@@ -156,6 +163,12 @@ window.PORTFOLIO = {
 			place: "Buenos Aires · Hybrid",
 			industry: "Consulting · CPG · Logistics & supply chain",
 			color: "var(--c4)",
+			tagline: "Data science projects for clients in the US, Canada and Argentina.",
+			highlights: [
+				{ h: "Network optimization", d: "clustering, routing and cost-to-serve for 8 DCs and 3,500 stores" },
+				{ h: "What-if scenarios", d: "new and closed DCs, saving thousands of dollars" },
+				{ h: "NLP classification", d: "multiclass text model" }
+			],
 			summary: "Delivered data science projects for consulting clients in the United States, Canada and Argentina, from supply chain optimization to NLP classification.",
 			bullets: [
 				"Optimized the distribution network of a Canadian food manufacturer (8 distribution centers, 3,500 stores): K-Means store clustering under truck distance/time constraints, OSRM driving-distance matrices, OR-Tools TSP routing and P&L-based cost-to-serve allocation, feeding a cost-minimization model and what-if scenarios (new and closed DCs) that saved thousands of dollars.",
@@ -163,15 +176,8 @@ window.PORTFOLIO = {
 				"Delivered data science projects for clients in the United States, Canada and Argentina."
 			],
 			points: [{ t: "Supply chain clustering & route optimization", p: "supply-chain" }, "Multiclass NLP classification", "Clients in the US, Canada & Argentina"],
-			kpis: [
-				{ v: "3,500", l: "stores clustered & routed" },
-				{ v: "8", l: "distribution centers" },
-				{ v: "3", l: "client countries" }
-			],
 			projects: ["supply-chain"],
-			extras: [
-				{ t: "Multiclass NLP classification", d: "Text classification model built with NLP techniques." }
-			],
+			extras: [],
 			skills: ["Python", "scikit-learn", "OR-Tools", "OSRM API", "K-Means", "NLP", "Pandas", "NumPy"]
 		},
 		{
@@ -183,13 +189,17 @@ window.PORTFOLIO = {
 			place: "Buenos Aires · Hybrid",
 			industry: "Consulting · Business intelligence",
 			color: "var(--c4)",
+			tagline: "Started my data career in BI and SQL.",
+			highlights: [
+				{ h: "Dashboards", d: "Tableau, Power BI and Looker Studio" },
+				{ h: "SQL", d: "complex queries on BigQuery" }
+			],
 			summary: "Started my data career building business dashboards and writing complex SQL for consulting clients on Google Cloud.",
 			bullets: [
 				"Built business dashboards in Tableau, Power BI and Looker Studio.",
 				"Wrote complex SQL queries in Google Cloud Platform (BigQuery) environments."
 			],
 			points: ["Dashboards in Tableau, Power BI & Looker Studio", "Complex SQL on BigQuery"],
-			kpis: [],
 			projects: [],
 			extras: [],
 			skills: ["Tableau", "Power BI", "Looker Studio", "SQL", "BigQuery", "GCP"]
@@ -203,12 +213,16 @@ window.PORTFOLIO = {
 			place: "Argentina · Hybrid",
 			industry: "Oil & gas (upstream)",
 			color: "var(--muted)",
+			tagline: "Where my professional experience starts.",
+			highlights: [
+				{ h: "Upstream drilling & workover", d: "part-time internship" },
+				{ h: "Tools", d: "R and Power BI" }
+			],
 			summary: "Part-time internship in the upstream drilling & workover area, while finishing my Industrial Engineering degree. It is where my professional experience starts.",
 			bullets: [
 				"Part-time internship in upstream drilling & workover. Tools: R and Power BI."
 			],
 			points: ["Upstream drilling & workover", "R and Power BI"],
-			kpis: [],
 			projects: [],
 			extras: [],
 			skills: ["R", "Power BI"]
