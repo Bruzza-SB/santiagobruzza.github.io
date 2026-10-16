@@ -244,6 +244,17 @@ window.PORTFOLIO = {
 			tags: ["LLM agent", "Semantic layer", "RAG", "Vertex AI", "Next.js"]
 		},
 		{
+			id: "call-audit-ai",
+			title: "AI Sales Call Auditor",
+			page: "call_audit_ai.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			kpi: { v: "~10k", l: "calls transcribed every night" },
+			points: ["Nightly GPU transcription of sales calls", "Gemini scores each call against the scorecard", "Dashboard by vendor, agent, campaign & call"],
+			tags: ["LLM-as-judge", "Gemini", "WhisperX", "BigQuery", "Cloud Run"]
+		},
+		{
 			id: "ai-sales-agent",
 			title: "AI Sales & Lead-Qualification Agent",
 			page: "ai_sales_agent.html",
@@ -266,6 +277,41 @@ window.PORTFOLIO = {
 			kpi: { v: "1-click", l: "P&L per legal entity + consolidated view" },
 			points: ["Replaced a manual monthly Excel close", "ERP (6 schemas) + POS API + manual inputs", "Live KPIs & Excel export"],
 			tags: ["Next.js", "PostgreSQL", "MySQL", "GitHub Actions", "Vercel"]
+		},
+		{
+			id: "data-analyst-agent",
+			title: "Data Analyst Agent",
+			page: "data_analyst_agent.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			video: true,
+			kpi: { v: "NL → SQL", l: "validated against the schema" },
+			points: ["Ask questions in plain language", "Validated SQL → table + interactive chart", "Used company-wide via VPN"],
+			tags: ["Text-to-SQL", "OpenAI API", "Streamlit", "Plotly"]
+		},
+		{
+			id: "code-reviewer",
+			title: "Code Reviewer Agent",
+			page: "code_reviewer.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			video: true,
+			kpi: { v: "SQL · Py", l: "reviewed, corrected & optimized" },
+			points: ["Paste or upload SQL / Python", "Review comments + corrected, optimized code", "Used company-wide via VPN"],
+			tags: ["LLM agent", "OpenAI API", "Streamlit"]
+		},
+		{
+			id: "call-center-rag",
+			title: "Call Center Training Chatbot (RAG)",
+			page: "call_center_training_agent.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			kpi: { v: "30+", l: "training decks turned into one chatbot" },
+			points: ["30+ training decks as a RAG corpus", "Images described with Gemini", "Conversational access for agents"],
+			tags: ["RAG", "Vertex AI", "Gemini", "Multimodal"]
 		},
 		{
 			id: "payment-date",
@@ -310,52 +356,6 @@ window.PORTFOLIO = {
 			kpi: { v: "3M", l: "merchant names unified" },
 			points: ["Regex cleaning + Hugging Face embeddings", "DBSCAN clustering + n-gram naming", "Enables market-share analysis"],
 			tags: ["NLP", "Embeddings", "DBSCAN", "Entity resolution"]
-		},
-		{
-			id: "data-analyst-agent",
-			title: "Data Analyst Agent",
-			page: "data_analyst_agent.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			video: true,
-			kpi: { v: "NL → SQL", l: "validated against the schema" },
-			points: ["Ask questions in plain language", "Validated SQL → table + interactive chart", "Used company-wide via VPN"],
-			tags: ["Text-to-SQL", "OpenAI API", "Streamlit", "Plotly"]
-		},
-		{
-			id: "code-reviewer",
-			title: "Code Reviewer Agent",
-			page: "code_reviewer.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			video: true,
-			kpi: { v: "SQL · Py", l: "reviewed, corrected & optimized" },
-			points: ["Paste or upload SQL / Python", "Review comments + corrected, optimized code", "Used company-wide via VPN"],
-			tags: ["LLM agent", "OpenAI API", "Streamlit"]
-		},
-		{
-			id: "call-center-rag",
-			title: "Call Center Training Chatbot (RAG)",
-			page: "call_center_training_agent.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			kpi: { v: "30+", l: "training decks turned into one chatbot" },
-			points: ["30+ training decks as a RAG corpus", "Images described with Gemini", "Conversational access for agents"],
-			tags: ["RAG", "Vertex AI", "Gemini", "Multimodal"]
-		},
-		{
-			id: "call-audit-ai",
-			title: "AI Sales Call Auditor",
-			page: "call_audit_ai.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			kpi: { v: "~10k", l: "calls transcribed every night" },
-			points: ["Nightly GPU transcription of sales calls", "Gemini scores each call against the scorecard", "Dashboard by vendor, agent, campaign & call"],
-			tags: ["LLM-as-judge", "Gemini", "WhisperX", "BigQuery", "Cloud Run"]
 		},
 		{
 			id: "speech-to-text",
