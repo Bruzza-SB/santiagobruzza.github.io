@@ -59,7 +59,7 @@ window.PORTFOLIO = {
 				"Built a RAG chatbot on Vertex AI over 30+ call center training decks (text, tables and images described with Gemini), giving agents conversational access to training content.",
 				"Developed an internal AI chatbot with LangChain, Ollama, LLaMA 3.2 and Streamlit."
 			],
-			points: [{ t: "AI data support agent & semantic layer", p: "data-support-agent" }, { t: "AI sales call auditor", p: "call-audit-ai" }, { t: "Data Analyst agent", p: "data-analyst-agent" }, { t: "Code Reviewer agent", p: "code-reviewer" }, { t: "RAG chatbot for call center training", p: "call-center-rag" }, "Internal chatbot on LLaMA 3.2"],
+			points: [{ t: "AI data support agent & semantic layer", p: "data-support-agent" }, { t: "AI sales call auditor", p: "call-audit-ai" }, { t: "Data Analyst agent", p: "data-analyst-agent" }, { t: "Code Reviewer agent", p: "code-reviewer" }, { t: "RAG chatbot for call center training", p: "call-center-rag" }],
 			projects: ["data-support-agent", "call-audit-ai", "data-analyst-agent", "code-reviewer", "call-center-rag"],
 			extras: [],
 			skills: ["Claude", "OpenAI API", "Gemini", "Vertex AI", "BigQuery", "WhisperX", "Cloud Run", "RAG", "Next.js", "TypeScript", "LangChain", "Streamlit", "Prompt caching", "AI security"]
