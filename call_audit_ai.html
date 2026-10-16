@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" data-theme="dark">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>AI Sales Call Auditor · Santiago Bruzza</title>
+	<meta name="description" content="An end-to-end AI auditor of outsourced sales calls: nightly GPU transcription, a Gemini auditor that scores every call against the sales scorecard, and a dashboard by vendor, supervisor, agent, campaign and call." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="AI Sales Call Auditor · Santiago Bruzza" />
+	<meta property="og:description" content="An end-to-end AI auditor of outsourced sales calls: nightly GPU transcription, a Gemini auditor that scores every call against the sales scorecard, and a dashboard by vendor, supervisor, agent, campaign and call." />
+	<meta property="og:url" content="https://bruzza-sb.github.io/santiagobruzza.github.io/call_audit_ai.html" />
+	<link rel="canonical" href="https://bruzza-sb.github.io/santiagobruzza.github.io/call_audit_ai.html" />
+	<link rel="icon" href="images/machine-learning.png" type="image/png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" />
+	<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body data-page="case" data-project="call-audit-ai">
+	<header id="topbar" class="topbar"></header>
+
+	<main class="container">
+		<section class="case-hero">
+			<a class="back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All projects</a>
+			<p class="eyebrow">Telecom provider · Sr Data Scientist · 2026</p>
+			<h1>AI Sales Call Auditor</h1>
+			<p class="lede">Outsourced sales agents make thousands of calls, but one human auditor can only listen to a few. I built the full pipeline that transcribes the calls every night, scores each one against the sales scorecard with an LLM, and shows the results from vendor down to the single call.</p>
+			<ul class="tags"><li class="tag">LLM-as-judge</li><li class="tag">Gemini</li><li class="tag">WhisperX</li><li class="tag">Vertex AI</li><li class="tag">BigQuery</li><li class="tag">Next.js</li><li class="tag">Cloud Run</li></ul>
+			<div class="kpis kpis-4"><div class="kpi" style="--kc:var(--c1)"><div class="v">~10k</div><div class="l">calls transcribed every night</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">23h–7h</div><div class="l">off-peak processing window</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">85 / 100</div><div class="l">minimum score to pass</div></div><div class="kpi" style="--kc:var(--c1)"><div class="v">4 levels</div><div class="l">vendor, supervisor, agent, call</div></div></div>
+		</section>
+
+<section class="case-sec reveal"><h2><span class="num">01</span>Problem</h2><div class="prose"><p>The sales team works with <strong>5 outsourced vendors</strong> whose agents call prospects and also call existing customers to offer other products. Every call follows guidelines: a cordial greeting, validating the customer's data, not interrupting, discovery questions about the customer's needs, a clear offer of the products, and more.</p><p>A sales employee listened to a sample of calls from each vendor to check compliance. With an <strong>average call of about 15 minutes</strong>, only a very small share of the calls could ever be reviewed.</p></div><div class="ba"><div class="before"><h4>Before</h4><ul><li>One person listened to a few calls per vendor</li><li>About 15 minutes of audio per audited call</li><li>Most calls never reviewed</li></ul></div><div class="after"><h4>After</h4><ul><li>Every recorded call is transcribed and audited by AI</li><li>Score, errors and verdict for each call, with a comment per error</li><li>Results by vendor, supervisor, agent and campaign</li></ul></div></div></section>
+<section class="case-sec reveal"><h2><span class="num">02</span>The scorecard</h2><div class="prose"><p>The auditor applies the same rules the human auditor uses. Each evaluated aspect lists critical and non-critical errors.</p></div><ol class="layers"><li style="--lc:var(--accent)"><span class="n">01</span><div><b>100 points for a perfect call</b><span>Every non-critical error deducts a set number of points.</span></div></li><li style="--lc:var(--accent)"><span class="n">02</span><div><b>85 points to pass</b><span>Below the minimum, the call is rejected.</span></div></li><li style="--lc:var(--accent)"><span class="n">03</span><div><b>Critical errors fail the call</b><span>Any critical error rejects the call automatically, whatever the score.</span></div></li><li style="--lc:var(--accent)"><span class="n">04</span><div><b>Explained verdict</b><span>A rejected call states the reason it was rejected.</span></div></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">03</span>Pipeline</h2><ol class="flow flow-v"><li><b>Nightly transcription</b><span>A Python job runs from 23:00 to 07:00, outside working hours so the call platform is not overloaded. It reads the folder with all the recorded calls and sends them to a WhisperX API running on an on-premise H100 GPU. About 10k calls are transcribed per night, with agent and customer speech separated.</span></li><li><b>Sensitive-data masking</b><span>A script hashes and masks credit-card data in every transcript.</span></li><li><b>Storage</b><span>Transcripts are saved on Google Cloud with the call, agent and campaign identifiers.</span></li><li><b>AI audit</b><span>A Gemini-based auditor built in Vertex AI Workbench processes all calls in batches against the scorecard.</span></li><li><b>Structured results</b><span>For each call: the score, an evaluation and a comment for every critical and non-critical error, whether a sale was closed, and the final verdict. Everything is written to a new BigQuery table.</span></li><li><b>Dashboard</b><span>A Next.js web app reads the table and shows the results.</span></li><li><b>Deployment</b><span>The app runs as a Cloud Run service.</span></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">04</span>Dashboard</h2><div class="prose"><p>The dashboard shows calls audited, approved, rejected, sales closed and average score, in total and grouped along the chain of responsibility. A vendor has several supervisors and each supervisor manages several agents, so performance is visible at every level.</p></div><ol class="layers"><li style="--lc:var(--c1)"><span class="n">01</span><div><b>Vendor</b><span>Compare the outsourced providers.</span></div></li><li style="--lc:var(--c1)"><span class="n">02</span><div><b>Supervisor</b><span>See how each team performs.</span></div></li><li style="--lc:var(--c1)"><span class="n">03</span><div><b>Agent</b><span>Spot individual strengths and gaps.</span></div></li><li style="--lc:var(--c1)"><span class="n">04</span><div><b>Campaign</b><span>The same KPIs by calling campaign.</span></div></li><li style="--lc:var(--c1)"><span class="n">05</span><div><b>Single call</b><span>Open any call to read the score, each error and its comment, and the verdict.</span></div></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">05</span>Security &amp; access</h2><ol class="layers"><li style="--lc:var(--green)"><span class="n">01</span><div><b>Card data masked</b><span>Credit-card numbers are hashed before transcripts are stored.</span></div></li><li style="--lc:var(--green)"><span class="n">02</span><div><b>Group-restricted access</b><span>Only members of a dedicated Google Cloud user group can open the app on Cloud Run.</span></div></li><li style="--lc:var(--green)"><span class="n">03</span><div><b>On-premise transcription</b><span>Speech-to-text runs on a GPU in the company's own data center.</span></div></li></ol></section>
+<section class="case-sec reveal"><h2><span class="num">06</span>Impact</h2><div class="prose"><ul><li>Quality control moves from a small manual sample to auditing the recorded calls at scale</li><li>Every rejected call comes with a clear reason</li><li>Vendor, supervisor, agent and campaign performance is visible in one place</li><li>The human auditor can focus on the cases that need judgment</li></ul></div></section>
+<section class="case-sec reveal"><h2><span class="num">07</span>Stack</h2><ul class="tags"><li class="tag">Python</li><li class="tag">WhisperX</li><li class="tag">NVIDIA H100</li><li class="tag">Gemini</li><li class="tag">Vertex AI Workbench</li><li class="tag">BigQuery</li><li class="tag">Next.js</li><li class="tag">Cloud Run</li><li class="tag">Google Cloud IAM</li></ul></section>
+
+		<nav id="case-nav" class="case-nav" aria-label="More projects"></nav>
+	</main>
+
+	<footer id="footer"></footer>
+
+	<script src="assets/data/portfolio.js"></script>
+	<script src="assets/js/charts.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+</html>
