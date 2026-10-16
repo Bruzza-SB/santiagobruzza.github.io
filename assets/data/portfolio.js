@@ -45,6 +45,7 @@ window.PORTFOLIO = {
 			highlights: [
 				{ h: "AI data support agent", d: "semantic layer over 4,000+ tables, in production" },
 				{ h: "Catalog migration", d: "OpenAI API → Google Cloud (BigQuery, Vertex AI)" },
+				{ h: "AI sales call auditor", d: "~10k calls transcribed nightly, scored by Gemini" },
 				{ h: "Analyst & Code Reviewer agents", d: "natural language → validated SQL; SQL/Python review" },
 				{ h: "Call center RAG chatbot", d: "30+ training decks on Vertex AI" },
 				{ h: "Internal chatbot", d: "LangChain, Ollama, LLaMA 3.2, Streamlit" }
@@ -53,14 +54,15 @@ window.PORTFOLIO = {
 			bullets: [
 				"Built an end-to-end AI data support agent over 4,000+ tables: an AI-generated semantic layer (business definitions of tables and columns, relationships across the database, refresh frequency) feeding a production Next.js/TypeScript agent with prompt caching, tiered model routing, spend caps and prompt-injection filtering.",
 				"Migrated the LLM-powered data catalog (4,000+ tables, 20,000+ columns) from the OpenAI API to Google Cloud Platform (BigQuery, Vertex AI) and evolved it into a production support agent for employee data discovery.",
+				"Built an end-to-end AI auditor of outsourced sales calls: a nightly pipeline transcribes ~10k calls with WhisperX on an on-prem H100 GPU, masks credit-card data, and a Gemini auditor on Vertex AI scores every call against the sales scorecard (critical and non-critical errors, 85-point pass mark) into BigQuery, surfaced in a Next.js dashboard on Cloud Run with group-restricted access.",
 				"Built internal AI agents used company-wide via VPN: a Data Analyst Agent (natural language → validated SQL → tables and charts) and a Code Reviewer Agent (detects errors, corrects and optimizes SQL/Python code).",
 				"Built a RAG chatbot on Vertex AI over 30+ call center training decks (text, tables and images described with Gemini), giving agents conversational access to training content.",
 				"Developed an internal AI chatbot with LangChain, Ollama, LLaMA 3.2 and Streamlit."
 			],
-			points: [{ t: "AI data support agent & semantic layer", p: "data-support-agent" }, { t: "Data catalog migration: OpenAI → GCP", p: "data-support-agent" }, { t: "Data Analyst agent", p: "data-analyst-agent" }, { t: "Code Reviewer agent", p: "code-reviewer" }, { t: "RAG chatbot for call center training", p: "call-center-rag" }, "Internal chatbot on LLaMA 3.2"],
-			projects: ["data-support-agent", "data-analyst-agent", "code-reviewer", "call-center-rag"],
+			points: [{ t: "AI data support agent & semantic layer", p: "data-support-agent" }, { t: "AI sales call auditor", p: "call-audit-ai" }, { t: "Data Analyst agent", p: "data-analyst-agent" }, { t: "Code Reviewer agent", p: "code-reviewer" }, { t: "RAG chatbot for call center training", p: "call-center-rag" }],
+			projects: ["data-support-agent", "call-audit-ai", "data-analyst-agent", "code-reviewer", "call-center-rag"],
 			extras: [],
-			skills: ["Claude", "OpenAI API", "Gemini", "Vertex AI", "BigQuery", "RAG", "Next.js", "TypeScript", "LangChain", "Streamlit", "Prompt caching", "AI security"]
+			skills: ["Claude", "OpenAI API", "Gemini", "Vertex AI", "BigQuery", "WhisperX", "Cloud Run", "RAG", "Next.js", "TypeScript", "LangChain", "Streamlit", "Prompt caching", "AI security"]
 		},
 		{
 			id: "consultant",
@@ -242,6 +244,17 @@ window.PORTFOLIO = {
 			tags: ["LLM agent", "Semantic layer", "RAG", "Vertex AI", "Next.js"]
 		},
 		{
+			id: "call-audit-ai",
+			title: "AI Sales Call Auditor",
+			page: "call_audit_ai.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			kpi: { v: "~10k", l: "calls transcribed every night" },
+			points: ["Nightly GPU transcription of sales calls", "Gemini scores each call against the scorecard", "Dashboard by vendor, agent, campaign & call"],
+			tags: ["LLM-as-judge", "Gemini", "WhisperX", "BigQuery", "Cloud Run"]
+		},
+		{
 			id: "ai-sales-agent",
 			title: "AI Sales & Lead-Qualification Agent",
 			page: "ai_sales_agent.html",
@@ -264,6 +277,41 @@ window.PORTFOLIO = {
 			kpi: { v: "1-click", l: "P&L per legal entity + consolidated view" },
 			points: ["Replaced a manual monthly Excel close", "ERP (6 schemas) + POS API + manual inputs", "Live KPIs & Excel export"],
 			tags: ["Next.js", "PostgreSQL", "MySQL", "GitHub Actions", "Vercel"]
+		},
+		{
+			id: "data-analyst-agent",
+			title: "Data Analyst Agent",
+			page: "data_analyst_agent.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			video: true,
+			kpi: { v: "NL → SQL", l: "validated against the schema" },
+			points: ["Ask questions in plain language", "Validated SQL → table + interactive chart", "Used company-wide via VPN"],
+			tags: ["Text-to-SQL", "OpenAI API", "Streamlit", "Plotly"]
+		},
+		{
+			id: "code-reviewer",
+			title: "Code Reviewer Agent",
+			page: "code_reviewer.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			video: true,
+			kpi: { v: "SQL · Py", l: "reviewed, corrected & optimized" },
+			points: ["Paste or upload SQL / Python", "Review comments + corrected, optimized code", "Used company-wide via VPN"],
+			tags: ["LLM agent", "OpenAI API", "Streamlit"]
+		},
+		{
+			id: "call-center-rag",
+			title: "Call Center Training Chatbot (RAG)",
+			page: "call_center_training_agent.html",
+			cats: ["genai"],
+			exp: "telecom-sr",
+			context: "Telecom · 2026",
+			kpi: { v: "30+", l: "training decks turned into one chatbot" },
+			points: ["30+ training decks as a RAG corpus", "Images described with Gemini", "Conversational access for agents"],
+			tags: ["RAG", "Vertex AI", "Gemini", "Multimodal"]
 		},
 		{
 			id: "payment-date",
@@ -308,41 +356,6 @@ window.PORTFOLIO = {
 			kpi: { v: "3M", l: "merchant names unified" },
 			points: ["Regex cleaning + Hugging Face embeddings", "DBSCAN clustering + n-gram naming", "Enables market-share analysis"],
 			tags: ["NLP", "Embeddings", "DBSCAN", "Entity resolution"]
-		},
-		{
-			id: "data-analyst-agent",
-			title: "Data Analyst Agent",
-			page: "data_analyst_agent.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			video: true,
-			kpi: { v: "NL → SQL", l: "validated against the schema" },
-			points: ["Ask questions in plain language", "Validated SQL → table + interactive chart", "Used company-wide via VPN"],
-			tags: ["Text-to-SQL", "OpenAI API", "Streamlit", "Plotly"]
-		},
-		{
-			id: "code-reviewer",
-			title: "Code Reviewer Agent",
-			page: "code_reviewer.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			video: true,
-			kpi: { v: "SQL · Py", l: "reviewed, corrected & optimized" },
-			points: ["Paste or upload SQL / Python", "Review comments + corrected, optimized code", "Used company-wide via VPN"],
-			tags: ["LLM agent", "OpenAI API", "Streamlit"]
-		},
-		{
-			id: "call-center-rag",
-			title: "Call Center Training Chatbot (RAG)",
-			page: "call_center_training_agent.html",
-			cats: ["genai"],
-			exp: "telecom-sr",
-			context: "Telecom · 2026",
-			kpi: { v: "30+", l: "training decks turned into one chatbot" },
-			points: ["30+ training decks as a RAG corpus", "Images described with Gemini", "Conversational access for agents"],
-			tags: ["RAG", "Vertex AI", "Gemini", "Multimodal"]
 		},
 		{
 			id: "speech-to-text",
@@ -405,11 +418,11 @@ window.PORTFOLIO = {
 	   p = project ids that used the skill (drives the skill → project highlight). */
 	skills: [
 		{ group: "AI, LLMs & agents", color: "var(--c1)", items: [
-			{ n: "LLM agents & chatbots", p: ["data-support-agent", "ai-sales-agent", "data-analyst-agent", "code-reviewer", "call-center-rag"] },
+			{ n: "LLM agents & chatbots", p: ["data-support-agent", "ai-sales-agent", "data-analyst-agent", "code-reviewer", "call-center-rag", "call-audit-ai"] },
 			{ n: "Claude API", p: ["ai-sales-agent"] },
 			{ n: "OpenAI API", p: ["data-support-agent", "data-analyst-agent", "code-reviewer"] },
-			{ n: "Gemini", p: ["call-center-rag"] },
-			{ n: "Vertex AI", p: ["data-support-agent", "call-center-rag"] },
+			{ n: "Gemini", p: ["call-center-rag", "call-audit-ai"] },
+			{ n: "Vertex AI", p: ["data-support-agent", "call-center-rag", "call-audit-ai"] },
 			{ n: "RAG", p: ["data-support-agent", "call-center-rag"] },
 			{ n: "Text-to-SQL", p: ["data-analyst-agent"] },
 			{ n: "Semantic layer", p: ["data-support-agent"] },
@@ -432,16 +445,16 @@ window.PORTFOLIO = {
 			{ n: "Embeddings (Hugging Face, Transformers)", p: ["merchant-unifier", "speech-to-text"] },
 			{ n: "TF-IDF · NLTK", p: ["comments-sentiment"] },
 			{ n: "Sentiment analysis", p: ["comments-sentiment"] },
-			{ n: "Speech-to-text", p: ["speech-to-text"] },
+			{ n: "Speech-to-text", p: ["speech-to-text", "call-audit-ai"] },
 			{ n: "Entity resolution", p: ["merchant-unifier"] },
 			{ n: "Regex", p: ["merchant-unifier"] }
 		]},
 		{ group: "Programming & apps", color: "var(--c5)", items: [
-			{ n: "Python", p: ["payment-date", "merchant-unifier", "data-analyst-agent", "code-reviewer", "call-center-rag", "speech-to-text", "churn-segmentation", "comments-sentiment", "geospatial", "supply-chain"] },
+			{ n: "Python", p: ["payment-date", "merchant-unifier", "data-analyst-agent", "code-reviewer", "call-center-rag", "speech-to-text", "churn-segmentation", "comments-sentiment", "geospatial", "supply-chain", "call-audit-ai"] },
 			{ n: "SQL", p: ["payment-date", "unit-economics-mart", "merchant-unifier", "data-analyst-agent", "churn-segmentation", "comments-sentiment", "geospatial"] },
 			{ n: "PySpark", p: [] },
-			{ n: "TypeScript", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl"] },
-			{ n: "Next.js", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl"] },
+			{ n: "TypeScript", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl", "call-audit-ai"] },
+			{ n: "Next.js", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl", "call-audit-ai"] },
 			{ n: "Streamlit", p: ["data-analyst-agent", "code-reviewer"] },
 			{ n: "Git · GitHub Actions", p: ["restaurant-pnl"] },
 			{ n: "REST APIs", p: ["restaurant-pnl", "supply-chain", "data-analyst-agent"] },
@@ -449,8 +462,9 @@ window.PORTFOLIO = {
 		]},
 		{ group: "Data platforms & cloud", color: "var(--c3)", items: [
 			{ n: "Databricks", p: ["payment-date", "unit-economics-mart"] },
-			{ n: "Google Cloud (GCP)", p: ["data-support-agent", "speech-to-text", "call-center-rag"] },
-			{ n: "BigQuery", p: ["data-support-agent"] },
+			{ n: "Google Cloud (GCP)", p: ["data-support-agent", "speech-to-text", "call-center-rag", "call-audit-ai"] },
+			{ n: "Cloud Run", p: ["call-audit-ai"] },
+			{ n: "BigQuery", p: ["data-support-agent", "call-audit-ai"] },
 			{ n: "PostgreSQL", p: ["ai-sales-agent", "restaurant-pnl"] },
 			{ n: "MySQL", p: ["restaurant-pnl"] },
 			{ n: "Presto", p: ["churn-segmentation", "comments-sentiment", "geospatial"] },
