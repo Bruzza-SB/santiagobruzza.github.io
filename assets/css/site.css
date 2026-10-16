@@ -474,6 +474,49 @@ body.drawer-open { overflow: hidden; }
 .layers li b { font-size: .9rem; display: block; }
 .layers li span { font-size: .82rem; color: var(--text-2); }
 
+/* Architecture diagram: two lanes of colour-coded nodes with chevron connectors */
+.arch { margin: 0; padding: 18px; display: grid; gap: 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur)); box-shadow: var(--shadow); }
+.arch-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .78rem; color: var(--text-2); }
+.arch-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.arch-legend i { width: 10px; height: 10px; border-radius: 3px; background: var(--nc); display: inline-block; }
+.arch-lane { position: relative; padding: 34px 14px 14px; border: 1.5px dashed var(--border-strong); border-radius: var(--radius); }
+.arch-lane > .lane-label { position: absolute; top: 11px; left: 16px; right: 16px; font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.arch-lane > .lane-label em { font-style: normal; color: var(--text-2); font-weight: 500; letter-spacing: .04em; text-transform: none; }
+.arch-row { display: grid; gap: 18px; list-style: none; margin: 0; padding: 0; counter-reset: an; }
+@media (min-width: 900px) { .arch-row.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .arch-row.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } .arch-row { gap: 22px; } }
+.arch-node {
+	--nc: var(--accent); position: relative; counter-increment: an;
+	padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface);
+	border: 1px solid var(--border); border-top: 3px solid var(--nc);
+}
+.arch-node::before { content: "0" counter(an); display: block; font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--nc); margin-bottom: 4px; }
+.arch-node b { display: block; font-size: .9rem; margin-bottom: 2px; }
+.arch-node .sub { display: block; font-size: .74rem; color: var(--muted); margin-bottom: 6px; }
+.arch-node ul { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; font-size: .8rem; color: var(--text-2); line-height: 1.4; }
+.arch-node li { position: relative; padding-left: 12px; }
+.arch-node li::before { content: ""; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--nc); opacity: .6; }
+.arch-node.src { --nc: var(--c2); }
+.arch-node.ai { --nc: var(--c3); border-color: color-mix(in srgb, var(--c3) 45%, transparent); border-top-width: 3px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--c3) 25%, transparent), 0 10px 30px -18px var(--c3); }
+.arch-node.rule { --nc: var(--c4); }
+.arch-node.store { --nc: var(--c5); }
+.arch-node.user, .arch-node.out { --nc: var(--c1); }
+.arch-legend .src { --nc: var(--c2); } .arch-legend .ai { --nc: var(--c3); } .arch-legend .rule { --nc: var(--c4); }
+.arch-legend .store { --nc: var(--c5); } .arch-legend .user { --nc: var(--c1); }
+.arch-row > .arch-node:not(:last-child)::after {
+	content: ""; position: absolute; left: 22px; bottom: -13px; width: 8px; height: 8px;
+	border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); transform: rotate(45deg);
+}
+@media (min-width: 900px) {
+	.arch-row > .arch-node:not(:last-child)::after { left: auto; bottom: auto; right: -15px; top: 50%; transform: translateY(-50%) rotate(-45deg); }
+}
+.arch-link { display: flex; align-items: center; gap: 10px; margin: 2px 0; font-family: var(--mono); font-size: .72rem; color: var(--accent); font-weight: 700; }
+.arch-link::before, .arch-link::after { content: ""; flex: 1; border-top: 1.5px dashed color-mix(in srgb, var(--accent) 55%, transparent); }
+.arch-link::after { flex: 0 0 8px; height: 8px; border: 0; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); transform: rotate(-45deg); }
+.arch-guard { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); }
+.arch-guard > b { font-size: .8rem; margin-right: 6px; }
+.arch-guard span { font-size: .76rem; color: var(--text-2); padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--glass); }
+.arch figcaption { font-size: .8rem; color: var(--muted); }
+
 /* Before / after */
 .ba { display: grid; gap: 12px; grid-template-columns: 1fr; }
 @media (min-width: 720px) { .ba { grid-template-columns: 1fr 1fr; } }
