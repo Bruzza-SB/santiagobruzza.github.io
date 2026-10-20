@@ -403,6 +403,7 @@ body.drawer-open { overflow: hidden; }
 .chart-card figcaption, .chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
 .chart-title { font-weight: 600; font-size: .95rem; }
 .chart-note { font-size: .78rem; color: var(--muted); margin: 10px 0 0; }
+.chart-note b { color: var(--text-2); font-weight: 600; }
 .chart svg { width: 100%; height: auto; overflow: visible; }
 .chart text { fill: var(--muted); font-size: 11px; font-family: var(--font); }
 .chart .val { fill: var(--text); font-family: var(--mono); font-weight: 700; }
