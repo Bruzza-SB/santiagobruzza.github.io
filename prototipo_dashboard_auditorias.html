@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Call Audit Dashboard (Demo)</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f1f5f9; color: #1e293b; padding: 25px; margin: 0; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1250px; margin: auto; }
+
+.header { background: linear-gradient(135deg, #0056b3 0%, #002d62 100%); padding: 20px 30px; border-radius: 12px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2); color: #fff; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand svg { display: block; flex-shrink: 0; }
+.brand-name { font-size: 26px; font-weight: 500; letter-spacing: -0.6px; line-height: 1; }
+.header-right { text-align: right; }
+.header-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2; }
+.header-sub { font-size: 11.5px; opacity: 0.85; margin-top: 4px; }
+
+.demo-note { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 8px; padding: 8px 14px; margin-bottom: 16px; font-size: 12.5px; }
+
+.filter-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; background: #fff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.4px; min-width: 150px; }
+.field.grow { flex: 1; min-width: 200px; }
+.field input, .field select { font: inherit; font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 6px; padding: 7px 9px; background: #fff; max-width: 260px; }
+.field.search { min-width: 150px; max-width: 170px; }
+.field.score { min-width: 0; }
+.field.score .rng { display: flex; gap: 6px; align-items: center; }
+.field.score input { width: 66px; }
+.multi { position: relative; }
+.multi-btn { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; font: inherit; font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 6px; padding: 7px 9px; background: #fff; cursor: pointer; text-align: left; }
+.multi-panel { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 100%; width: max-content; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); padding: 4px; max-height: 320px; overflow-y: auto; }
+.multi-panel[hidden] { display: none; }
+.multi-search { width: 100%; margin-bottom: 4px; font-size: 13px; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+.multi-opt { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 4px; font-size: 13px; font-weight: 500; text-transform: none; letter-spacing: 0; color: #1e293b; cursor: pointer; }
+.multi-opt:hover { background: #f1f5f9; }
+.btn { font: inherit; font-size: 13px; font-weight: 700; border: 1px solid #0056b3; background: #0056b3; color: #fff; border-radius: 6px; padding: 8px 16px; cursor: pointer; }
+.btn-ghost { background: #fff; color: #0056b3; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 15px; }
+.kpi-card { display: block; background: #ffffff; border: 1px solid #cbd5e1; padding: 14px 14px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s ease-in-out; user-select: none; }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+.kpi-card.static { cursor: default; }
+.kpi-card.static:hover { transform: none; }
+.kpi-card.active { border-width: 2px; background-color: #f8fafc; border-color: #0056b3; padding: 13px 13px; }
+.kpi-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+.kpi-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.kpi-hint { font-size: 11px; color: #94a3b8; font-weight: 500; white-space: nowrap; }
+.kpi-value { font-size: 20px; font-weight: 800; }
+.val-total { color: #0056b3; }
+.val-success { color: #10B981; }
+.val-danger { color: #EF4444; }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+.tab { padding: 9px 20px; font-size: 14px; font-weight: 700; color: #64748b; border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; background: none; border-top: 0; border-left: 0; border-right: 0; font-family: inherit; }
+.tab.active { color: #0056b3; border-bottom-color: #0056b3; }
+
+.call-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+.call-card.grupal { border-color: #0056b3; }
+details summary { padding: 16px 20px; background: #f8fafc; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; user-select: none; }
+details summary::-webkit-details-marker { display: none; }
+details[open] summary { border-bottom: 1px solid #e2e8f0; background: #f1f5f9; }
+.summary-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.call-id { font-size: 16px; font-weight: 700; color: #0f172a; }
+.call-meta { font-size: 12px; color: #64748b; }
+.call-score { font-size: 13px; font-weight: 700; color: #0056b3; }
+.toggle-text { font-size: 12px; color: #64748b; white-space: nowrap; }
+.call-body { padding: 25px; }
+.grupo-card { padding: 0 25px; }
+.chart-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 25px; }
+.chart-card { background: #fff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0 22px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.chart-card h3 { color: #003d80; margin-top: 20px; margin-bottom: 14px; border-left: 3px solid #0056b3; padding-left: 8px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.chart-card svg { width: 100%; height: auto; display: block; }
+.chart-card svg text { font-family: inherit; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; font-size: 12px; color: #334155; margin-top: 8px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 5px; }
+#tip { position: fixed; z-index: 50; pointer-events: none; display: none; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+#tip b { display: block; margin-bottom: 4px; color: #1e293b; }
+#tip div { display: flex; align-items: center; gap: 6px; color: #334155; }
+#tip i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.grupo-card .table-wrap { max-height: 420px; overflow-y: auto; }
+.grupo-card thead th, .grupo-card tfoot th { position: sticky; z-index: 1; }
+.grupo-card thead th { top: 0; }
+.grupo-card thead th.sortable { cursor: pointer; user-select: none; }
+.grupo-card tfoot th { bottom: 0; }
+.grupo-card tbody tr.fila-filtro { cursor: pointer; }
+.grupo-card tbody tr.fila-filtro:hover td { background-color: #eff6ff; }
+.grupo-card tbody tr.activa td { background-color: #dbeafe; font-weight: 700; }
+.call-body h3, .grupo-card h3 { color: #003d80; margin-top: 20px; margin-bottom: 10px; border-left: 3px solid #0056b3; padding-left: 8px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.table-wrap { overflow-x: auto; margin-bottom: 25px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background-color: #f8fafc; color: #334155; padding: 10px 12px; text-align: left; border: 1px solid #cbd5e1; }
+td { padding: 10px 12px; border: 1px solid #e2e8f0; vertical-align: top; }
+tr:nth-child(even) { background-color: #fafbfc; }
+.badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; white-space: nowrap; }
+.badge-success, .badge-yes { background-color: #dcfce7; color: #15803d; }
+.badge-danger, .badge-no { background-color: #fee2e2; color: #b91c1c; }
+.badge-warn { background-color: #fef3c7; color: #b45309; }
+.badge-na { background-color: #f1f5f9; color: #64748b; }
+
+.list-info { font-size: 13px; color: #64748b; margin: 6px 0 12px; }
+.pager { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 20px 0 40px; font-size: 13px; color: #64748b; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.empty { background: #fff; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 30px; text-align: center; color: #64748b; font-size: 14px; }
+.foot { text-align: center; font-size: 11.5px; color: #94a3b8; margin: 10px 0 20px; }
+
+@media (max-width: 760px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  body { padding: 16px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .header-right { text-align: left; }
+  details summary { flex-direction: column; align-items: flex-start; }
+  .call-body { padding: 16px; }
+  .grupo-card { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<div id="tip"></div>
+
+<script>
+/* ===================== Utilities ===================== */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const fmtFecha = iso => iso || '';
+const fmtPct = (n, d) => d ? Math.round(n / d * 1000) / 10 + '%' : '–';
+const fmtNum = v => v == null ? '–' : (Math.round(v * 10) / 10).toString();
+
+/* ===================== Definitions ===================== */
+const CRITICOS = [
+  { key: 'validacion_datos', label: 'Data validation', tipo: 'ECNEG' },
+  { key: 'trato_adecuado', label: 'Appropriate treatment', tipo: 'ECUF' },
+  { key: 'proceso_venta', label: 'Sales process', tipo: 'ECNEG' },
+  { key: 'informacion_cliente', label: 'Customer information', tipo: 'ECUF' },
+  { key: 'manejo_objeciones', label: 'Objection handling', tipo: 'ECNEG' },
+  { key: 'gestion_carga', label: 'Order entry', tipo: 'ECNEG' },
+  { key: 'resumen_contratacion', label: 'Contract summary', tipo: 'ECUF' },
+  { key: 'checklist_instalacion', label: 'Installation checklist', tipo: 'ECNEG' },
+];
+const NO_CRITICOS = [
+  { key: 'apertura', label: 'Opening', pond: 10 },
+  { key: 'presentacion', label: 'Presentation', pond: 10 },
+  { key: 'escucha_activa', label: 'Active listening', pond: 15 },
+  { key: 'conduccion_liderazgo', label: 'Guidance and leadership', pond: 15 },
+  { key: 'empatia', label: 'Empathy', pond: 15 },
+  { key: 'habilidades_venta', label: 'Sales skills', pond: 15 },
+  { key: 'clasificacion_carga', label: 'Call classification / Form entry', pond: 10 },
+  { key: 'despedida', label: 'Closing', pond: 10 },
+];
+const VALIDACIONES = [
+  ['val_nombre', 'Customer name'], ['val_doc', 'ID document'], ['val_domicilio', 'Address'],
+  ['val_email', 'Email'], ['val_tel', 'Contact phone'], ['val_pago', 'Payment method'],
+  ['val_nro', 'States the assigned customer number'],
+];
+const ADICIONALES = [
+  ['ad_dias', 'States prorated days'],
+  ['ad_factura', 'Explains how the first invoice is charged'],
+  ['ad_baja', 'Recommends not cancelling the current service until installation'],
+  ['ad_linea', 'Offers an additional line'],
+  ['ad_rescate', 'Recaps key points (benefits, price, contact, installation, process)'],
+];
+const ERRORES = {
+  validacion_datos: ["Does not ask for the customer's full name", 'Does not confirm the installation address'],
+  trato_adecuado: ['Interrupts the customer while they are speaking', 'Uses an unfriendly tone'],
+  proceso_venta: ['Omits the final price of the service', 'Does not explain the promotion conditions'],
+  informacion_cliente: ['Gives incomplete information about the plan', 'Does not clarify how long the offer is valid'],
+  manejo_objeciones: ['Does not counter the price objection', 'Drops the offer at the first objection'],
+  gestion_carga: ['Enters incorrect data in the form', 'Does not record the reason for the call'],
+  resumen_contratacion: ['Does not give the final contract summary', 'The summary omits the monthly amount'],
+  checklist_instalacion: ['Does not state the estimated installation time', 'Does not explain the requirements for the technical visit'],
+  apertura: ['Does not greet according to protocol', 'Does not introduce themselves by name'],
+  presentacion: ['Does not state the reason for the call', 'Does not mention the main benefit of the offer'],
+  escucha_activa: ["Does not pick up on what the customer said", 'Asks questions that were already answered'],
+  conduccion_liderazgo: ['Loses the thread of the conversation', 'Does not propose a clear close'],
+  empatia: ["Does not acknowledge the customer's situation", 'Answers in a monotone voice'],
+  habilidades_venta: ['Does not ask discovery questions', 'Does not offer alternative plans'],
+  clasificacion_carga: ['Classifies the call with the wrong code', 'Incomplete notes in the form'],
+  despedida: ['Does not thank the customer', 'Does not offer further help before hanging up'],
+};
+const SERVICIOS = ['Internet 300 Mb', 'Internet 600 Mb', 'Internet + TV bundle', 'Internet 600 Mb + Phone', 'Internet 1 Gb + TV'];
+const ADICIONALES_OFRECIDOS = ['Additional set-top box', 'Additional line', 'Wi-Fi extender', 'Premium channel pack'];
+const PAGOS = ['Credit card', 'Direct debit', 'Cash invoice'];
+const MOTIVOS_NO_VENTA = ['Price too high', 'Prefers to consult someone else', 'No coverage', 'Already has the service', 'Not interested'];
+const MOTIVOS_DESAPROB = ['Critical error in data validation', 'Critical error in the sales process', 'Non-critical score below the minimum', 'Incomplete information to the customer', 'Contract summary omitted'];
+
+/* ===================== Fictional data ===================== */
+const PROVEEDORES = ['Vendor Alpha', 'Vendor Beta', 'Vendor Gamma'];
+const SUPERVISORES = ['Supervisor A', 'Supervisor B', 'Supervisor C', 'Supervisor D', 'Supervisor E', 'Supervisor F'];
+const COLAS = ['Sales Campaign 1', 'Sales Campaign 2', 'Sales Campaign 3', 'Retention Campaign'];
+const SIN = 'Unassigned';
+const ASESORES = Array.from({ length: 24 }, (_, i) => ({
+  nombre: 'Agent ' + pad(i + 1),
+  sup: Math.floor(i / 4),
+  prov: Math.floor(i / 8),
+  skill: 0.62 + ((i * 37) % 100) / 100 * 0.34,
+}));
+const MES = { desde: '2026-03-01', hasta: '2026-03-31' };
+
+function generarLlamadas() {
+  const rnd = mulberry32(20260301);
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const out = [];
+  for (let n = 0; n < 170; n++) {
+    const sinAsig = rnd() < 0.03;
+    const ase = ASESORES[Math.floor(rnd() * ASESORES.length)];
+    const dia = 1 + Math.floor(rnd() * 31);
+    const hh = 9 + Math.floor(rnd() * 12), mm = Math.floor(rnd() * 60);
+    const r = { id: 'DEMO-' + String(n + 1).padStart(4, '0') };
+    r.fecha = `2026-03-${pad(dia)}`;
+    r.hora = `${pad(hh)}:${pad(mm)}:${pad(Math.floor(rnd() * 60))}`;
+    r.cola = pick(COLAS);
+    r.asesor = sinAsig ? SIN : ase.nombre;
+    r.supervisor = sinAsig ? SIN : SUPERVISORES[ase.sup];
+    r.proveedor = sinAsig ? SIN : PROVEEDORES[ase.prov];
+    r.usuario = sinAsig ? '-' : 'usr_' + ase.nombre.split(' ')[1];
+    r.logId = 'L-' + (1000 + Math.floor(rnd() * 8999));
+    r.caller = '555-' + String(100 + Math.floor(rnd() * 899)).padStart(4, '0');
+    r.clienteId = String(700000 + Math.floor(rnd() * 99999));
+    r.formId = String(300000 + Math.floor(rnd() * 99999));
+    const wait = 5 + Math.floor(rnd() * 90), dur = 180 + Math.floor(rnd() * 900);
+    r.ivr = pick(['Sales', 'Inquiries', 'Promotions']);
+    r.espera = `00:${pad(Math.floor(wait / 60))}:${pad(wait % 60)}`;
+    r.duracion = `${pad(Math.floor(dur / 3600))}:${pad(Math.floor(dur % 3600 / 60))}:${pad(dur % 60)}`;
+    r.desconexion = pick(['Customer', 'Agent']);
+    r.codigo = pick(['VTA', 'NOV', 'CONS']);
+    r.tag = pick(['New sale', 'Follow-up', 'Inquiry']);
+    r.servicio = pick(SERVICIOS);
+    r.callCenter = r.proveedor;
+    r.pago = pick(PAGOS);
+    const inst = 5 + Math.floor(rnd() * 20);
+    r.instalacion = `2026-04-${pad(inst)}`;
+    r.tipo = pick(['Inbound', 'Inbound', 'Outbound']);
+
+    const auto = rnd() < 0.14;
+    const skill = sinAsig ? 0.75 : ase.skill;
+    r.criterios = {};
+    if (auto) {
+      r.estado = 'no_aplica';
+      r.dictamen = 'AUTOMATED MESSAGE / N/A';
+      r.nivel = 'no_aplica';
+      r.venta = null; r.pNoCrit = null; r.pCrit = null; r.total = null;
+      [...CRITICOS, ...NO_CRITICOS].forEach(c => r.criterios[c.key] = { ev: 'NO_APLICA', pts: null, sub: [], just: 'Automated message: not subject to audit.' });
+      VALIDACIONES.forEach(v => r[v[0]] = null);
+      ADICIONALES.forEach(a => r[a[0]] = null);
+      r.ofrecidos = []; r.aceptados = [];
+      r.sintesis = 'Call answered by a voicemail or automated message, with no interaction with an agent.';
+      r.observaciones = 'The call is not subject to audit.';
+      r.recomendaciones = [];
+      r.motivoDesaprob = null; r.motivoNoVenta = null;
+    } else {
+      let crit = 0, noCrit = 0, fallaCritica = false;
+      CRITICOS.forEach(c => {
+        const ok = rnd() < Math.min(0.995, 0.955 + (skill - 0.62) * 0.1);
+        if (ok) crit++; else fallaCritica = true;
+        r.criterios[c.key] = {
+          ev: ok ? 'CUMPLE' : 'NO_CUMPLE', pts: ok ? 1 : 0,
+          sub: ok ? [] : [pick(ERRORES[c.key])],
+          just: ok ? 'The agent meets what is expected for this attribute.' : 'The failure described is detected during the call.',
+        };
+      });
+      NO_CRITICOS.forEach(c => {
+        const noAud = c.key === 'empatia' && rnd() < 0.05;
+        const ok = noAud || rnd() < skill;
+        if (ok) noCrit += c.pond;
+        r.criterios[c.key] = {
+          ev: noAud ? 'NO_AUDITABLE_EN_TEXTO' : ok ? 'CUMPLE' : 'NO_CUMPLE', pts: ok ? c.pond : 0,
+          sub: ok ? [] : [pick(ERRORES[c.key])],
+          just: noAud ? 'Attribute cannot be audited from the transcript alone.' : ok ? 'The agent meets what is expected for this attribute.' : 'The failure described is detected during the call.',
+        };
+      });
+      r.pNoCrit = noCrit; r.pCrit = crit; r.total = noCrit + crit;
+      const desap = fallaCritica || noCrit < 70;
+      r.estado = desap ? 'desaprobado' : 'aprobado';
+      r.dictamen = desap ? 'REJECTED' : 'APPROVED';
+      r.nivel = r.total >= 98 ? 'excelente' : r.total >= 85 ? 'aceptable' : 'deficiente';
+      r.venta = rnd() < (desap ? 0.35 : 0.78) ? 'YES' : 'NO';
+      VALIDACIONES.forEach(v => r[v[0]] = rnd() < 0.93 ? 'YES' : 'NO');
+      ADICIONALES.forEach(a => r[a[0]] = r.venta === 'YES' ? (rnd() < 0.62 ? 'YES' : 'NO') : null);
+      r.ofrecidos = r.venta === 'YES' ? ADICIONALES_OFRECIDOS.filter(() => rnd() < 0.45) : [];
+      r.aceptados = r.ofrecidos.filter(() => rnd() < 0.5);
+      r.motivoDesaprob = desap ? pick(MOTIVOS_DESAPROB) : null;
+      r.motivoNoVenta = r.venta === 'NO' ? pick(MOTIVOS_NO_VENTA) : null;
+      r.sintesis = r.venta === 'YES'
+        ? `The customer asks about ${r.servicio} and accepts the contract. The agent enters the order.`
+        : `The customer asks about ${r.servicio} but does not close the sale (${(r.motivoNoVenta || '').toLowerCase()}).`;
+      r.observaciones = desap
+        ? 'The call has failures that affect the quality of service and need to be reinforced.'
+        : 'The call meets the quality guidelines, with specific opportunities for improvement.';
+      const fallos = [...CRITICOS, ...NO_CRITICOS].filter(c => r.criterios[c.key].ev === 'NO_CUMPLE');
+      r.recomendaciones = fallos.length
+        ? fallos.slice(0, 3).map(c => `Reinforce the "${c.label}" attribute through guided practice.`)
+        : ['Keep up the quality of service and share good practices with the team.'];
+    }
+    if (r.venta == null) { r.venta = null; }
+    out.push(r);
+  }
+  return out.sort((a, b) => (b.fecha + b.hora).localeCompare(a.fecha + a.hora));
+}
+const LLAMADAS = generarLlamadas();
+
+const PAGE_SIZE = 10;
+const ESTADOS = [['aprobado', 'Approved'], ['desaprobado', 'Rejected'], ['no_aplica', 'Automated message']];
+const NIVELES = [['excelente', 'Excellent'], ['aceptable', 'Acceptable'], ['deficiente', 'Poor']];
+const GRUPOS = { cola: 'By campaign', proveedor: 'By vendor', supervisor: 'By supervisor', asesor: 'By agent' };
+const PALETA = ['#EF4444', '#10B981', '#3B82F6', '#F59E0B', '#8B5CF6'];
+
+/* ===================== State ===================== */
+const filtrosVacios = () => ({ desde: MES.desde, hasta: MES.hasta, estado: [], nivel: [], proveedor: [], supervisor: [], asesor: [], cola: [], scoreMin: null, scoreMax: null, q: '' });
+let F = filtrosVacios();
+let tab = 'resumen';
+let page = 1;
+let abierto = null;
+const orden = { cola: { c: 'n', d: -1 }, proveedor: { c: 'n', d: -1 }, supervisor: { c: 'n', d: -1 }, asesor: { c: 'n', d: -1 } };
+
+/* ===================== Logic ===================== */
+function filtrar() {
+  const q = F.q.trim().toLowerCase();
+  return LLAMADAS.filter(r =>
+    (!F.desde || r.fecha >= F.desde) && (!F.hasta || r.fecha <= F.hasta) &&
+    (!F.estado.length || F.estado.includes(r.estado)) &&
+    (!F.nivel.length || F.nivel.includes(r.nivel)) &&
+    (!F.proveedor.length || F.proveedor.includes(r.proveedor)) &&
+    (!F.supervisor.length || F.supervisor.includes(r.supervisor)) &&
+    (!F.asesor.length || F.asesor.includes(r.asesor)) &&
+    (!F.cola.length || F.cola.includes(r.cola)) &&
+    (F.scoreMin == null || (r.total != null && r.total >= F.scoreMin)) &&
+    (F.scoreMax == null || (r.total != null && r.total <= F.scoreMax)) &&
+    (!q || r.id.toLowerCase().includes(q) || r.caller.toLowerCase().includes(q))
+  );
+}
+function kpis(rows) {
+  const ap = rows.filter(r => r.estado === 'aprobado').length;
+  const de = rows.filter(r => r.estado === 'desaprobado').length;
+  const ev = ap + de;
+  const ventas = rows.filter(r => r.estado !== 'no_aplica' && r.venta === 'YES').length;
+  const suma = rows.reduce((s, r) => s + (r.estado !== 'no_aplica' ? r.total : 0), 0);
+  return { total: rows.length, aprobadas: ap, desaprobadas: de, noAplica: rows.length - ev, evaluables: ev, ventas, promedio: ev ? suma / ev : null };
+}
+function agrupar(rows, campo) {
+  const m = new Map();
+  rows.forEach(r => { const k = r[campo] || SIN; if (!m.has(k)) m.set(k, []); m.get(k).push(r); });
+  return [...m.entries()].map(([nombre, rs]) => { const k = kpis(rs); return { nombre, n: k.total, ...k }; });
+}
+function histograma(rows) {
+  const bins = Array.from({ length: 11 }, (_, i) => ({ d: i * 10, h: i === 10 ? 108 : i * 10 + 9, n: 0 }));
+  rows.filter(r => r.estado !== 'no_aplica').forEach(r => { bins[Math.min(10, Math.floor(r.total / 10))].n++; });
+  return bins.map(b => ({ ...b, et: b.d === 100 ? '100–108' : `${b.d}–${b.h}` }));
+}
+function porDia(rows) {
+  const m = new Map();
+  rows.forEach(r => { if (!m.has(r.fecha)) m.set(r.fecha, []); m.get(r.fecha).push(r); });
+  return [...m.keys()].sort().map(f => ({ fecha: f, rows: m.get(f), ...kpis(m.get(f)) }));
+}
+function analisis(rows) {
+  const ev = rows.filter(r => r.estado !== 'no_aplica');
+  const inc = [];
+  const errores = new Map();
+  [['Critical', CRITICOS], ['Non-critical', NO_CRITICOS]].forEach(([cat, defs]) => defs.forEach(c => {
+    let no = 0, ok = 0;
+    ev.forEach(r => {
+      const e = r.criterios[c.key];
+      if (e.ev === 'NO_CUMPLE') { no++; e.sub.forEach(s => errores.set(s, (errores.get(s) || 0) + 1)); }
+      else if (e.ev === 'CUMPLE') ok++;
+    });
+    inc.push({ cat, criterio: c.label, no, ev: no + ok });
+  }));
+  inc.sort((a, b) => (b.ev ? b.no / b.ev : 0) - (a.ev ? a.no / a.ev : 0));
+  const top = [...errores.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const adic = ADICIONALES.map(([k, label]) => {
+    const ap = ev.filter(r => r[k] != null);
+    return { label, si: ap.filter(r => r[k] === 'YES').length, aplican: ap.length };
+  });
+  return { inc, top, adic };
+}
+
+/* ===================== Badges ===================== */
+const badge = (cls, t) => `<span class="badge badge-${cls}">${esc(t)}</span>`;
+function evalBadge(v) { return v === 'CUMPLE' ? badge('success', 'MEETS') : v === 'NO_CUMPLE' ? badge('danger', 'FAILS') : v === 'NO_AUDITABLE_EN_TEXTO' ? badge('na', 'N/A TEXT') : badge('na', 'N/A'); }
+function siNo(v) { return v === 'YES' ? badge('yes', 'YES') : v === 'NO' ? badge('no', 'NO') : badge('na', 'N/A'); }
+function dictBadge(r) { return r.estado === 'aprobado' ? badge('success', 'APPROVED') : r.estado === 'desaprobado' ? badge('danger', 'REJECTED') : badge('na', 'AUTOMATED MESSAGE / N/A'); }
+function nivelBadge(r) { return r.nivel === 'excelente' ? badge('success', 'EXCELLENT') : r.nivel === 'aceptable' ? badge('warn', 'ACCEPTABLE') : r.nivel === 'deficiente' ? badge('danger', 'POOR') : badge('na', 'N/A'); }
+
+/* ===================== SVG charts ===================== */
+const tipAttr = (titulo, items) => ` data-tip="${esc(JSON.stringify({ t: titulo, i: items }))}"`;
+function niceMax(v) { if (v <= 5) return 5; const p = Math.pow(10, Math.floor(Math.log10(v))); const f = v / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
+function ejeY(W, H, m, max, fmt) {
+  let s = '';
+  for (let i = 0; i <= 4; i++) {
+    const y = m.t + (H - m.t - m.b) * (1 - i / 4);
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="#e2e8f0" stroke-dasharray="3 3"/><text x="${m.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="#64748b">${fmt(max * i / 4)}</text>`;
+  }
+  return s;
+}
+function graficoHistograma(bins) {
+  const W = 900, H = 280, m = { l: 40, r: 10, t: 24, b: 36 };
+  const max = niceMax(Math.max(1, ...bins.map(b => b.n)));
+  const bw = (W - m.l - m.r) / bins.length;
+  let s = ejeY(W, H, m, max, v => Math.round(v));
+  bins.forEach((b, i) => {
+    const h = (H - m.t - m.b) * b.n / max, x = m.l + i * bw + bw * 0.14, y = H - m.b - h;
+    const col = b.d >= 90 ? '#10B981' : b.d >= 70 ? '#2979FF' : '#EF4444';
+    s += `<rect x="${x}" y="${y}" width="${bw * 0.72}" height="${h}" rx="3" fill="${col}"${tipAttr(b.et + ' pts', [[col, 'Calls', b.n]])}/>`;
+    if (b.n) s += `<text x="${x + bw * 0.36}" y="${y - 5}" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">${b.n}</text>`;
+    s += `<text x="${x + bw * 0.36}" y="${H - m.b + 16}" text-anchor="middle" font-size="10.5" fill="#64748b">${b.et}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function graficoApiladas(dias) {
+  const W = 900, H = 300, m = { l: 40, r: 10, t: 24, b: 40 };
+  if (!dias.length) return '<div class="empty">No data</div>';
+  const max = niceMax(Math.max(1, ...dias.map(d => d.total)));
+  const bw = (W - m.l - m.r) / dias.length;
+  let s = ejeY(W, H, m, max, v => Math.round(v));
+  dias.forEach((d, i) => {
+    const x = m.l + i * bw + bw * 0.15, w = bw * 0.7, base = H - m.b, sc = (H - m.t - m.b) / max;
+    let y = base;
+    [['#b8c7de', 'Automated message', d.noAplica], ['#EF4444', 'Rejected', d.desaprobadas], ['#10B981', 'Approved', d.aprobadas]].forEach(([c, l, v]) => {
+      if (!v) return; const h = v * sc; y -= h;
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"${tipAttr(fmtFecha(d.fecha), [[c, l, v], ['#94a3b8', 'Total', d.total]])}/>`;
+    });
+    s += `<text x="${x + w / 2}" y="${y - 4}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">${d.total}</text>`;
+    if (dias.length <= 16 || i % 2 === 0) s += `<text x="${x + w / 2}" y="${H - m.b + 16}" text-anchor="middle" font-size="10.5" fill="#64748b">${d.fecha.slice(5, 7)}/${d.fecha.slice(8)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}">${s}</svg>` +
+    `<div class="legend"><span><i style="background:#10B981"></i>Approved</span><span><i style="background:#EF4444"></i>Rejected</span><span><i style="background:#b8c7de"></i>Automated message</span></div>`;
+}
+const PALETA_PROV = ['#2563EB', '#14B8A6', '#F59E0B', '#8B5CF6'];
+const MS_DIA = 86400000;
+const aMs = iso => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10));
+const dm = iso => iso.slice(5, 7) + '/' + iso.slice(8);
+/* Groups by day (≤14 days), week (≤~90 days) or month; with few calls per point, daily lines are pure noise. */
+function periodos(rows) {
+  const fechas = rows.map(r => r.fecha).sort();
+  const min = fechas[0], max = fechas[fechas.length - 1];
+  const span = Math.round((aMs(max) - aMs(min)) / MS_DIA) + 1;
+  const modo = span <= 14 ? 'dia' : span <= 100 ? 'semana' : 'mes';
+  const nb = Math.max(1, Math.floor(span / 7));
+  const clave = f => modo === 'dia' ? f : modo === 'mes' ? f.slice(0, 7) : String(Math.min(nb - 1, Math.floor((aMs(f) - aMs(min)) / MS_DIA / 7))).padStart(3, '0');
+  const m = new Map();
+  rows.forEach(r => { const k = clave(r.fecha); if (!m.has(k)) m.set(k, { rows: [], ini: r.fecha, fin: r.fecha }); const b = m.get(k); b.rows.push(r); if (r.fecha < b.ini) b.ini = r.fecha; if (r.fecha > b.fin) b.fin = r.fecha; });
+  return [...m.keys()].sort().map(k => {
+    const b = m.get(k);
+    const etiqueta = modo === 'dia' ? dm(b.ini) : modo === 'semana' ? 'Wk ' + dm(b.ini) : b.ini.slice(5, 7) + '/' + b.ini.slice(0, 4);
+    const titulo = modo === 'dia' ? fmtFecha(b.ini) : modo === 'mes' ? etiqueta : b.ini === b.fin ? fmtFecha(b.ini) : dm(b.ini) + ' to ' + dm(b.fin);
+    return { rows: b.rows, etiqueta, titulo };
+  });
+}
+/* Monotone cubic spline: smooths without overshooting the real values (no invented "bounces"). */
+function trazoSuave(p) {
+  const n = p.length;
+  let d = `M${p[0][0]},${p[0][1]}`;
+  if (n === 2) return d + `L${p[1][0]},${p[1][1]}`;
+  const dx = [], m = [], t = [];
+  for (let i = 0; i < n - 1; i++) { dx[i] = p[i + 1][0] - p[i][0]; m[i] = (p[i + 1][1] - p[i][1]) / dx[i]; }
+  t[0] = m[0]; t[n - 1] = m[n - 2];
+  for (let i = 1; i < n - 1; i++) t[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+  for (let i = 0; i < n - 1; i++) {
+    if (m[i] === 0) { t[i] = t[i + 1] = 0; continue; }
+    const a = t[i] / m[i], b = t[i + 1] / m[i], s = a * a + b * b;
+    if (s > 9) { const k = 3 / Math.sqrt(s); t[i] = k * a * m[i]; t[i + 1] = k * b * m[i]; }
+  }
+  for (let i = 0; i < n - 1; i++) {
+    const h = dx[i] / 3;
+    d += `C${p[i][0] + h},${p[i][1] + t[i] * h},${p[i + 1][0] - h},${p[i + 1][1] - t[i + 1] * h},${p[i + 1][0]},${p[i + 1][1]}`;
+  }
+  return d;
+}
+function graficoLineas(rows, campo, esPct) {
+  const W = 900, H = 300, m = { l: 46, r: 58, t: 18, b: 40 };
+  const base = rows.filter(r => r.estado !== 'no_aplica');
+  const todas = [...new Set(base.map(r => r.proveedor))].sort();
+  const provs = todas.length > 1 ? todas.filter(p => p !== SIN) : todas;
+  if (!base.length) return '<div class="empty">No data</div>';
+  const per = periodos(base);
+  const val = (p, b) => {
+    const rs = b.rows.filter(r => r.proveedor === p);
+    if (!rs.length) return null;
+    return { v: campo === 'ventas' ? rs.filter(r => r.venta === 'YES').length / rs.length * 100 : rs.reduce((s, r) => s + r.total, 0) / rs.length, n: rs.length };
+  };
+  const series = provs.map(p => per.map(b => val(p, b)));
+  const todos = series.flat().filter(Boolean).map(o => o.v);
+  const cap = esPct ? 100 : 108;
+  const rango = Math.max(...todos) - Math.min(...todos);
+  const pad = Math.max(rango * 0.25, esPct ? 4 : 2);
+  const rawLo = Math.max(0, Math.min(...todos) - pad), rawHi = Math.min(cap, Math.max(...todos) + pad);
+  const step = [1, 2, 5, 10, 20].find(s => (rawHi - rawLo) / s <= 5);
+  const lo = Math.floor(rawLo / step) * step, hi = Math.min(cap, Math.max(lo + step * 2, Math.ceil(rawHi / step) * step));
+  const xs = i => m.l + (per.length === 1 ? (W - m.l - m.r) / 2 : (W - m.l - m.r) * i / (per.length - 1));
+  const ys = v => m.t + (H - m.t - m.b) * (1 - (v - lo) / (hi - lo));
+  const fmt = v => esPct ? Math.round(v * 10) / 10 + '%' : fmtNum(v);
+  let s = '';
+  for (let v = lo; v <= hi + 1e-9; v += step) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${ys(v)}" y2="${ys(v)}" stroke="#eef2f7"/><text x="${m.l - 8}" y="${ys(v) + 4}" text-anchor="end" font-size="11" fill="#64748b">${Math.round(v) + (esPct ? '%' : '')}</text>`;
+  const salto = Math.ceil(per.length / 10);
+  per.forEach((b, i) => { if (i % salto === 0) s += `<text x="${xs(i)}" y="${H - m.b + 18}" text-anchor="middle" font-size="10.5" fill="#64748b">${b.etiqueta}</text>`; });
+  const fin = [];
+  provs.forEach((p, k) => {
+    const c = PALETA_PROV[k % PALETA_PROV.length];
+    const pts = series[k].map((o, i) => o && [xs(i), ys(o.v), o, i]).filter(Boolean);
+    if (!pts.length) return;
+    if (pts.length > 1) s += `<path d="${trazoSuave(pts)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+    pts.forEach(a => {
+      const tip = tipAttr(per[a[3]].titulo, [[c, p, fmt(a[2].v) + ' (' + a[2].n + ' calls)']]);
+      s += `<circle cx="${a[0]}" cy="${a[1]}" r="4" fill="${c}" stroke="#fff" stroke-width="1.8"/><circle cx="${a[0]}" cy="${a[1]}" r="11" fill="transparent"${tip}/>`;
+    });
+    const u = pts[pts.length - 1];
+    fin.push({ y: u[1], x: u[0], txt: fmt(u[2].v), c });
+  });
+  fin.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < fin.length; i++) if (fin[i].y - fin[i - 1].y < 14) fin[i].y = fin[i - 1].y + 14;
+  fin.forEach(f => { s += `<text x="${f.x + 10}" y="${f.y + 4}" font-size="11.5" font-weight="700" fill="${f.c}">${f.txt}</text>`; });
+  const sub = per.length > 1 && per[0].etiqueta.startsWith('Wk') ? '<div class="legend" style="margin-top:2px;color:#94a3b8">Each point groups the auditable calls of the week</div>' : '';
+  return `<svg viewBox="0 0 ${W} ${H}">${s}</svg><div class="legend">${provs.map((p, k) => `<span><i style="background:${PALETA_PROV[k % PALETA_PROV.length]}"></i>${esc(p)}</span>`).join('')}</div>${sub}`;
+}
+
+/* ===================== Views ===================== */
+function vistaHeader() {
+  return `<div class="header">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#00B4F5"/><path d="M11 22v-3a9 9 0 0 1 18 0v3" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><rect x="9" y="21" width="5" height="8" rx="2" fill="#fff"/><rect x="26" y="21" width="5" height="8" rx="2" fill="#fff"/><path d="M28.5 29c0 3-3 4-6 4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="brand-name">Demo</span>
+    </div>
+    <div class="header-right">
+      <div class="header-title">Sales Quality Dashboard</div>
+      <div class="header-sub">Call audit · ${fmtFecha(F.desde)} – ${fmtFecha(F.hasta)}</div>
+    </div>
+  </div>
+  <div class="demo-note">Illustrative prototype: all data, names and identifiers are fictional and do not correspond to real people or organizations.</div>`;
+}
+function vistaTabs() {
+  return `<div class="tabs"><button class="tab ${tab === 'resumen' ? 'active' : ''}" data-tab="resumen">Overview</button><button class="tab ${tab === 'llamadas' ? 'active' : ''}" data-tab="llamadas">Calls</button></div>`;
+}
+function multi(key, label, opciones, sel) {
+  const txt = !sel.length ? 'All' : sel.length === 1 ? (opciones.find(o => o[0] === sel[0]) || [0, sel[0]])[1] : sel.length + ' selected';
+  return `<div class="field multi" data-multi="${key}"><span>${label}</span>
+    <button type="button" class="multi-btn"><span class="mlabel">${esc(txt)}</span><span>▾</span></button>
+    <div class="multi-panel" hidden>
+      ${opciones.length > 6 ? '<input class="multi-search" placeholder="Search…">' : ''}
+      ${opciones.map(o => `<label class="multi-opt" data-t="${esc(o[1].toLowerCase())}"><input type="checkbox" value="${esc(o[0])}" ${sel.includes(o[0]) ? 'checked' : ''}> ${esc(o[1])}</label>`).join('')}
+    </div></div>`;
+}
+function vistaFiltros() {
+  const uniq = (campo) => [...new Set(LLAMADAS.map(r => r[campo]))].sort().map(v => [v, v]);
+  return `<div class="filter-bar">
+    <label class="field">From<input type="date" id="f-desde" value="${F.desde}"></label>
+    <label class="field">To<input type="date" id="f-hasta" value="${F.hasta}"></label>
+    ${multi('proveedor', 'Vendor', uniq('proveedor'), F.proveedor)}
+    ${multi('supervisor', 'Supervisor', uniq('supervisor'), F.supervisor)}
+    ${multi('asesor', 'Agent', uniq('asesor'), F.asesor)}
+    ${multi('cola', 'Campaign', uniq('cola'), F.cola)}
+    ${tab === 'llamadas' ? multi('estado', 'Status', ESTADOS, F.estado) + multi('nivel', 'Service level', NIVELES, F.nivel) : ''}
+    <div class="field score">Score (0–108)<div class="rng"><input type="number" id="f-smin" min="0" max="108" placeholder="min" value="${F.scoreMin ?? ''}"><span>–</span><input type="number" id="f-smax" min="0" max="108" placeholder="max" value="${F.scoreMax ?? ''}"></div></div>
+    <label class="field search">ID / caller<input type="text" id="f-q" placeholder="DEMO-0001" value="${esc(F.q)}"></label>
+    <button class="btn" id="btn-aplicar" type="button">Apply</button>
+    <button class="btn btn-ghost" id="btn-limpiar" type="button">Clear</button>
+  </div>`;
+}
+function vistaKpis(k) {
+  const unico = e => F.estado.length === 1 && F.estado[0] === e;
+  const card = (titulo, hint, valor, cls, estado, estatico) =>
+    `<div class="kpi-card ${estatico ? 'static' : ''} ${!estatico && (estado === '' ? !F.estado.length : unico(estado)) ? 'active' : ''}" ${estatico ? '' : `data-kpi="${estado}"`}>
+      <div class="kpi-header"><span class="kpi-title">${titulo}</span><span class="kpi-hint">${hint}</span></div>
+      <div class="kpi-value ${cls}">${valor}</div></div>`;
+  return `<div class="kpi-grid">
+    ${card('Total audited', 'view all', k.total, 'val-total', '')}
+    ${card('Approved', fmtPct(k.aprobadas, k.evaluables), k.aprobadas, 'val-success', 'aprobado')}
+    ${card('Rejected', fmtPct(k.desaprobadas, k.evaluables), k.desaprobadas, 'val-danger', 'desaprobado')}
+    ${card('Automated message', 'N/A', k.noAplica, 'val-total', 'no_aplica')}
+    ${card('Sales closed', fmtPct(k.ventas, k.evaluables), k.ventas, 'val-success', '', true)}
+    ${card('Average score', 'out of 108', fmtNum(k.promedio), 'val-total', '', true)}
+  </div>`;
+}
+function vistaTablaGrupo(titulo, campo, rows) {
+  const o = orden[campo];
+  let datos = agrupar(rows, campo);
+  const getv = d => o.c === 'nombre' ? d.nombre.toLowerCase() : o.c === 'prom' ? (d.promedio ?? -1) : o.c === 'ap' ? d.aprobadas : o.c === 'de' ? d.desaprobadas : o.c === 'na' ? d.noAplica : o.c === 'vt' ? d.ventas : d.n;
+  datos.sort((a, b) => { const x = getv(a), y = getv(b); return (x < y ? -1 : x > y ? 1 : 0) * o.d || a.nombre.localeCompare(b.nombre); });
+  const t = kpis(rows);
+  const th = (c, l) => `<th class="sortable" data-sort="${campo}|${c}">${l}${o.c === c ? (o.d > 0 ? ' ▲' : ' ▼') : ''}</th>`;
+  const activo = n => F[campo].length === 1 && F[campo][0] === n;
+  return `<div class="chart-card grupo-card" style="padding-top:0;margin-bottom:20px"><h3>${titulo}</h3>
+    <div class="table-wrap" style="margin-bottom:10px"><table>
+    <thead><tr>${th('nombre', campo === 'cola' ? 'Campaign' : campo === 'proveedor' ? 'Vendor' : campo === 'supervisor' ? 'Supervisor' : 'Agent')}${th('n', 'Audited')}${th('ap', 'Approved')}${th('de', 'Rejected')}${th('na', 'Automated message')}${th('prom', 'Avg. score')}${th('vt', 'Sales closed')}</tr></thead>
+    <tbody>${datos.map(d => `<tr class="fila-filtro ${activo(d.nombre) ? 'activa' : ''}" data-filtro="${campo}|${esc(d.nombre)}"><td>${esc(d.nombre)}</td><td>${d.n}</td><td>${d.aprobadas} (${fmtPct(d.aprobadas, d.evaluables)})</td><td>${d.desaprobadas} (${fmtPct(d.desaprobadas, d.evaluables)})</td><td>${d.noAplica}</td><td>${fmtNum(d.promedio)}</td><td>${d.ventas} (${fmtPct(d.ventas, d.evaluables)})</td></tr>`).join('')}</tbody>
+    <tfoot><tr><th>Total</th><th>${t.total}</th><th>${t.aprobadas} (${fmtPct(t.aprobadas, t.evaluables)})</th><th>${t.desaprobadas} (${fmtPct(t.desaprobadas, t.evaluables)})</th><th>${t.noAplica}</th><th>${fmtNum(t.promedio)}</th><th>${t.ventas} (${fmtPct(t.ventas, t.evaluables)})</th></tr></tfoot>
+    </table></div></div>`;
+}
+function vistaResumen(rows) {
+  if (!rows.length) return '<div class="empty">No audits match the selected filters.</div>';
+  return vistaKpis(kpis(rows)) +
+    `<div class="chart-grid">
+      <div class="chart-card"><h3>Score distribution</h3>${graficoHistograma(histograma(rows))}</div>
+      <div class="chart-card"><h3>Calls by result and day</h3>${graficoApiladas(porDia(rows))}</div>
+    </div>` +
+    vistaTablaGrupo('By campaign', 'cola', rows) + vistaTablaGrupo('By vendor', 'proveedor', rows) +
+    `<div class="chart-grid">
+      <div class="chart-card"><h3>Sales rate over time by vendor</h3>${graficoLineas(rows, 'ventas', true)}</div>
+      <div class="chart-card"><h3>Score over time by vendor</h3>${graficoLineas(rows, 'score', false)}</div>
+    </div>` +
+    vistaTablaGrupo('By supervisor', 'supervisor', rows) + vistaTablaGrupo('By agent', 'asesor', rows);
+}
+function vistaAnalisis(rows) {
+  const a = analisis(rows);
+  return `<div class="call-card grupal"><details ${abierto === 'grupal' ? 'open' : ''} data-det="grupal"><summary><div class="summary-left"><span class="call-id">Group analysis of the batch</span><span class="call-meta">${rows.length} calls</span></div><span class="toggle-text">View analysis ▼</span></summary>
+    <div class="call-body">
+      <h3>Failure rate by criterion</h3>
+      <div class="table-wrap"><table><thead><tr><th>Category</th><th>Criterion</th><th>Failed</th><th>Auditable</th><th>% failed</th></tr></thead><tbody>
+      ${a.inc.map(x => `<tr><td>${x.cat}</td><td>${esc(x.criterio)}</td><td>${x.no}</td><td>${x.ev}</td><td>${fmtPct(x.no, x.ev)}</td></tr>`).join('')}</tbody></table></div>
+      <h3>Top 5 most frequent errors</h3>
+      <div class="table-wrap"><table><thead><tr><th>Error</th><th>Occurrences</th></tr></thead><tbody>
+      ${a.top.length ? a.top.map(x => `<tr><td>${esc(x[0])}</td><td>${x[1]}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>'}</tbody></table></div>
+      <h3>Additional elements</h3>
+      <div class="table-wrap"><table><thead><tr><th>Element</th><th>YES</th><th>Applicable</th><th>% YES</th></tr></thead><tbody>
+      ${a.adic.map(x => `<tr><td>${esc(x.label)}</td><td>${x.si}</td><td>${x.aplican}</td><td>${fmtPct(x.si, x.aplican)}</td></tr>`).join('')}</tbody></table></div>
+    </div></details></div>`;
+}
+const txt = v => v == null || v === '' ? 'N/A' : v;
+function tablaCriterios(r, crit) {
+  const defs = crit ? CRITICOS : NO_CRITICOS;
+  return `<div class="table-wrap"><table><thead><tr><th>Attribute</th><th>${crit ? 'Type' : 'Weight'}</th><th>Evaluation</th><th>Points</th><th>Errors detected</th><th>Justification and evidence</th></tr></thead><tbody>
+    ${defs.map(c => { const e = r.criterios[c.key]; return `<tr><td>${esc(c.label)}</td><td>${crit ? c.tipo : c.pond}</td><td>${evalBadge(e.ev)}</td><td>${txt(e.pts)}</td><td>${e.sub.length ? esc(e.sub.join('; ')) : '-'}</td><td>${esc(e.just)}</td></tr>`; }).join('')}
+  </tbody></table></div>`;
+}
+function vistaCard(r) {
+  const meta = [['Agent', r.asesor], ['Log ID', r.logId], ['User', r.usuario], ['Type', r.tipo], ['Supervisor', r.supervisor], ['Campaign', r.cola], ['Time', r.hora], ['Caller', r.caller], ['IVR', r.ivr], ['Wait', r.espera], ['Duration', r.duracion], ['Disconnected by', r.desconexion], ['Code', r.codigo], ['No-sale reason', r.motivoNoVenta], ['Tag', r.tag], ['Customer ID', r.clienteId], ['Form ID', r.formId]];
+  return `<div class="call-card"><details ${abierto === r.id ? 'open' : ''} data-det="${r.id}"><summary>
+    <div class="summary-left"><span class="call-id">Call: ${r.id}</span><span class="call-meta">${fmtFecha(r.fecha)} · ${esc(r.cola)} · ${esc(r.asesor)}</span>${dictBadge(r)}${r.estado !== 'no_aplica' ? nivelBadge(r) : ''}<span class="call-score">${txt(r.total)} / 108</span></div>
+    <span class="toggle-text">View full audit ▼</span></summary>
+    <div class="call-body">
+      <h3>1. Overview</h3>
+      <div class="table-wrap"><table><thead><tr><th>Verdict</th><th>Level</th><th>Non-critical</th><th>Critical</th><th>Total</th><th>Sale closed</th><th>Rejection reason</th><th>Summary</th></tr></thead><tbody><tr>
+        <td>${dictBadge(r)}</td><td>${nivelBadge(r)}</td><td>${txt(r.pNoCrit)} / 100</td><td>${txt(r.pCrit)} / 8</td><td><b>${txt(r.total)} / 108</b></td><td>${siNo(r.venta)}</td><td>${esc(txt(r.motivoDesaprob))}</td><td>${esc(r.sintesis)}</td></tr></tbody></table></div>
+      <h3>2. Sale details</h3>
+      <div class="table-wrap"><table><thead><tr><th>Agent</th><th>Call center</th><th>Service contracted</th><th>Installation date</th><th>Payment method</th></tr></thead><tbody><tr>
+        <td>${esc(r.asesor)}</td><td>${esc(r.callCenter)}</td><td>${esc(r.servicio)}</td><td>${r.venta === 'YES' ? fmtFecha(r.instalacion) : 'N/A'}</td><td>${r.venta === 'YES' ? esc(r.pago) : 'N/A'}</td></tr></tbody></table></div>
+      <h3>3. Customer data validation (recorded only if requested)</h3>
+      <div class="table-wrap"><table><thead><tr>${VALIDACIONES.map(v => `<th>${v[1]}</th>`).join('')}</tr></thead><tbody><tr>${VALIDACIONES.map(v => `<td>${siNo(r[v[0]])}</td>`).join('')}</tr></tbody></table></div>
+      <h3>4. Critical errors</h3>${tablaCriterios(r, true)}
+      <h3>5. Non-critical errors</h3>${tablaCriterios(r, false)}
+      <h3>6. Additional elements and billing</h3>
+      <div class="table-wrap"><table><thead><tr><th>Element</th><th>Result</th></tr></thead><tbody>
+        <tr><td>Additional services offered</td><td>${r.ofrecidos.length ? esc(r.ofrecidos.join('; ')) : '-'}</td></tr>
+        <tr><td>Additional services accepted</td><td>${r.aceptados.length ? esc(r.aceptados.join('; ')) : '-'}</td></tr>
+        ${ADICIONALES.map(a => `<tr><td>${a[1]}</td><td>${siNo(r[a[0]])}</td></tr>`).join('')}</tbody></table></div>
+      <h3>7. Conclusion</h3>
+      <p><b>Comments:</b> ${esc(r.observaciones)}</p><p><b>Improvement recommendations:</b></p>
+      ${r.recomendaciones.length ? `<ul>${r.recomendaciones.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p>-</p>'}
+      <h3>8. Call details</h3>
+      <div class="table-wrap"><table><tbody>${meta.map(m => `<tr><th>${m[0]}</th><td>${esc(txt(m[1]))}</td></tr>`).join('')}</tbody></table></div>
+    </div></details></div>`;
+}
+function vistaLlamadas(rows) {
+  if (!rows.length) return '<div class="empty">No audits match the selected filters.</div>';
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  page = Math.min(Math.max(1, page), pages);
+  const slice = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  return vistaAnalisis(rows) + `<div class="list-info">${rows.length} calls · page ${page} of ${pages}</div>` + slice.map(vistaCard).join('') +
+    `<div class="pager"><button class="btn btn-ghost" data-page="${page - 1}" ${page <= 1 ? 'disabled' : ''}>← Previous</button><span>${page} / ${pages}</span><button class="btn btn-ghost" data-page="${page + 1}" ${page >= pages ? 'disabled' : ''}>Next →</button></div>`;
+}
+function render() {
+  const rows = filtrar();
+  document.getElementById('app').innerHTML = vistaHeader() + vistaTabs() + vistaFiltros() +
+    (tab === 'resumen' ? vistaResumen(rows) : vistaLlamadas(rows)) +
+    '<div class="foot">Prototype with fictional data · for illustration only</div>';
+}
+
+/* ===================== Events ===================== */
+function leerFiltros() {
+  const g = id => document.getElementById(id);
+  F.desde = g('f-desde').value; F.hasta = g('f-hasta').value;
+  F.scoreMin = g('f-smin').value === '' ? null : +g('f-smin').value;
+  F.scoreMax = g('f-smax').value === '' ? null : +g('f-smax').value;
+  F.q = g('f-q').value;
+  document.querySelectorAll('.multi').forEach(m => {
+    F[m.dataset.multi] = [...m.querySelectorAll('input[type=checkbox]:checked')].map(i => i.value);
+  });
+  page = 1; abierto = null;
+}
+function alternarFiltro(campo, valor) {
+  F[campo] = F[campo].length === 1 && F[campo][0] === valor ? [] : [valor];
+  page = 1;
+}
+const app = document.getElementById('app');
+app.addEventListener('click', e => {
+  const t = e.target;
+  const tabBtn = t.closest('[data-tab]');
+  if (tabBtn) { tab = tabBtn.dataset.tab; page = 1; render(); return; }
+  if (t.closest('#btn-aplicar')) { leerFiltros(); render(); return; }
+  if (t.closest('#btn-limpiar')) { F = filtrosVacios(); page = 1; abierto = null; render(); return; }
+  const mb = t.closest('.multi-btn');
+  if (mb) { const p = mb.parentElement.querySelector('.multi-panel'); const h = p.hidden; document.querySelectorAll('.multi-panel').forEach(x => x.hidden = true); p.hidden = !h; return; }
+  const kpi = t.closest('[data-kpi]');
+  if (kpi) { const v = kpi.dataset.kpi; F.estado = v === '' ? [] : (F.estado.length === 1 && F.estado[0] === v ? [] : [v]); page = 1; render(); return; }
+  const th = t.closest('[data-sort]');
+  if (th) { const [c, col] = th.dataset.sort.split('|'); const o = orden[c]; if (o.c === col) o.d *= -1; else { o.c = col; o.d = col === 'nombre' ? 1 : -1; } render(); return; }
+  const fila = t.closest('[data-filtro]');
+  if (fila) { const [c, ...v] = fila.dataset.filtro.split('|'); alternarFiltro(c, v.join('|')); render(); return; }
+  const pg = t.closest('[data-page]');
+  if (pg && !pg.disabled) { page = +pg.dataset.page; abierto = null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  if (!t.closest('.multi')) document.querySelectorAll('.multi-panel').forEach(x => x.hidden = true);
+});
+app.addEventListener('change', e => {
+  const cb = e.target;
+  if (cb.type === 'checkbox' && cb.closest('.multi')) {
+    const m = cb.closest('.multi');
+    const sel = [...m.querySelectorAll('input[type=checkbox]:checked')];
+    m.querySelector('.mlabel').textContent = !sel.length ? 'All' : sel.length === 1 ? cb.closest('.multi-panel').querySelector(`input[value="${CSS.escape(sel[0].value)}"]`).parentElement.textContent.trim() : sel.length + ' selected';
+  }
+});
+app.addEventListener('input', e => {
+  if (e.target.classList.contains('multi-search')) {
+    const q = e.target.value.toLowerCase();
+    e.target.parentElement.querySelectorAll('.multi-opt').forEach(o => o.style.display = o.dataset.t.includes(q) ? '' : 'none');
+  }
+});
+app.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest('.filter-bar') && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') { leerFiltros(); render(); } });
+app.addEventListener('toggle', e => { if (e.target.matches('details[data-det]')) { if (e.target.open) abierto = e.target.dataset.det; else if (abierto === e.target.dataset.det) abierto = null; } }, true);
+
+/* Chart tooltip */
+const tip = document.getElementById('tip');
+document.addEventListener('mousemove', e => {
+  const el = e.target.closest && e.target.closest('[data-tip]');
+  if (!el) { tip.style.display = 'none'; return; }
+  try {
+    const d = JSON.parse(el.getAttribute('data-tip'));
+    tip.innerHTML = `<b>${esc(d.t)}</b>` + d.i.map(i => `<div><i style="background:${esc(i[0])}"></i>${esc(i[1])}: <b style="display:inline;margin:0">${esc(i[2])}</b></div>`).join('');
+    tip.style.display = 'block';
+    tip.style.left = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8) + 'px';
+    tip.style.top = (e.clientY + 14) + 'px';
+  } catch (_) { tip.style.display = 'none'; }
+});
+
+render();
+</script>
+</body>
+</html>
