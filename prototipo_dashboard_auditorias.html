@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard de Auditorías de Televentas (Demo)</title>
+<title>Sales Call Audit Dashboard (Demo)</title>
 <style>
 * { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f1f5f9; color: #1e293b; padding: 25px; margin: 0; }
@@ -121,78 +121,78 @@ tr:nth-child(even) { background-color: #fafbfc; }
 <div id="tip"></div>
 
 <script>
-/* ===================== Utilidades ===================== */
+/* ===================== Utilities ===================== */
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad = n => String(n).padStart(2, '0');
-const fmtFecha = iso => iso ? iso.split('-').reverse().join('/') : '';
+const fmtFecha = iso => iso || '';
 const fmtPct = (n, d) => d ? Math.round(n / d * 1000) / 10 + '%' : '–';
-const fmtNum = v => v == null ? '–' : (Math.round(v * 10) / 10).toString().replace('.', ',');
+const fmtNum = v => v == null ? '–' : (Math.round(v * 10) / 10).toString();
 
-/* ===================== Definiciones ===================== */
+/* ===================== Definitions ===================== */
 const CRITICOS = [
-  { key: 'validacion_datos', label: 'Validación de datos', tipo: 'ECNEG' },
-  { key: 'trato_adecuado', label: 'Trato adecuado', tipo: 'ECUF' },
-  { key: 'proceso_venta', label: 'Proceso de venta', tipo: 'ECNEG' },
-  { key: 'informacion_cliente', label: 'Información al cliente', tipo: 'ECUF' },
-  { key: 'manejo_objeciones', label: 'Manejo de objeciones', tipo: 'ECNEG' },
-  { key: 'gestion_carga', label: 'Gestión de carga', tipo: 'ECNEG' },
-  { key: 'resumen_contratacion', label: 'Resumen de contratación', tipo: 'ECUF' },
-  { key: 'checklist_instalacion', label: 'Check list de instalación', tipo: 'ECNEG' },
+  { key: 'validacion_datos', label: 'Data validation', tipo: 'ECNEG' },
+  { key: 'trato_adecuado', label: 'Appropriate treatment', tipo: 'ECUF' },
+  { key: 'proceso_venta', label: 'Sales process', tipo: 'ECNEG' },
+  { key: 'informacion_cliente', label: 'Customer information', tipo: 'ECUF' },
+  { key: 'manejo_objeciones', label: 'Objection handling', tipo: 'ECNEG' },
+  { key: 'gestion_carga', label: 'Order entry', tipo: 'ECNEG' },
+  { key: 'resumen_contratacion', label: 'Contract summary', tipo: 'ECUF' },
+  { key: 'checklist_instalacion', label: 'Installation checklist', tipo: 'ECNEG' },
 ];
 const NO_CRITICOS = [
-  { key: 'apertura', label: 'Apertura', pond: 10 },
-  { key: 'presentacion', label: 'Presentación', pond: 10 },
-  { key: 'escucha_activa', label: 'Escucha activa', pond: 15 },
-  { key: 'conduccion_liderazgo', label: 'Conducción y liderazgo', pond: 15 },
-  { key: 'empatia', label: 'Empatía', pond: 15 },
-  { key: 'habilidades_venta', label: 'Habilidades de venta', pond: 15 },
-  { key: 'clasificacion_carga', label: 'Clasificación de llamado/Carga en formulario', pond: 10 },
-  { key: 'despedida', label: 'Despedida', pond: 10 },
+  { key: 'apertura', label: 'Opening', pond: 10 },
+  { key: 'presentacion', label: 'Presentation', pond: 10 },
+  { key: 'escucha_activa', label: 'Active listening', pond: 15 },
+  { key: 'conduccion_liderazgo', label: 'Guidance and leadership', pond: 15 },
+  { key: 'empatia', label: 'Empathy', pond: 15 },
+  { key: 'habilidades_venta', label: 'Sales skills', pond: 15 },
+  { key: 'clasificacion_carga', label: 'Call classification / Form entry', pond: 10 },
+  { key: 'despedida', label: 'Closing', pond: 10 },
 ];
 const VALIDACIONES = [
-  ['val_nombre', 'Nombre del cliente'], ['val_doc', 'Documento'], ['val_domicilio', 'Domicilio'],
-  ['val_email', 'Correo electrónico'], ['val_tel', 'Teléfono de contacto'], ['val_pago', 'Método de pago'],
-  ['val_nro', 'Informa N° de cliente asignado'],
+  ['val_nombre', 'Customer name'], ['val_doc', 'ID document'], ['val_domicilio', 'Address'],
+  ['val_email', 'Email'], ['val_tel', 'Contact phone'], ['val_pago', 'Payment method'],
+  ['val_nro', 'States the assigned customer number'],
 ];
 const ADICIONALES = [
-  ['ad_dias', 'Informa días proporcionales'],
-  ['ad_factura', 'Explica cómo se cobra la primera factura'],
-  ['ad_baja', 'Recomienda no dar de baja el servicio actual hasta la instalación'],
-  ['ad_linea', 'Ofrece línea adicional'],
-  ['ad_rescate', 'Rescate de puntos clave (beneficios, precio, contacto, instalación, proceso)'],
+  ['ad_dias', 'States prorated days'],
+  ['ad_factura', 'Explains how the first invoice is charged'],
+  ['ad_baja', 'Recommends not cancelling the current service until installation'],
+  ['ad_linea', 'Offers an additional line'],
+  ['ad_rescate', 'Recaps key points (benefits, price, contact, installation, process)'],
 ];
 const ERRORES = {
-  validacion_datos: ['No solicita el nombre completo del cliente', 'No confirma el domicilio de instalación'],
-  trato_adecuado: ['Interrumpe al cliente durante su exposición', 'Utiliza un tono poco cordial'],
-  proceso_venta: ['Omite informar el precio final del servicio', 'No explica las condiciones de la promoción'],
-  informacion_cliente: ['Brinda información incompleta sobre el plan', 'No aclara la vigencia de la oferta'],
-  manejo_objeciones: ['No rebate la objeción de precio', 'Abandona la oferta ante la primera objeción'],
-  gestion_carga: ['Carga datos incorrectos en el formulario', 'No registra el motivo de la gestión'],
-  resumen_contratacion: ['No realiza el resumen final de la contratación', 'El resumen omite el monto mensual'],
-  checklist_instalacion: ['No informa el plazo estimado de instalación', 'No explica los requisitos para la visita técnica'],
-  apertura: ['No saluda según el protocolo', 'No se identifica con su nombre'],
-  presentacion: ['No presenta el motivo de la llamada', 'No indica el beneficio principal de la oferta'],
-  escucha_activa: ['No retoma lo dicho por el cliente', 'Hace preguntas ya respondidas'],
-  conduccion_liderazgo: ['Pierde el hilo de la conversación', 'No propone un cierre claro'],
-  empatia: ['No reconoce la situación del cliente', 'Respuestas con tono monótono'],
-  habilidades_venta: ['No realiza preguntas de sondeo', 'No ofrece alternativas de planes'],
-  clasificacion_carga: ['Clasifica la llamada con un código incorrecto', 'Carga incompleta de observaciones'],
-  despedida: ['No agradece al cliente', 'No ofrece ayuda adicional antes de cortar'],
+  validacion_datos: ["Does not ask for the customer's full name", 'Does not confirm the installation address'],
+  trato_adecuado: ['Interrupts the customer while they are speaking', 'Uses an unfriendly tone'],
+  proceso_venta: ['Omits the final price of the service', 'Does not explain the promotion conditions'],
+  informacion_cliente: ['Gives incomplete information about the plan', 'Does not clarify how long the offer is valid'],
+  manejo_objeciones: ['Does not counter the price objection', 'Drops the offer at the first objection'],
+  gestion_carga: ['Enters incorrect data in the form', 'Does not record the reason for the call'],
+  resumen_contratacion: ['Does not give the final contract summary', 'The summary omits the monthly amount'],
+  checklist_instalacion: ['Does not state the estimated installation time', 'Does not explain the requirements for the technical visit'],
+  apertura: ['Does not greet according to protocol', 'Does not introduce themselves by name'],
+  presentacion: ['Does not state the reason for the call', 'Does not mention the main benefit of the offer'],
+  escucha_activa: ["Does not pick up on what the customer said", 'Asks questions that were already answered'],
+  conduccion_liderazgo: ['Loses the thread of the conversation', 'Does not propose a clear close'],
+  empatia: ["Does not acknowledge the customer's situation", 'Answers in a monotone voice'],
+  habilidades_venta: ['Does not ask discovery questions', 'Does not offer alternative plans'],
+  clasificacion_carga: ['Classifies the call with the wrong code', 'Incomplete notes in the form'],
+  despedida: ['Does not thank the customer', 'Does not offer further help before hanging up'],
 };
-const SERVICIOS = ['Internet 300 Mb', 'Internet 600 Mb', 'Pack Internet + TV', 'Internet 600 Mb + Telefonía', 'Internet 1 Gb + TV'];
-const ADICIONALES_OFRECIDOS = ['Decodificador adicional', 'Línea adicional', 'Repetidor Wi-Fi', 'Paquete de canales premium'];
-const PAGOS = ['Tarjeta de crédito', 'Débito automático', 'Factura en efectivo'];
-const MOTIVOS_NO_VENTA = ['Precio elevado', 'Prefiere consultar con otra persona', 'Sin cobertura', 'Ya posee el servicio', 'Sin interés'];
-const MOTIVOS_DESAPROB = ['Error crítico en la validación de datos', 'Error crítico en el proceso de venta', 'Puntaje no crítico por debajo del mínimo', 'Información incompleta al cliente', 'Resumen de contratación omitido'];
+const SERVICIOS = ['Internet 300 Mb', 'Internet 600 Mb', 'Internet + TV bundle', 'Internet 600 Mb + Phone', 'Internet 1 Gb + TV'];
+const ADICIONALES_OFRECIDOS = ['Additional set-top box', 'Additional line', 'Wi-Fi extender', 'Premium channel pack'];
+const PAGOS = ['Credit card', 'Direct debit', 'Cash invoice'];
+const MOTIVOS_NO_VENTA = ['Price too high', 'Prefers to consult someone else', 'No coverage', 'Already has the service', 'Not interested'];
+const MOTIVOS_DESAPROB = ['Critical error in data validation', 'Critical error in the sales process', 'Non-critical score below the minimum', 'Incomplete information to the customer', 'Contract summary omitted'];
 
-/* ===================== Datos ficticios ===================== */
-const PROVEEDORES = ['Proveedor Alfa', 'Proveedor Beta', 'Proveedor Gamma'];
+/* ===================== Fictional data ===================== */
+const PROVEEDORES = ['Vendor Alpha', 'Vendor Beta', 'Vendor Gamma'];
 const SUPERVISORES = ['Supervisor A', 'Supervisor B', 'Supervisor C', 'Supervisor D', 'Supervisor E', 'Supervisor F'];
-const COLAS = ['Cola Ventas 1', 'Cola Ventas 2', 'Cola Ventas 3', 'Cola Retención'];
-const SIN = 'Sin asignar';
+const COLAS = ['Sales Campaign 1', 'Sales Campaign 2', 'Sales Campaign 3', 'Retention Campaign'];
+const SIN = 'Unassigned';
 const ASESORES = Array.from({ length: 24 }, (_, i) => ({
-  nombre: 'Asesor ' + pad(i + 1),
+  nombre: 'Agent ' + pad(i + 1),
   sup: Math.floor(i / 4),
   prov: Math.floor(i / 8),
   skill: 0.62 + ((i * 37) % 100) / 100 * 0.34,
@@ -221,33 +221,33 @@ function generarLlamadas() {
     r.clienteId = String(700000 + Math.floor(rnd() * 99999));
     r.formId = String(300000 + Math.floor(rnd() * 99999));
     const wait = 5 + Math.floor(rnd() * 90), dur = 180 + Math.floor(rnd() * 900);
-    r.ivr = pick(['Ventas', 'Consultas', 'Promociones']);
+    r.ivr = pick(['Sales', 'Inquiries', 'Promotions']);
     r.espera = `00:${pad(Math.floor(wait / 60))}:${pad(wait % 60)}`;
     r.duracion = `${pad(Math.floor(dur / 3600))}:${pad(Math.floor(dur % 3600 / 60))}:${pad(dur % 60)}`;
-    r.desconexion = pick(['Cliente', 'Agente']);
+    r.desconexion = pick(['Customer', 'Agent']);
     r.codigo = pick(['VTA', 'NOV', 'CONS']);
-    r.tag = pick(['Nueva venta', 'Seguimiento', 'Consulta']);
+    r.tag = pick(['New sale', 'Follow-up', 'Inquiry']);
     r.servicio = pick(SERVICIOS);
     r.callCenter = r.proveedor;
     r.pago = pick(PAGOS);
     const inst = 5 + Math.floor(rnd() * 20);
     r.instalacion = `2026-04-${pad(inst)}`;
-    r.tipo = pick(['Entrante', 'Entrante', 'Saliente']);
+    r.tipo = pick(['Inbound', 'Inbound', 'Outbound']);
 
     const auto = rnd() < 0.14;
     const skill = sinAsig ? 0.75 : ase.skill;
     r.criterios = {};
     if (auto) {
       r.estado = 'no_aplica';
-      r.dictamen = 'MENSAJE AUTOMÁTICO / NO APLICA';
+      r.dictamen = 'AUTOMATED MESSAGE / N/A';
       r.nivel = 'no_aplica';
       r.venta = null; r.pNoCrit = null; r.pCrit = null; r.total = null;
-      [...CRITICOS, ...NO_CRITICOS].forEach(c => r.criterios[c.key] = { ev: 'NO_APLICA', pts: null, sub: [], just: 'Mensaje automático: no aplica auditoría.' });
+      [...CRITICOS, ...NO_CRITICOS].forEach(c => r.criterios[c.key] = { ev: 'NO_APLICA', pts: null, sub: [], just: 'Automated message: not subject to audit.' });
       VALIDACIONES.forEach(v => r[v[0]] = null);
       ADICIONALES.forEach(a => r[a[0]] = null);
       r.ofrecidos = []; r.aceptados = [];
-      r.sintesis = 'Llamada atendida por contestador o mensaje automático, sin interacción con un asesor.';
-      r.observaciones = 'No corresponde auditoría de la gestión.';
+      r.sintesis = 'Call answered by a voicemail or automated message, with no interaction with an agent.';
+      r.observaciones = 'The call is not subject to audit.';
       r.recomendaciones = [];
       r.motivoDesaprob = null; r.motivoNoVenta = null;
     } else {
@@ -258,7 +258,7 @@ function generarLlamadas() {
         r.criterios[c.key] = {
           ev: ok ? 'CUMPLE' : 'NO_CUMPLE', pts: ok ? 1 : 0,
           sub: ok ? [] : [pick(ERRORES[c.key])],
-          just: ok ? 'El asesor cumple con lo esperado para este atributo.' : 'Se detecta el incumplimiento descrito durante la llamada.',
+          just: ok ? 'The agent meets what is expected for this attribute.' : 'The failure described is detected during the call.',
         };
       });
       NO_CRITICOS.forEach(c => {
@@ -268,31 +268,31 @@ function generarLlamadas() {
         r.criterios[c.key] = {
           ev: noAud ? 'NO_AUDITABLE_EN_TEXTO' : ok ? 'CUMPLE' : 'NO_CUMPLE', pts: ok ? c.pond : 0,
           sub: ok ? [] : [pick(ERRORES[c.key])],
-          just: noAud ? 'Atributo no auditable a partir de la transcripción.' : ok ? 'El asesor cumple con lo esperado para este atributo.' : 'Se detecta el incumplimiento descrito durante la llamada.',
+          just: noAud ? 'Attribute cannot be audited from the transcript alone.' : ok ? 'The agent meets what is expected for this attribute.' : 'The failure described is detected during the call.',
         };
       });
       r.pNoCrit = noCrit; r.pCrit = crit; r.total = noCrit + crit;
       const desap = fallaCritica || noCrit < 70;
       r.estado = desap ? 'desaprobado' : 'aprobado';
-      r.dictamen = desap ? 'DESAPROBADO' : 'APROBADO';
+      r.dictamen = desap ? 'REJECTED' : 'APPROVED';
       r.nivel = r.total >= 98 ? 'excelente' : r.total >= 85 ? 'aceptable' : 'deficiente';
-      r.venta = rnd() < (desap ? 0.35 : 0.78) ? 'SÍ' : 'NO';
-      VALIDACIONES.forEach(v => r[v[0]] = rnd() < 0.93 ? 'SÍ' : 'NO');
-      ADICIONALES.forEach(a => r[a[0]] = r.venta === 'SÍ' ? (rnd() < 0.62 ? 'SÍ' : 'NO') : null);
-      r.ofrecidos = r.venta === 'SÍ' ? ADICIONALES_OFRECIDOS.filter(() => rnd() < 0.45) : [];
+      r.venta = rnd() < (desap ? 0.35 : 0.78) ? 'YES' : 'NO';
+      VALIDACIONES.forEach(v => r[v[0]] = rnd() < 0.93 ? 'YES' : 'NO');
+      ADICIONALES.forEach(a => r[a[0]] = r.venta === 'YES' ? (rnd() < 0.62 ? 'YES' : 'NO') : null);
+      r.ofrecidos = r.venta === 'YES' ? ADICIONALES_OFRECIDOS.filter(() => rnd() < 0.45) : [];
       r.aceptados = r.ofrecidos.filter(() => rnd() < 0.5);
       r.motivoDesaprob = desap ? pick(MOTIVOS_DESAPROB) : null;
       r.motivoNoVenta = r.venta === 'NO' ? pick(MOTIVOS_NO_VENTA) : null;
-      r.sintesis = r.venta === 'SÍ'
-        ? `El cliente consulta por ${r.servicio} y acepta la contratación. El asesor realiza la carga del pedido.`
-        : `El cliente consulta por ${r.servicio} pero no concreta la contratación (${(r.motivoNoVenta || '').toLowerCase()}).`;
+      r.sintesis = r.venta === 'YES'
+        ? `The customer asks about ${r.servicio} and accepts the contract. The agent enters the order.`
+        : `The customer asks about ${r.servicio} but does not close the sale (${(r.motivoNoVenta || '').toLowerCase()}).`;
       r.observaciones = desap
-        ? 'La gestión presenta incumplimientos que impactan en la calidad de la atención y deben ser reforzados.'
-        : 'La gestión cumple con los lineamientos de calidad, con oportunidades de mejora puntuales.';
+        ? 'The call has failures that affect the quality of service and need to be reinforced.'
+        : 'The call meets the quality guidelines, with specific opportunities for improvement.';
       const fallos = [...CRITICOS, ...NO_CRITICOS].filter(c => r.criterios[c.key].ev === 'NO_CUMPLE');
       r.recomendaciones = fallos.length
-        ? fallos.slice(0, 3).map(c => `Reforzar el atributo "${c.label}" mediante práctica guiada.`)
-        : ['Mantener el nivel de atención y compartir buenas prácticas con el equipo.'];
+        ? fallos.slice(0, 3).map(c => `Reinforce the "${c.label}" attribute through guided practice.`)
+        : ['Keep up the quality of service and share good practices with the team.'];
     }
     if (r.venta == null) { r.venta = null; }
     out.push(r);
@@ -302,12 +302,12 @@ function generarLlamadas() {
 const LLAMADAS = generarLlamadas();
 
 const PAGE_SIZE = 10;
-const ESTADOS = [['aprobado', 'Aprobado'], ['desaprobado', 'Desaprobado'], ['no_aplica', 'Mensaje automático']];
-const NIVELES = [['excelente', 'Excelente'], ['aceptable', 'Aceptable'], ['deficiente', 'Deficiente']];
-const GRUPOS = { cola: 'Por cola', proveedor: 'Por proveedor', supervisor: 'Por supervisor', asesor: 'Por asesor' };
+const ESTADOS = [['aprobado', 'Approved'], ['desaprobado', 'Rejected'], ['no_aplica', 'Automated message']];
+const NIVELES = [['excelente', 'Excellent'], ['aceptable', 'Acceptable'], ['deficiente', 'Poor']];
+const GRUPOS = { cola: 'By campaign', proveedor: 'By vendor', supervisor: 'By supervisor', asesor: 'By agent' };
 const PALETA = ['#EF4444', '#10B981', '#3B82F6', '#F59E0B', '#8B5CF6'];
 
-/* ===================== Estado ===================== */
+/* ===================== State ===================== */
 const filtrosVacios = () => ({ desde: MES.desde, hasta: MES.hasta, estado: [], nivel: [], proveedor: [], supervisor: [], asesor: [], cola: [], scoreMin: null, scoreMax: null, q: '' });
 let F = filtrosVacios();
 let tab = 'resumen';
@@ -315,7 +315,7 @@ let page = 1;
 let abierto = null;
 const orden = { cola: { c: 'n', d: -1 }, proveedor: { c: 'n', d: -1 }, supervisor: { c: 'n', d: -1 }, asesor: { c: 'n', d: -1 } };
 
-/* ===================== Lógica ===================== */
+/* ===================== Logic ===================== */
 function filtrar() {
   const q = F.q.trim().toLowerCase();
   return LLAMADAS.filter(r =>
@@ -335,7 +335,7 @@ function kpis(rows) {
   const ap = rows.filter(r => r.estado === 'aprobado').length;
   const de = rows.filter(r => r.estado === 'desaprobado').length;
   const ev = ap + de;
-  const ventas = rows.filter(r => r.estado !== 'no_aplica' && r.venta === 'SÍ').length;
+  const ventas = rows.filter(r => r.estado !== 'no_aplica' && r.venta === 'YES').length;
   const suma = rows.reduce((s, r) => s + (r.estado !== 'no_aplica' ? r.total : 0), 0);
   return { total: rows.length, aprobadas: ap, desaprobadas: de, noAplica: rows.length - ev, evaluables: ev, ventas, promedio: ev ? suma / ev : null };
 }
@@ -358,7 +358,7 @@ function analisis(rows) {
   const ev = rows.filter(r => r.estado !== 'no_aplica');
   const inc = [];
   const errores = new Map();
-  [['Crítico', CRITICOS], ['No crítico', NO_CRITICOS]].forEach(([cat, defs]) => defs.forEach(c => {
+  [['Critical', CRITICOS], ['Non-critical', NO_CRITICOS]].forEach(([cat, defs]) => defs.forEach(c => {
     let no = 0, ok = 0;
     ev.forEach(r => {
       const e = r.criterios[c.key];
@@ -371,19 +371,19 @@ function analisis(rows) {
   const top = [...errores.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
   const adic = ADICIONALES.map(([k, label]) => {
     const ap = ev.filter(r => r[k] != null);
-    return { label, si: ap.filter(r => r[k] === 'SÍ').length, aplican: ap.length };
+    return { label, si: ap.filter(r => r[k] === 'YES').length, aplican: ap.length };
   });
   return { inc, top, adic };
 }
 
 /* ===================== Badges ===================== */
 const badge = (cls, t) => `<span class="badge badge-${cls}">${esc(t)}</span>`;
-function evalBadge(v) { return v === 'CUMPLE' ? badge('success', 'CUMPLE') : v === 'NO_CUMPLE' ? badge('danger', 'NO CUMPLE') : v === 'NO_AUDITABLE_EN_TEXTO' ? badge('na', 'N/A TEXTO') : badge('na', 'NO APLICA'); }
-function siNo(v) { return v === 'SÍ' ? badge('yes', 'SÍ') : v === 'NO' ? badge('no', 'NO') : badge('na', 'N/A'); }
-function dictBadge(r) { return r.estado === 'aprobado' ? badge('success', 'APROBADO') : r.estado === 'desaprobado' ? badge('danger', 'DESAPROBADO') : badge('na', 'MENSAJE AUTOMÁTICO / NO APLICA'); }
-function nivelBadge(r) { return r.nivel === 'excelente' ? badge('success', 'EXCELENTE') : r.nivel === 'aceptable' ? badge('warn', 'ACEPTABLE') : r.nivel === 'deficiente' ? badge('danger', 'DEFICIENTE') : badge('na', 'N/A'); }
+function evalBadge(v) { return v === 'CUMPLE' ? badge('success', 'MEETS') : v === 'NO_CUMPLE' ? badge('danger', 'FAILS') : v === 'NO_AUDITABLE_EN_TEXTO' ? badge('na', 'N/A TEXT') : badge('na', 'N/A'); }
+function siNo(v) { return v === 'YES' ? badge('yes', 'YES') : v === 'NO' ? badge('no', 'NO') : badge('na', 'N/A'); }
+function dictBadge(r) { return r.estado === 'aprobado' ? badge('success', 'APPROVED') : r.estado === 'desaprobado' ? badge('danger', 'REJECTED') : badge('na', 'AUTOMATED MESSAGE / N/A'); }
+function nivelBadge(r) { return r.nivel === 'excelente' ? badge('success', 'EXCELLENT') : r.nivel === 'aceptable' ? badge('warn', 'ACCEPTABLE') : r.nivel === 'deficiente' ? badge('danger', 'POOR') : badge('na', 'N/A'); }
 
-/* ===================== Gráficos SVG ===================== */
+/* ===================== SVG charts ===================== */
 const tipAttr = (titulo, items) => ` data-tip="${esc(JSON.stringify({ t: titulo, i: items }))}"`;
 function niceMax(v) { if (v <= 5) return 5; const p = Math.pow(10, Math.floor(Math.log10(v))); const f = v / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
 function ejeY(W, H, m, max, fmt) {
@@ -402,7 +402,7 @@ function graficoHistograma(bins) {
   bins.forEach((b, i) => {
     const h = (H - m.t - m.b) * b.n / max, x = m.l + i * bw + bw * 0.14, y = H - m.b - h;
     const col = b.d >= 90 ? '#10B981' : b.d >= 70 ? '#2979FF' : '#EF4444';
-    s += `<rect x="${x}" y="${y}" width="${bw * 0.72}" height="${h}" rx="3" fill="${col}"${tipAttr(b.et + ' pts', [[col, 'Llamadas', b.n]])}/>`;
+    s += `<rect x="${x}" y="${y}" width="${bw * 0.72}" height="${h}" rx="3" fill="${col}"${tipAttr(b.et + ' pts', [[col, 'Calls', b.n]])}/>`;
     if (b.n) s += `<text x="${x + bw * 0.36}" y="${y - 5}" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">${b.n}</text>`;
     s += `<text x="${x + bw * 0.36}" y="${H - m.b + 16}" text-anchor="middle" font-size="10.5" fill="#64748b">${b.et}</text>`;
   });
@@ -410,28 +410,28 @@ function graficoHistograma(bins) {
 }
 function graficoApiladas(dias) {
   const W = 900, H = 300, m = { l: 40, r: 10, t: 24, b: 40 };
-  if (!dias.length) return '<div class="empty">Sin datos</div>';
+  if (!dias.length) return '<div class="empty">No data</div>';
   const max = niceMax(Math.max(1, ...dias.map(d => d.total)));
   const bw = (W - m.l - m.r) / dias.length;
   let s = ejeY(W, H, m, max, v => Math.round(v));
   dias.forEach((d, i) => {
     const x = m.l + i * bw + bw * 0.15, w = bw * 0.7, base = H - m.b, sc = (H - m.t - m.b) / max;
     let y = base;
-    [['#b8c7de', 'Mensaje automático', d.noAplica], ['#EF4444', 'Desaprobadas', d.desaprobadas], ['#10B981', 'Aprobadas', d.aprobadas]].forEach(([c, l, v]) => {
+    [['#b8c7de', 'Automated message', d.noAplica], ['#EF4444', 'Rejected', d.desaprobadas], ['#10B981', 'Approved', d.aprobadas]].forEach(([c, l, v]) => {
       if (!v) return; const h = v * sc; y -= h;
       s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"${tipAttr(fmtFecha(d.fecha), [[c, l, v], ['#94a3b8', 'Total', d.total]])}/>`;
     });
     s += `<text x="${x + w / 2}" y="${y - 4}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">${d.total}</text>`;
-    if (dias.length <= 16 || i % 2 === 0) s += `<text x="${x + w / 2}" y="${H - m.b + 16}" text-anchor="middle" font-size="10.5" fill="#64748b">${d.fecha.slice(8)}/${d.fecha.slice(5, 7)}</text>`;
+    if (dias.length <= 16 || i % 2 === 0) s += `<text x="${x + w / 2}" y="${H - m.b + 16}" text-anchor="middle" font-size="10.5" fill="#64748b">${d.fecha.slice(5, 7)}/${d.fecha.slice(8)}</text>`;
   });
   return `<svg viewBox="0 0 ${W} ${H}">${s}</svg>` +
-    `<div class="legend"><span><i style="background:#10B981"></i>Aprobadas</span><span><i style="background:#EF4444"></i>Desaprobadas</span><span><i style="background:#b8c7de"></i>Mensaje automático</span></div>`;
+    `<div class="legend"><span><i style="background:#10B981"></i>Approved</span><span><i style="background:#EF4444"></i>Rejected</span><span><i style="background:#b8c7de"></i>Automated message</span></div>`;
 }
 const PALETA_PROV = ['#2563EB', '#14B8A6', '#F59E0B', '#8B5CF6'];
 const MS_DIA = 86400000;
 const aMs = iso => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10));
-const dm = iso => iso.slice(8) + '/' + iso.slice(5, 7);
-/* Agrupa por día (≤14 días), semana (≤~90 días) o mes; con pocas llamadas por punto las líneas diarias son puro ruido. */
+const dm = iso => iso.slice(5, 7) + '/' + iso.slice(8);
+/* Groups by day (≤14 days), week (≤~90 days) or month; with few calls per point, daily lines are pure noise. */
 function periodos(rows) {
   const fechas = rows.map(r => r.fecha).sort();
   const min = fechas[0], max = fechas[fechas.length - 1];
@@ -443,12 +443,12 @@ function periodos(rows) {
   rows.forEach(r => { const k = clave(r.fecha); if (!m.has(k)) m.set(k, { rows: [], ini: r.fecha, fin: r.fecha }); const b = m.get(k); b.rows.push(r); if (r.fecha < b.ini) b.ini = r.fecha; if (r.fecha > b.fin) b.fin = r.fecha; });
   return [...m.keys()].sort().map(k => {
     const b = m.get(k);
-    const etiqueta = modo === 'dia' ? dm(b.ini) : modo === 'semana' ? 'Sem ' + dm(b.ini) : b.ini.slice(5, 7) + '/' + b.ini.slice(0, 4);
-    const titulo = modo === 'dia' ? fmtFecha(b.ini) : modo === 'mes' ? etiqueta : b.ini === b.fin ? fmtFecha(b.ini) : dm(b.ini) + ' al ' + dm(b.fin);
+    const etiqueta = modo === 'dia' ? dm(b.ini) : modo === 'semana' ? 'Wk ' + dm(b.ini) : b.ini.slice(5, 7) + '/' + b.ini.slice(0, 4);
+    const titulo = modo === 'dia' ? fmtFecha(b.ini) : modo === 'mes' ? etiqueta : b.ini === b.fin ? fmtFecha(b.ini) : dm(b.ini) + ' to ' + dm(b.fin);
     return { rows: b.rows, etiqueta, titulo };
   });
 }
-/* Spline cúbico monótono: suaviza sin pasarse de los valores reales (sin "rebotes" inventados). */
+/* Monotone cubic spline: smooths without overshooting the real values (no invented "bounces"). */
 function trazoSuave(p) {
   const n = p.length;
   let d = `M${p[0][0]},${p[0][1]}`;
@@ -473,12 +473,12 @@ function graficoLineas(rows, campo, esPct) {
   const base = rows.filter(r => r.estado !== 'no_aplica');
   const todas = [...new Set(base.map(r => r.proveedor))].sort();
   const provs = todas.length > 1 ? todas.filter(p => p !== SIN) : todas;
-  if (!base.length) return '<div class="empty">Sin datos</div>';
+  if (!base.length) return '<div class="empty">No data</div>';
   const per = periodos(base);
   const val = (p, b) => {
     const rs = b.rows.filter(r => r.proveedor === p);
     if (!rs.length) return null;
-    return { v: campo === 'ventas' ? rs.filter(r => r.venta === 'SÍ').length / rs.length * 100 : rs.reduce((s, r) => s + r.total, 0) / rs.length, n: rs.length };
+    return { v: campo === 'ventas' ? rs.filter(r => r.venta === 'YES').length / rs.length * 100 : rs.reduce((s, r) => s + r.total, 0) / rs.length, n: rs.length };
   };
   const series = provs.map(p => per.map(b => val(p, b)));
   const todos = series.flat().filter(Boolean).map(o => o.v);
@@ -502,7 +502,7 @@ function graficoLineas(rows, campo, esPct) {
     if (!pts.length) return;
     if (pts.length > 1) s += `<path d="${trazoSuave(pts)}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`;
     pts.forEach(a => {
-      const tip = tipAttr(per[a[3]].titulo, [[c, p, fmt(a[2].v) + ' (' + a[2].n + ' llamadas)']]);
+      const tip = tipAttr(per[a[3]].titulo, [[c, p, fmt(a[2].v) + ' (' + a[2].n + ' calls)']]);
       s += `<circle cx="${a[0]}" cy="${a[1]}" r="4" fill="${c}" stroke="#fff" stroke-width="1.8"/><circle cx="${a[0]}" cy="${a[1]}" r="11" fill="transparent"${tip}/>`;
     });
     const u = pts[pts.length - 1];
@@ -511,11 +511,11 @@ function graficoLineas(rows, campo, esPct) {
   fin.sort((a, b) => a.y - b.y);
   for (let i = 1; i < fin.length; i++) if (fin[i].y - fin[i - 1].y < 14) fin[i].y = fin[i - 1].y + 14;
   fin.forEach(f => { s += `<text x="${f.x + 10}" y="${f.y + 4}" font-size="11.5" font-weight="700" fill="${f.c}">${f.txt}</text>`; });
-  const sub = per.length > 1 && per[0].etiqueta.startsWith('Sem') ? '<div class="legend" style="margin-top:2px;color:#94a3b8">Cada punto agrupa las llamadas evaluables de la semana</div>' : '';
+  const sub = per.length > 1 && per[0].etiqueta.startsWith('Wk') ? '<div class="legend" style="margin-top:2px;color:#94a3b8">Each point groups the auditable calls of the week</div>' : '';
   return `<svg viewBox="0 0 ${W} ${H}">${s}</svg><div class="legend">${provs.map((p, k) => `<span><i style="background:${PALETA_PROV[k % PALETA_PROV.length]}"></i>${esc(p)}</span>`).join('')}</div>${sub}`;
 }
 
-/* ===================== Vistas ===================== */
+/* ===================== Views ===================== */
 function vistaHeader() {
   return `<div class="header">
     <div class="brand">
@@ -523,38 +523,38 @@ function vistaHeader() {
       <span class="brand-name">Demo</span>
     </div>
     <div class="header-right">
-      <div class="header-title">Dashboard Calidad de Ventas</div>
-      <div class="header-sub">Auditoría de llamadas · ${fmtFecha(F.desde)} – ${fmtFecha(F.hasta)}</div>
+      <div class="header-title">Sales Quality Dashboard</div>
+      <div class="header-sub">Call audit · ${fmtFecha(F.desde)} – ${fmtFecha(F.hasta)}</div>
     </div>
   </div>
-  <div class="demo-note">Prototipo ilustrativo: todos los datos, nombres e identificadores son ficticios y no corresponden a personas ni organizaciones reales.</div>`;
+  <div class="demo-note">Illustrative prototype: all data, names and identifiers are fictional and do not correspond to real people or organizations.</div>`;
 }
 function vistaTabs() {
-  return `<div class="tabs"><button class="tab ${tab === 'resumen' ? 'active' : ''}" data-tab="resumen">Resumen</button><button class="tab ${tab === 'llamadas' ? 'active' : ''}" data-tab="llamadas">Llamadas</button></div>`;
+  return `<div class="tabs"><button class="tab ${tab === 'resumen' ? 'active' : ''}" data-tab="resumen">Overview</button><button class="tab ${tab === 'llamadas' ? 'active' : ''}" data-tab="llamadas">Calls</button></div>`;
 }
 function multi(key, label, opciones, sel) {
-  const txt = !sel.length ? 'Todos' : sel.length === 1 ? (opciones.find(o => o[0] === sel[0]) || [0, sel[0]])[1] : sel.length + ' seleccionados';
+  const txt = !sel.length ? 'All' : sel.length === 1 ? (opciones.find(o => o[0] === sel[0]) || [0, sel[0]])[1] : sel.length + ' selected';
   return `<div class="field multi" data-multi="${key}"><span>${label}</span>
     <button type="button" class="multi-btn"><span class="mlabel">${esc(txt)}</span><span>▾</span></button>
     <div class="multi-panel" hidden>
-      ${opciones.length > 6 ? '<input class="multi-search" placeholder="Buscar…">' : ''}
+      ${opciones.length > 6 ? '<input class="multi-search" placeholder="Search…">' : ''}
       ${opciones.map(o => `<label class="multi-opt" data-t="${esc(o[1].toLowerCase())}"><input type="checkbox" value="${esc(o[0])}" ${sel.includes(o[0]) ? 'checked' : ''}> ${esc(o[1])}</label>`).join('')}
     </div></div>`;
 }
 function vistaFiltros() {
   const uniq = (campo) => [...new Set(LLAMADAS.map(r => r[campo]))].sort().map(v => [v, v]);
   return `<div class="filter-bar">
-    <label class="field">Desde<input type="date" id="f-desde" value="${F.desde}"></label>
-    <label class="field">Hasta<input type="date" id="f-hasta" value="${F.hasta}"></label>
-    ${multi('proveedor', 'Proveedor', uniq('proveedor'), F.proveedor)}
+    <label class="field">From<input type="date" id="f-desde" value="${F.desde}"></label>
+    <label class="field">To<input type="date" id="f-hasta" value="${F.hasta}"></label>
+    ${multi('proveedor', 'Vendor', uniq('proveedor'), F.proveedor)}
     ${multi('supervisor', 'Supervisor', uniq('supervisor'), F.supervisor)}
-    ${multi('asesor', 'Asesor', uniq('asesor'), F.asesor)}
-    ${multi('cola', 'Cola', uniq('cola'), F.cola)}
-    ${tab === 'llamadas' ? multi('estado', 'Estado', ESTADOS, F.estado) + multi('nivel', 'Nivel de atención', NIVELES, F.nivel) : ''}
-    <div class="field score">Puntaje (0–108)<div class="rng"><input type="number" id="f-smin" min="0" max="108" placeholder="mín" value="${F.scoreMin ?? ''}"><span>–</span><input type="number" id="f-smax" min="0" max="108" placeholder="máx" value="${F.scoreMax ?? ''}"></div></div>
+    ${multi('asesor', 'Agent', uniq('asesor'), F.asesor)}
+    ${multi('cola', 'Campaign', uniq('cola'), F.cola)}
+    ${tab === 'llamadas' ? multi('estado', 'Status', ESTADOS, F.estado) + multi('nivel', 'Service level', NIVELES, F.nivel) : ''}
+    <div class="field score">Score (0–108)<div class="rng"><input type="number" id="f-smin" min="0" max="108" placeholder="min" value="${F.scoreMin ?? ''}"><span>–</span><input type="number" id="f-smax" min="0" max="108" placeholder="max" value="${F.scoreMax ?? ''}"></div></div>
     <label class="field search">ID / caller<input type="text" id="f-q" placeholder="DEMO-0001" value="${esc(F.q)}"></label>
-    <button class="btn" id="btn-aplicar" type="button">Aplicar</button>
-    <button class="btn btn-ghost" id="btn-limpiar" type="button">Limpiar</button>
+    <button class="btn" id="btn-aplicar" type="button">Apply</button>
+    <button class="btn btn-ghost" id="btn-limpiar" type="button">Clear</button>
   </div>`;
 }
 function vistaKpis(k) {
@@ -564,12 +564,12 @@ function vistaKpis(k) {
       <div class="kpi-header"><span class="kpi-title">${titulo}</span><span class="kpi-hint">${hint}</span></div>
       <div class="kpi-value ${cls}">${valor}</div></div>`;
   return `<div class="kpi-grid">
-    ${card('Total auditadas', 'ver todas', k.total, 'val-total', '')}
-    ${card('Aprobadas', fmtPct(k.aprobadas, k.evaluables), k.aprobadas, 'val-success', 'aprobado')}
-    ${card('Desaprobadas', fmtPct(k.desaprobadas, k.evaluables), k.desaprobadas, 'val-danger', 'desaprobado')}
-    ${card('Mensaje automático', 'no aplica', k.noAplica, 'val-total', 'no_aplica')}
-    ${card('Ventas concretadas', fmtPct(k.ventas, k.evaluables), k.ventas, 'val-success', '', true)}
-    ${card('Puntaje promedio', 'sobre 108', fmtNum(k.promedio), 'val-total', '', true)}
+    ${card('Total audited', 'view all', k.total, 'val-total', '')}
+    ${card('Approved', fmtPct(k.aprobadas, k.evaluables), k.aprobadas, 'val-success', 'aprobado')}
+    ${card('Rejected', fmtPct(k.desaprobadas, k.evaluables), k.desaprobadas, 'val-danger', 'desaprobado')}
+    ${card('Automated message', 'N/A', k.noAplica, 'val-total', 'no_aplica')}
+    ${card('Sales closed', fmtPct(k.ventas, k.evaluables), k.ventas, 'val-success', '', true)}
+    ${card('Average score', 'out of 108', fmtNum(k.promedio), 'val-total', '', true)}
   </div>`;
 }
 function vistaTablaGrupo(titulo, campo, rows) {
@@ -582,91 +582,91 @@ function vistaTablaGrupo(titulo, campo, rows) {
   const activo = n => F[campo].length === 1 && F[campo][0] === n;
   return `<div class="chart-card grupo-card" style="padding-top:0;margin-bottom:20px"><h3>${titulo}</h3>
     <div class="table-wrap" style="margin-bottom:10px"><table>
-    <thead><tr>${th('nombre', campo === 'cola' ? 'Cola' : campo === 'proveedor' ? 'Proveedor' : campo === 'supervisor' ? 'Supervisor' : 'Asesor')}${th('n', 'Auditadas')}${th('ap', 'Aprobadas')}${th('de', 'Desaprobadas')}${th('na', 'Mensaje automático')}${th('prom', 'Puntaje prom.')}${th('vt', 'Ventas concretadas')}</tr></thead>
+    <thead><tr>${th('nombre', campo === 'cola' ? 'Campaign' : campo === 'proveedor' ? 'Vendor' : campo === 'supervisor' ? 'Supervisor' : 'Agent')}${th('n', 'Audited')}${th('ap', 'Approved')}${th('de', 'Rejected')}${th('na', 'Automated message')}${th('prom', 'Avg. score')}${th('vt', 'Sales closed')}</tr></thead>
     <tbody>${datos.map(d => `<tr class="fila-filtro ${activo(d.nombre) ? 'activa' : ''}" data-filtro="${campo}|${esc(d.nombre)}"><td>${esc(d.nombre)}</td><td>${d.n}</td><td>${d.aprobadas} (${fmtPct(d.aprobadas, d.evaluables)})</td><td>${d.desaprobadas} (${fmtPct(d.desaprobadas, d.evaluables)})</td><td>${d.noAplica}</td><td>${fmtNum(d.promedio)}</td><td>${d.ventas} (${fmtPct(d.ventas, d.evaluables)})</td></tr>`).join('')}</tbody>
     <tfoot><tr><th>Total</th><th>${t.total}</th><th>${t.aprobadas} (${fmtPct(t.aprobadas, t.evaluables)})</th><th>${t.desaprobadas} (${fmtPct(t.desaprobadas, t.evaluables)})</th><th>${t.noAplica}</th><th>${fmtNum(t.promedio)}</th><th>${t.ventas} (${fmtPct(t.ventas, t.evaluables)})</th></tr></tfoot>
     </table></div></div>`;
 }
 function vistaResumen(rows) {
-  if (!rows.length) return '<div class="empty">No hay auditorías para los filtros seleccionados.</div>';
+  if (!rows.length) return '<div class="empty">No audits match the selected filters.</div>';
   return vistaKpis(kpis(rows)) +
     `<div class="chart-grid">
-      <div class="chart-card"><h3>Distribución del puntaje</h3>${graficoHistograma(histograma(rows))}</div>
-      <div class="chart-card"><h3>Llamadas por resultado y día</h3>${graficoApiladas(porDia(rows))}</div>
+      <div class="chart-card"><h3>Score distribution</h3>${graficoHistograma(histograma(rows))}</div>
+      <div class="chart-card"><h3>Calls by result and day</h3>${graficoApiladas(porDia(rows))}</div>
     </div>` +
-    vistaTablaGrupo('Por cola', 'cola', rows) + vistaTablaGrupo('Por proveedor', 'proveedor', rows) +
+    vistaTablaGrupo('By campaign', 'cola', rows) + vistaTablaGrupo('By vendor', 'proveedor', rows) +
     `<div class="chart-grid">
-      <div class="chart-card"><h3>Evolución del % de ventas por proveedor</h3>${graficoLineas(rows, 'ventas', true)}</div>
-      <div class="chart-card"><h3>Evolución del puntaje por proveedor</h3>${graficoLineas(rows, 'score', false)}</div>
+      <div class="chart-card"><h3>Sales rate over time by vendor</h3>${graficoLineas(rows, 'ventas', true)}</div>
+      <div class="chart-card"><h3>Score over time by vendor</h3>${graficoLineas(rows, 'score', false)}</div>
     </div>` +
-    vistaTablaGrupo('Por supervisor', 'supervisor', rows) + vistaTablaGrupo('Por asesor', 'asesor', rows);
+    vistaTablaGrupo('By supervisor', 'supervisor', rows) + vistaTablaGrupo('By agent', 'asesor', rows);
 }
 function vistaAnalisis(rows) {
   const a = analisis(rows);
-  return `<div class="call-card grupal"><details ${abierto === 'grupal' ? 'open' : ''} data-det="grupal"><summary><div class="summary-left"><span class="call-id">Análisis grupal del lote</span><span class="call-meta">${rows.length} llamadas</span></div><span class="toggle-text">Ver análisis ▼</span></summary>
+  return `<div class="call-card grupal"><details ${abierto === 'grupal' ? 'open' : ''} data-det="grupal"><summary><div class="summary-left"><span class="call-id">Group analysis of the batch</span><span class="call-meta">${rows.length} calls</span></div><span class="toggle-text">View analysis ▼</span></summary>
     <div class="call-body">
-      <h3>Incumplimiento por criterio</h3>
-      <div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Criterio</th><th>Incumplidas</th><th>Evaluables</th><th>% incumplimiento</th></tr></thead><tbody>
+      <h3>Failure rate by criterion</h3>
+      <div class="table-wrap"><table><thead><tr><th>Category</th><th>Criterion</th><th>Failed</th><th>Auditable</th><th>% failed</th></tr></thead><tbody>
       ${a.inc.map(x => `<tr><td>${x.cat}</td><td>${esc(x.criterio)}</td><td>${x.no}</td><td>${x.ev}</td><td>${fmtPct(x.no, x.ev)}</td></tr>`).join('')}</tbody></table></div>
-      <h3>Top 5 de errores más frecuentes</h3>
-      <div class="table-wrap"><table><thead><tr><th>Error</th><th>Ocurrencias</th></tr></thead><tbody>
+      <h3>Top 5 most frequent errors</h3>
+      <div class="table-wrap"><table><thead><tr><th>Error</th><th>Occurrences</th></tr></thead><tbody>
       ${a.top.length ? a.top.map(x => `<tr><td>${esc(x[0])}</td><td>${x[1]}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>'}</tbody></table></div>
-      <h3>Elementos adicionales</h3>
-      <div class="table-wrap"><table><thead><tr><th>Elemento</th><th>SÍ</th><th>Aplican</th><th>% SÍ</th></tr></thead><tbody>
+      <h3>Additional elements</h3>
+      <div class="table-wrap"><table><thead><tr><th>Element</th><th>YES</th><th>Applicable</th><th>% YES</th></tr></thead><tbody>
       ${a.adic.map(x => `<tr><td>${esc(x.label)}</td><td>${x.si}</td><td>${x.aplican}</td><td>${fmtPct(x.si, x.aplican)}</td></tr>`).join('')}</tbody></table></div>
     </div></details></div>`;
 }
 const txt = v => v == null || v === '' ? 'N/A' : v;
 function tablaCriterios(r, crit) {
   const defs = crit ? CRITICOS : NO_CRITICOS;
-  return `<div class="table-wrap"><table><thead><tr><th>Atributo</th><th>${crit ? 'Tipo' : 'Ponderación'}</th><th>Evaluación</th><th>Puntos</th><th>Errores detectados</th><th>Justificación y evidencia</th></tr></thead><tbody>
+  return `<div class="table-wrap"><table><thead><tr><th>Attribute</th><th>${crit ? 'Type' : 'Weight'}</th><th>Evaluation</th><th>Points</th><th>Errors detected</th><th>Justification and evidence</th></tr></thead><tbody>
     ${defs.map(c => { const e = r.criterios[c.key]; return `<tr><td>${esc(c.label)}</td><td>${crit ? c.tipo : c.pond}</td><td>${evalBadge(e.ev)}</td><td>${txt(e.pts)}</td><td>${e.sub.length ? esc(e.sub.join('; ')) : '-'}</td><td>${esc(e.just)}</td></tr>`; }).join('')}
   </tbody></table></div>`;
 }
 function vistaCard(r) {
-  const meta = [['Asesor', r.asesor], ['Log ID', r.logId], ['Usuario', r.usuario], ['Tipo', r.tipo], ['Supervisor', r.supervisor], ['Cola', r.cola], ['Hora', r.hora], ['Caller', r.caller], ['IVR', r.ivr], ['Espera', r.espera], ['Duración', r.duracion], ['Desconexión', r.desconexion], ['Código', r.codigo], ['Motivo no venta', r.motivoNoVenta], ['Tag', r.tag], ['Cliente ID', r.clienteId], ['Form ID', r.formId]];
+  const meta = [['Agent', r.asesor], ['Log ID', r.logId], ['User', r.usuario], ['Type', r.tipo], ['Supervisor', r.supervisor], ['Campaign', r.cola], ['Time', r.hora], ['Caller', r.caller], ['IVR', r.ivr], ['Wait', r.espera], ['Duration', r.duracion], ['Disconnected by', r.desconexion], ['Code', r.codigo], ['No-sale reason', r.motivoNoVenta], ['Tag', r.tag], ['Customer ID', r.clienteId], ['Form ID', r.formId]];
   return `<div class="call-card"><details ${abierto === r.id ? 'open' : ''} data-det="${r.id}"><summary>
-    <div class="summary-left"><span class="call-id">Llamada: ${r.id}</span><span class="call-meta">${fmtFecha(r.fecha)} · ${esc(r.cola)} · ${esc(r.asesor)}</span>${dictBadge(r)}${r.estado !== 'no_aplica' ? nivelBadge(r) : ''}<span class="call-score">${txt(r.total)} / 108</span></div>
-    <span class="toggle-text">Ver auditoría completa ▼</span></summary>
+    <div class="summary-left"><span class="call-id">Call: ${r.id}</span><span class="call-meta">${fmtFecha(r.fecha)} · ${esc(r.cola)} · ${esc(r.asesor)}</span>${dictBadge(r)}${r.estado !== 'no_aplica' ? nivelBadge(r) : ''}<span class="call-score">${txt(r.total)} / 108</span></div>
+    <span class="toggle-text">View full audit ▼</span></summary>
     <div class="call-body">
-      <h3>1. Resumen general</h3>
-      <div class="table-wrap"><table><thead><tr><th>Dictamen</th><th>Nivel</th><th>No críticos</th><th>Críticos</th><th>Total</th><th>Venta concretada</th><th>Motivo desaprobación</th><th>Síntesis</th></tr></thead><tbody><tr>
+      <h3>1. Overview</h3>
+      <div class="table-wrap"><table><thead><tr><th>Verdict</th><th>Level</th><th>Non-critical</th><th>Critical</th><th>Total</th><th>Sale closed</th><th>Rejection reason</th><th>Summary</th></tr></thead><tbody><tr>
         <td>${dictBadge(r)}</td><td>${nivelBadge(r)}</td><td>${txt(r.pNoCrit)} / 100</td><td>${txt(r.pCrit)} / 8</td><td><b>${txt(r.total)} / 108</b></td><td>${siNo(r.venta)}</td><td>${esc(txt(r.motivoDesaprob))}</td><td>${esc(r.sintesis)}</td></tr></tbody></table></div>
-      <h3>2. Datos de la venta</h3>
-      <div class="table-wrap"><table><thead><tr><th>Asesor</th><th>Call center</th><th>Servicio contratado</th><th>Fecha de instalación</th><th>Método de pago</th></tr></thead><tbody><tr>
-        <td>${esc(r.asesor)}</td><td>${esc(r.callCenter)}</td><td>${esc(r.servicio)}</td><td>${r.venta === 'SÍ' ? fmtFecha(r.instalacion) : 'N/A'}</td><td>${r.venta === 'SÍ' ? esc(r.pago) : 'N/A'}</td></tr></tbody></table></div>
-      <h3>3. Validación de datos del cliente (solo se registra si se solicitó)</h3>
+      <h3>2. Sale details</h3>
+      <div class="table-wrap"><table><thead><tr><th>Agent</th><th>Call center</th><th>Service contracted</th><th>Installation date</th><th>Payment method</th></tr></thead><tbody><tr>
+        <td>${esc(r.asesor)}</td><td>${esc(r.callCenter)}</td><td>${esc(r.servicio)}</td><td>${r.venta === 'YES' ? fmtFecha(r.instalacion) : 'N/A'}</td><td>${r.venta === 'YES' ? esc(r.pago) : 'N/A'}</td></tr></tbody></table></div>
+      <h3>3. Customer data validation (recorded only if requested)</h3>
       <div class="table-wrap"><table><thead><tr>${VALIDACIONES.map(v => `<th>${v[1]}</th>`).join('')}</tr></thead><tbody><tr>${VALIDACIONES.map(v => `<td>${siNo(r[v[0]])}</td>`).join('')}</tr></tbody></table></div>
-      <h3>4. Errores críticos</h3>${tablaCriterios(r, true)}
-      <h3>5. Errores no críticos</h3>${tablaCriterios(r, false)}
-      <h3>6. Elementos adicionales y facturación</h3>
-      <div class="table-wrap"><table><thead><tr><th>Elemento</th><th>Resultado</th></tr></thead><tbody>
-        <tr><td>Servicios adicionales ofrecidos</td><td>${r.ofrecidos.length ? esc(r.ofrecidos.join('; ')) : '-'}</td></tr>
-        <tr><td>Servicios adicionales aceptados</td><td>${r.aceptados.length ? esc(r.aceptados.join('; ')) : '-'}</td></tr>
+      <h3>4. Critical errors</h3>${tablaCriterios(r, true)}
+      <h3>5. Non-critical errors</h3>${tablaCriterios(r, false)}
+      <h3>6. Additional elements and billing</h3>
+      <div class="table-wrap"><table><thead><tr><th>Element</th><th>Result</th></tr></thead><tbody>
+        <tr><td>Additional services offered</td><td>${r.ofrecidos.length ? esc(r.ofrecidos.join('; ')) : '-'}</td></tr>
+        <tr><td>Additional services accepted</td><td>${r.aceptados.length ? esc(r.aceptados.join('; ')) : '-'}</td></tr>
         ${ADICIONALES.map(a => `<tr><td>${a[1]}</td><td>${siNo(r[a[0]])}</td></tr>`).join('')}</tbody></table></div>
-      <h3>7. Conclusión</h3>
-      <p><b>Observaciones:</b> ${esc(r.observaciones)}</p><p><b>Recomendaciones de mejora:</b></p>
+      <h3>7. Conclusion</h3>
+      <p><b>Comments:</b> ${esc(r.observaciones)}</p><p><b>Improvement recommendations:</b></p>
       ${r.recomendaciones.length ? `<ul>${r.recomendaciones.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p>-</p>'}
-      <h3>8. Datos de la llamada</h3>
+      <h3>8. Call details</h3>
       <div class="table-wrap"><table><tbody>${meta.map(m => `<tr><th>${m[0]}</th><td>${esc(txt(m[1]))}</td></tr>`).join('')}</tbody></table></div>
     </div></details></div>`;
 }
 function vistaLlamadas(rows) {
-  if (!rows.length) return '<div class="empty">No hay auditorías para los filtros seleccionados.</div>';
+  if (!rows.length) return '<div class="empty">No audits match the selected filters.</div>';
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   page = Math.min(Math.max(1, page), pages);
   const slice = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  return vistaAnalisis(rows) + `<div class="list-info">${rows.length} llamadas · página ${page} de ${pages}</div>` + slice.map(vistaCard).join('') +
-    `<div class="pager"><button class="btn btn-ghost" data-page="${page - 1}" ${page <= 1 ? 'disabled' : ''}>← Anterior</button><span>${page} / ${pages}</span><button class="btn btn-ghost" data-page="${page + 1}" ${page >= pages ? 'disabled' : ''}>Siguiente →</button></div>`;
+  return vistaAnalisis(rows) + `<div class="list-info">${rows.length} calls · page ${page} of ${pages}</div>` + slice.map(vistaCard).join('') +
+    `<div class="pager"><button class="btn btn-ghost" data-page="${page - 1}" ${page <= 1 ? 'disabled' : ''}>← Previous</button><span>${page} / ${pages}</span><button class="btn btn-ghost" data-page="${page + 1}" ${page >= pages ? 'disabled' : ''}>Next →</button></div>`;
 }
 function render() {
   const rows = filtrar();
   document.getElementById('app').innerHTML = vistaHeader() + vistaTabs() + vistaFiltros() +
     (tab === 'resumen' ? vistaResumen(rows) : vistaLlamadas(rows)) +
-    '<div class="foot">Prototipo con datos ficticios · solo con fines ilustrativos</div>';
+    '<div class="foot">Prototype with fictional data · for illustration only</div>';
 }
 
-/* ===================== Eventos ===================== */
+/* ===================== Events ===================== */
 function leerFiltros() {
   const g = id => document.getElementById(id);
   F.desde = g('f-desde').value; F.hasta = g('f-hasta').value;
@@ -706,7 +706,7 @@ app.addEventListener('change', e => {
   if (cb.type === 'checkbox' && cb.closest('.multi')) {
     const m = cb.closest('.multi');
     const sel = [...m.querySelectorAll('input[type=checkbox]:checked')];
-    m.querySelector('.mlabel').textContent = !sel.length ? 'Todos' : sel.length === 1 ? cb.closest('.multi-panel').querySelector(`input[value="${CSS.escape(sel[0].value)}"]`).parentElement.textContent.trim() : sel.length + ' seleccionados';
+    m.querySelector('.mlabel').textContent = !sel.length ? 'All' : sel.length === 1 ? cb.closest('.multi-panel').querySelector(`input[value="${CSS.escape(sel[0].value)}"]`).parentElement.textContent.trim() : sel.length + ' selected';
   }
 });
 app.addEventListener('input', e => {
@@ -718,7 +718,7 @@ app.addEventListener('input', e => {
 app.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest('.filter-bar') && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') { leerFiltros(); render(); } });
 app.addEventListener('toggle', e => { if (e.target.matches('details[data-det]')) { if (e.target.open) abierto = e.target.dataset.det; else if (abierto === e.target.dataset.det) abierto = null; } }, true);
 
-/* Tooltip de gráficos */
+/* Chart tooltip */
 const tip = document.getElementById('tip');
 document.addEventListener('mousemove', e => {
   const el = e.target.closest && e.target.closest('[data-tip]');
