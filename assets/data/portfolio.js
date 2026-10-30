@@ -107,15 +107,16 @@ window.PORTFOLIO = {
 			color: "var(--c2)",
 			tagline: "Data science for Product and Operations at a corporate-card fintech.",
 			highlights: [
-				{ h: "Payment-date model", d: "predicts days to pay (MAE 1.86 days)" },
+				{ h: "Payment-risk models", d: "late-payment classifier + payment-date regressor (MAE 1.86 days)" },
 				{ h: "Collections automation", d: "daily overdue assignment via n8n and HubSpot" },
 				{ h: "Unit-economics mart", d: "monthly P&L for 10,000 clients from 80+ sources" },
 				{ h: "Merchant catalog", d: "3M names unified with embeddings and DBSCAN" },
 				{ h: "Ad-hoc support", d: "analysis and automation for Product and Operations" }
 			],
-			summary: "Data Scientist at a fintech that issues corporate credit cards to businesses (companies spend during the month and receive a billing statement). I served the Product and Operations teams, and the Collections team used one of my automations.",
+			summary: "Data Scientist at a fintech that issues corporate credit cards to businesses (companies spend during the month and receive a billing statement). I served the Product and Operations teams, and the Collections team used my payment-risk models and one of my automations.",
 			bullets: [
-				"Built a supervised ML model on two years of account statements that predicts how many days each business client takes to pay (MAE 1.86 days), with lag features and Bayesian hyperparameter tuning (Optuna) on Databricks, so the team can act early on likely late payers and defaulters.",
+				"Built a two-stage payment-risk system on 1M+ account statements (two years): a LightGBM classifier that scores each statement's probability of being paid after the due date (class imbalance handled with scale_pos_weight, stratified cross-validation, Optuna tuning, recall-focused), feeding a LightGBM regressor that predicts the payment date (MAE 1.86 days); deployed on Databricks with unit tests.",
+				"With the Collections team, used precision/recall-vs-threshold analysis to define three risk segments (50–65%, 65–80% and 80–100% predicted probability of late payment), each with its own preventive actions, delivered on every billing date through a Metabase dashboard.",
 				"Automated the daily detection and assignment of overdue credit card accounts to Collections agents with n8n (HubSpot), cutting a multi-hour manual task to seconds.",
 				"Built an automated client-level unit-economics pipeline (Databricks) that consolidates 80+ sources (POS transactions, costs, revenue, ROI) into a monthly P&L for each of 10,000 clients, replacing fragmented manual reporting.",
 				"Unified 3M fragmented merchant names into a single merchant catalog using regex cleaning, Hugging Face embeddings, DBSCAN clustering and an n-gram naming algorithm, enabling true market-share analysis and merchant-restricted cards.",
@@ -124,7 +125,7 @@ window.PORTFOLIO = {
 			points: [{ t: "Payment-date prediction (MAE 1.86 days)", p: "payment-date" }, { t: "Collections assignment automation", p: "collections-automation" }, { t: "Client-level P&L mart (10,000 clients)", p: "unit-economics-mart" }, { t: "3M merchant names unified with NLP", p: "merchant-unifier" }],
 			projects: ["payment-date", "collections-automation", "unit-economics-mart", "merchant-unifier"],
 			extras: [],
-			skills: ["Databricks", "Python", "SQL", "scikit-learn", "Optuna", "n8n", "HubSpot", "Hugging Face", "DBSCAN"]
+			skills: ["Databricks", "Python", "SQL", "scikit-learn", "Optuna", "Metabase", "n8n", "HubSpot", "Hugging Face", "DBSCAN"]
 		},
 		{
 			id: "telecom-ds",
@@ -321,8 +322,8 @@ window.PORTFOLIO = {
 			exp: "fintech",
 			context: "Fintech · 2025–26",
 			kpi: { v: "1.86 d", l: "mean absolute error" },
-			points: ["Predicts days to pay each statement", "Lag features + Optuna tuning", "Act early on likely late payers"],
-			tags: ["Regression", "Feature engineering", "Optuna", "Databricks"]
+			points: ["Late-payment classifier + payment-date regressor", "1M+ statements · 3 risk segments with Collections", "Scored on every billing date, in Metabase"],
+			tags: ["Classification", "Regression", "LightGBM", "Databricks"]
 		},
 		{
 			id: "unit-economics-mart",
@@ -481,7 +482,7 @@ window.PORTFOLIO = {
 			{ n: "Tableau", p: ["geospatial"] },
 			{ n: "Power BI", p: [] },
 			{ n: "Looker Studio", p: [] },
-			{ n: "Metabase", p: [] },
+			{ n: "Metabase", p: ["payment-date"] },
 			{ n: "Plotly · Matplotlib · Seaborn", p: ["data-analyst-agent"] },
 			{ n: "Pandas · NumPy", p: ["payment-date", "churn-segmentation", "comments-sentiment", "geospatial", "supply-chain"] },
 			{ n: "KPI dashboards", p: ["restaurant-pnl", "geospatial"] }
