@@ -420,35 +420,47 @@ window.PORTFOLIO = {
 	skills: [
 		{ group: "AI, LLMs & agents", color: "var(--c1)", items: [
 			{ n: "LLM agents & chatbots", p: ["data-support-agent", "ai-sales-agent", "data-analyst-agent", "code-reviewer", "call-center-rag", "call-audit-ai"] },
-			{ n: "Claude API", p: ["ai-sales-agent"] },
+			{ n: "Agent workflows & tool use", p: ["ai-sales-agent", "data-support-agent"] },
+			{ n: "Claude API (Sonnet, Haiku)", p: ["ai-sales-agent"] },
 			{ n: "OpenAI API", p: ["data-support-agent", "data-analyst-agent", "code-reviewer"] },
 			{ n: "Gemini", p: ["call-center-rag", "call-audit-ai"] },
 			{ n: "Vertex AI", p: ["data-support-agent", "call-center-rag", "call-audit-ai"] },
 			{ n: "RAG", p: ["data-support-agent", "call-center-rag"] },
 			{ n: "Text-to-SQL", p: ["data-analyst-agent"] },
 			{ n: "Semantic layer", p: ["data-support-agent"] },
-			{ n: "Prompt caching & tiered routing", p: ["data-support-agent", "ai-sales-agent"] },
-			{ n: "AI security & guardrails", p: ["data-support-agent", "ai-sales-agent"] },
+			{ n: "LLM pipeline migration (OpenAI → Vertex AI)", p: ["data-support-agent"] },
+			{ n: "LLM-as-judge (structured output, batch inference)", p: ["call-audit-ai"] },
+			{ n: "Multimodal (Gemini)", p: ["call-center-rag"] },
+			{ n: "LLM cost governance (caching, routing, spend caps)", p: ["data-support-agent", "ai-sales-agent"] },
+			{ n: "AI security (injection filtering, guardrails, Turnstile)", p: ["data-support-agent", "ai-sales-agent"] },
+			{ n: "PII masking", p: ["call-audit-ai"] },
 			{ n: "LangChain · Ollama · LLaMA", p: [] }
 		]},
 		{ group: "Machine learning & statistics", color: "var(--c2)", items: [
 			{ n: "scikit-learn", p: ["payment-date", "churn-segmentation", "comments-sentiment", "supply-chain"] },
-			{ n: "Supervised learning", p: ["payment-date"] },
+			{ n: "Supervised learning (regression, forecasting)", p: ["payment-date"] },
+			{ n: "Classification (imbalanced: SMOTE, class weights)", p: ["payment-date"] },
+			{ n: "LightGBM · XGBoost", p: ["payment-date"] },
 			{ n: "Clustering (K-Means, DBSCAN)", p: ["churn-segmentation", "comments-sentiment", "speech-to-text", "merchant-unifier", "supply-chain"] },
+			{ n: "Churn & risk segmentation", p: ["churn-segmentation", "payment-date"] },
 			{ n: "Feature engineering", p: ["payment-date", "churn-segmentation"] },
 			{ n: "Optuna (Bayesian HPO)", p: ["payment-date"] },
-			{ n: "Operations research", p: ["supply-chain"] },
-			{ n: "OR-Tools", p: ["supply-chain"] },
+			{ n: "Model evaluation & threshold selection", p: ["payment-date"] },
+			{ n: "Model deployment & unit tests", p: ["payment-date"] },
+			{ n: "Optimization (OR-Tools, scenarios)", p: ["supply-chain"] },
 			{ n: "TensorFlow / Keras", lvl: "train", p: [] },
-			{ n: "Deep learning", lvl: "train", p: [] }
+			{ n: "Deep learning", lvl: "train", p: [] },
+			{ n: "Random forests · SVM · KNN", lvl: "train", p: [] },
+			{ n: "Spark ML pipelines", lvl: "train", p: [] }
 		]},
 		{ group: "NLP & text analytics", color: "var(--c2)", items: [
 			{ n: "Embeddings (Hugging Face, Transformers)", p: ["merchant-unifier", "speech-to-text"] },
 			{ n: "TF-IDF · NLTK", p: ["comments-sentiment"] },
 			{ n: "Sentiment analysis", p: ["comments-sentiment"] },
+			{ n: "Topic clustering", p: ["comments-sentiment", "speech-to-text"] },
 			{ n: "Speech-to-text", p: ["speech-to-text", "call-audit-ai"] },
-			{ n: "Entity resolution", p: ["merchant-unifier"] },
-			{ n: "Regex", p: ["merchant-unifier"] }
+			{ n: "Entity resolution (regex, n-grams)", p: ["merchant-unifier"] },
+			{ n: "Multiclass text classification", p: [] }
 		]},
 		{ group: "Programming & apps", color: "var(--c5)", items: [
 			{ n: "Python", p: ["payment-date", "merchant-unifier", "data-analyst-agent", "code-reviewer", "call-center-rag", "speech-to-text", "churn-segmentation", "comments-sentiment", "geospatial", "supply-chain", "call-audit-ai"] },
@@ -457,26 +469,33 @@ window.PORTFOLIO = {
 			{ n: "TypeScript", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl", "call-audit-ai"] },
 			{ n: "Next.js", p: ["data-support-agent", "ai-sales-agent", "restaurant-pnl", "call-audit-ai"] },
 			{ n: "Streamlit", p: ["data-analyst-agent", "code-reviewer"] },
-			{ n: "Git · GitHub Actions", p: ["restaurant-pnl"] },
+			{ n: "Git · GitHub · GitHub Actions", p: ["restaurant-pnl"] },
 			{ n: "REST APIs", p: ["restaurant-pnl", "supply-chain", "data-analyst-agent"] },
-			{ n: "Auth & RBAC", p: ["restaurant-pnl", "ai-sales-agent"] }
+			{ n: "Auth (magic link) & RBAC · audit logs", p: ["restaurant-pnl", "ai-sales-agent"] },
+			{ n: "Excel export & PDF generation", p: ["restaurant-pnl"] },
+			{ n: "JavaScript · React · HTML/CSS", lvl: "train", p: [] }
 		]},
 		{ group: "Data platforms & cloud", color: "var(--c3)", items: [
 			{ n: "Databricks", p: ["payment-date", "unit-economics-mart"] },
-			{ n: "Google Cloud (GCP)", p: ["data-support-agent", "speech-to-text", "call-center-rag", "call-audit-ai"] },
+			{ n: "Google Cloud (GCP, Speech-to-Text API)", p: ["data-support-agent", "speech-to-text", "call-center-rag", "call-audit-ai"] },
 			{ n: "Cloud Run", p: ["call-audit-ai"] },
 			{ n: "BigQuery", p: ["data-support-agent", "call-audit-ai"] },
+			{ n: "IAM access control", p: ["call-audit-ai"] },
+			{ n: "On-prem GPU inference (H100, WhisperX)", p: ["call-audit-ai"] },
 			{ n: "PostgreSQL", p: ["ai-sales-agent", "restaurant-pnl"] },
 			{ n: "MySQL", p: ["restaurant-pnl"] },
+			{ n: "SQLite · Drizzle ORM", p: ["ai-sales-agent"] },
 			{ n: "Presto", p: ["churn-segmentation", "comments-sentiment", "geospatial"] },
 			{ n: "Hadoop", p: [] },
 			{ n: "Vercel", p: ["restaurant-pnl"] },
-			{ n: "ETL & data pipelines", p: ["unit-economics-mart", "restaurant-pnl"] }
+			{ n: "ETL & data pipelines", p: ["unit-economics-mart", "restaurant-pnl"] },
+			{ n: "Data marts", p: ["unit-economics-mart"] }
 		]},
 		{ group: "Automation", color: "var(--c3)", items: [
 			{ n: "n8n", p: ["collections-automation"] },
 			{ n: "HubSpot", p: ["collections-automation"] },
-			{ n: "Scheduled jobs", p: ["restaurant-pnl", "collections-automation"] }
+			{ n: "Process automation", p: ["collections-automation"] },
+			{ n: "Scheduled jobs (GitHub Actions, batch)", p: ["restaurant-pnl", "collections-automation", "call-audit-ai", "payment-date"] }
 		]},
 		{ group: "BI & visualization", color: "var(--c4)", items: [
 			{ n: "Tableau", p: ["geospatial"] },
@@ -485,11 +504,14 @@ window.PORTFOLIO = {
 			{ n: "Metabase", p: ["payment-date"] },
 			{ n: "Plotly · Matplotlib · Seaborn", p: ["data-analyst-agent"] },
 			{ n: "Pandas · NumPy", p: ["payment-date", "churn-segmentation", "comments-sentiment", "geospatial", "supply-chain"] },
-			{ n: "KPI dashboards", p: ["restaurant-pnl", "geospatial"] }
+			{ n: "KPI dashboards", p: ["restaurant-pnl", "geospatial"] },
+			{ n: "Financial reporting (P&L)", p: ["restaurant-pnl", "unit-economics-mart"] },
+			{ n: "Microsoft Excel", p: [] }
 		]},
 		{ group: "Geospatial", color: "var(--c4)", items: [
 			{ n: "GeoPandas", p: ["geospatial"] },
 			{ n: "Spatial joins & buffers", p: ["geospatial"] },
+			{ n: "Georeferenced clustering", p: ["supply-chain", "geospatial"] },
 			{ n: "OSRM API", p: ["supply-chain"] },
 			{ n: "Route optimization (TSP)", p: ["supply-chain"] }
 		]}
